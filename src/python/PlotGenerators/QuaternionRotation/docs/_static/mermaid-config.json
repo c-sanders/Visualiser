@@ -1,0 +1,22 @@
+{
+    "theme": "base",
+    "themeVariables": {
+        "primaryColor": "#4F81BD",
+        "primaryBorderColor": "#1F497D",
+        "primaryTextColor": "#000000",
+
+        "actorBkg": "#FFF2CC",
+        "actorBorder": "#C09000",
+        "actorTextColor": "#000000",
+
+        "activationBkgColor": "#D9EAD3",
+        "activationBorderColor": "#38761D",
+
+        "signalColor": "#CC0000",
+        "signalTextColor": "#000000",
+
+        "noteBkgColor": "#FCE5CD",
+        "noteTextColor": "#000000",
+        "noteBorderColor": "#E69138"
+    }
+}

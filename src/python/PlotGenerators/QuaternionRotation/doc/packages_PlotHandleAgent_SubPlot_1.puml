@@ -1,0 +1,17 @@
+@startuml packages_PlotHandleAgent_SubPlot_1
+set namespaceSeparator none
+package "ColorMapAgent" as ColorMapAgent {
+}
+package "LabelAgent" as LabelAgent {
+}
+package "PlotHandleAgent_SubPlot_1" as PlotHandleAgent_SubPlot_1 {
+}
+package "SubPlotAgent" as SubPlotAgent {
+}
+package "UnitSphere" as UnitSphere {
+}
+PlotHandleAgent_SubPlot_1 --> ColorMapAgent
+PlotHandleAgent_SubPlot_1 --> LabelAgent
+PlotHandleAgent_SubPlot_1 --> SubPlotAgent
+SubPlotAgent --> UnitSphere
+@enduml

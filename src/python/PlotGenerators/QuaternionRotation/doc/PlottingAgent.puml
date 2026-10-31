@@ -1,0 +1,47 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+
+class PlottingAgent {
+    +__init__()
+    +set_radius_for_unit_sphere()
+    +set_view_initial()
+    +set_angle_rotation()
+    +set_quaternions_and_min_max_values()
+    +set_titles()
+    +set_view()
+    +generate_plot()
+
+    -_initialise_attributes()
+    -_initialise_plot()
+    -_create_subplots()
+    -_initialise_subplots()
+    -_update_quaternion_pre_multiply_history()
+    -_update_quaternion_history()
+    -_create_figure_and_axes()
+    -_plot_unit_sphere_quaternion_pre_multiply()
+    -_plot_quaternion_pre_multiply()
+    -_update_min_max_values()
+    -_update_rgb_values()
+    -_encode_metadata()
+    -_display_metadata()
+    -_set_title_and_legend_subplot_1()
+    -_set_title_and_legend_subplot_2()
+    -_add_metadata_to_file()
+    -_plot_result_display_diagnostics()
+    -_save_plot_to_file()
+    -_encode_metadata_into_file()
+    -_remove_artifacts_from_subplot_1()
+    -_remove_artifacts_from_subplot_2()
+    -_remove_artifacts_from_subplots()
+    -_remove_artifacts_from_plot()
+    -_generate_subplots()
+    -_set_title_plot()
+    -_show_plot_if_enabled()
+    -_set_rgb_values_for_sphere_surfaces()
+    -_destroy_plot()
+}
+
+PlottingAgent --> PlotHandleAgent_SubPlot_1 : uses
+PlottingAgent --> PlotHandleAgent_SubPlot_2 : uses
+@enduml

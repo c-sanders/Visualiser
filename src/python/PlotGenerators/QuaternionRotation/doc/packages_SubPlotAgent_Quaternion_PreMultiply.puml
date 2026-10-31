@@ -1,0 +1,3 @@
+@startuml packages_SubPlotAgent_Quaternion_PreMultiply
+set namespaceSeparator none
+@enduml

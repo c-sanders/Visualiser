@@ -1,0 +1,298 @@
+<html>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+      <div class="mermaid">
+    
+        classDiagram
+          class ColorAgent {
+            \_\_rgb_value_current : NoneType, tuple
+            \_\_rgb_value_maximum : NoneType, tuple
+            \_\_rgb_value_minimum : NoneType, tuple
+            \_\_init\_\_()
+            _compute_rgb_value(value)
+            get_rgb_value_current()
+            get_rgb_value_maximum()
+            get_rgb_value_minimum()
+            update_rgb_value_current(value)
+            update_rgb_value_maximum(value)
+            update_rgb_value_minimum(value)
+          }
+          class ColorMapAgent {
+            _axis
+            _plot_handle_colormap : NoneType
+            _plot_handle_colormap_arrow : NoneType
+            _plot_handle_colormap_arrow_max : NoneType
+            _plot_handle_colormap_arrow_min : NoneType
+            _plotting_agent : PlottingAgent
+            \_\_init\_\_(plotting_agent: PlottingAgent, axis_plot)
+            _clear_plot_handle_colormap_arrows()
+            _update_colorbar()
+            add_colormap()
+          }
+          class LabelAgent {
+            _axis
+            _label_angle_rotation : str
+            _label_heading : str
+            _label_quaternion_axis_rotation : str
+            _label_quaternion_pre_multiply : str
+            _label_quaternion_pre_multiply_max : str
+            _label_quaternion_pre_multiply_min : str
+            _label_quaternion_rotated : str
+            _label_quaternion_to_rotate : str
+            _label_spacer : str
+            _label_viewing_angle_azimuth : str
+            _label_viewing_angle_azimuth_delta : str
+            _label_viewing_angle_azimuth_initial : str
+            _label_viewing_angle_elevation : str
+            _label_viewing_angle_elevation_delta : str
+            _label_viewing_angle_elevation_initial : str
+            _legend1
+            _plot_handle_legend
+            _plot_handle_text : NoneType
+            _plot_handle_title : NoneType
+            plotting_agent : PlottingAgent
+            \_\_init\_\_(plotting_agent: PlottingAgent, axis_plot)
+            _add_axis_labels_to_plot()
+            _add_labels_to_plot(axis, name_client)
+            _generate_labels_legend()
+            _generate_labels_vector_tips()
+            _set_legend(raise_if_set)
+            _set_title()
+            delete_artifacts()
+          }
+          class PlotHandleAgent_SubPlot_1 {
+            _axis
+            _plot_handle_legend : NoneType
+            _plot_handle_quaternion_pre_multiply : NoneType
+            _plot_handle_quaternion_pre_multiply_history : NoneType
+            color_map_agent
+            label_agent
+            \_\_init\_\_(plotting_agent: PlottingAgent.PlottingAgent)
+            _clear_plot_handle_quaternion_pre_multiply()
+            _initialise_plot()
+            _plot_quaternion_pre_multiply()
+            _set_aspect_ratios_and_extents()
+            delete_artifacts()
+            plot()
+            setup_plot_basic()
+          }
+          class PlotHandleAgent_SubPlot_2 {
+            _axis
+            _plot_handle_axis_rotation : NoneType
+            _plot_handle_quaternion_rotated : NoneType
+            _plot_handle_quaternion_rotated_history : NoneType
+            _plot_handle_surface : NoneType
+            _plot_handle_to_rotate : NoneType
+            _plotting_agent : PlottingAgent
+            _rgb_value_sphere : NoneType, tuple
+            label_angle_rotation : str
+            label_quaternion_axis_rotation : str
+            label_quaternion_pre_multiply : str
+            label_quaternion_pre_multiply_max : str
+            label_quaternion_pre_multiply_min : str
+            label_quaternion_rotated : str
+            label_quaternion_to_rotate : str
+            plot_handle_quaternion_axis_rotation
+            plot_handle_quaternion_rotated
+            plot_handle_quaternion_to_rotate
+            plot_handle_title_subplot_2
+            \_\_init\_\_(plotting_agent: PlottingAgent)
+            _plot_axes()
+            _plot_quaternions()
+            _set_aspect_ratios_and_extents()
+            _set_legend()
+            _set_rgb_value_for_sphere_surface()
+            _set_title()
+            delete_artifacts()
+            plot()
+            plot_quaternion_pre_multiply()
+            set_plot_handle_title_subplot_2(plot_handle_title)
+            setup_plot_basic()
+          }
+          class PlottingAgent {
+            _angle_rotation : NoneType
+            _ax1 : NoneType
+            _ax2 : NoneType
+            _azimuth_view : NoneType
+            _azimuth_view_delta
+            _azimuth_view_initial : NoneType
+            _elevation_view : NoneType
+            _elevation_view_delta
+            _elevation_view_initial : NoneType
+            _fig : NoneType
+            _gs : NoneType
+            _handle_title_plot : NoneType
+            _radius : NoneType
+            _subPlot_1 : NoneType
+            _subPlot_2 : NoneType
+            _w_difference : int
+            ax : NoneType
+            color_agent
+            metadata : dict
+            quaternion_data
+            title_plot
+            title_sub_plot_1
+            title_sub_plot_2
+            \_\_init\_\_(title_plot)
+            \_\_update_rgb_values()
+            _add_metadata_to_file(filename)
+            _create_figure_and_axes()
+            _create_subplots()
+            _destroy_plot()
+            _display_metadata(filename)
+            _encode_metadata()
+            _encode_metadata_into_file(filename)
+            _generate_subplots()
+            _initialise_attributes(title_plot)
+            _initialise_plot()
+            _initialise_subplots()
+            _plot_quaternion_pre_multiply()
+            _plot_result_display_diagnostics()
+            _plot_unit_sphere_quaternion_pre_multiply(name_client)
+            _remove_artifacts_from_plot()
+            _remove_artifacts_from_subplot_1()
+            _remove_artifacts_from_subplot_2()
+            _remove_artifacts_from_subplots()
+            _save_plot_to_file(filename)
+            _set_rgb_values_for_sphere_surfaces()
+            _set_title_and_legend_subplot_1()
+            _set_title_and_legend_subplot_2()
+            _set_title_plot()
+            _show_plot_if_enabled()
+            generate_plot(filename)
+            set_angle_rotation(angle_rotation)
+            set_quaternion_values(quaternion_axis_rotation, quaternion_to_rotate, quaternion_pre_multiply, quaternion_rotated)
+            set_radius_for_unit_sphere(radius)
+            set_titles(title_plot, title_sub_plot_1, title_sub_plot_2)
+            set_view(azimuth_view, elevation_view)
+            set_view_initial(azimuth_view_initial, elevation_view_initial)
+          }
+          class QuaternionData {
+            _w_difference
+            quaternion_axis_rotation : NoneType
+            quaternion_pre_multiply : NoneType
+            quaternion_pre_multiply_max : NoneType
+            quaternion_pre_multiply_max_updated : bool
+            quaternion_pre_multiply_min : NoneType
+            quaternion_pre_multiply_min_updated : bool
+            quaternion_pre_multiply_w_components : list
+            quaternion_pre_multiply_x_components : list
+            quaternion_pre_multiply_y_components : list
+            quaternion_pre_multiply_z_components : list
+            quaternion_rotated : NoneType
+            quaternion_rotated_w_components : list
+            quaternion_rotated_x_components : list
+            quaternion_rotated_y_components : list
+            quaternion_rotated_z_components : list
+            quaternion_to_rotate : NoneType
+            \_\_init\_\_()
+            \_\_update_min_max_values()
+            \_\_update_quaternion_history()
+            \_\_update_quaternion_pre_multiply_history()
+            get_max_updated()
+            get_min_updated()
+            set_quaternions_and_min_max_values(quaternion_axis_rotation, quaternion_to_rotate, quaternion_pre_multiply, quaternion_rotated)
+          }
+          class QuaternionManipulator {
+            angle_rotation : int
+            angle_rotation_full : float, int
+            angle_rotation_increment : int
+            angle_rotation_start : int
+            axis_x : float
+            axis_y : float
+            axis_z : float
+            azimuth_view : float, int
+            azimuth_view_increment : float
+            azimuth_view_start : int
+            counter_loop : int
+            elevation_view : int
+            elevation_view_increment : int
+            elevation_view_start : int
+            operation_type
+            plottingAgent
+            quaternion_axis_rotation
+            quaternion_pre_multiply
+            quaternion_rotated
+            quaternion_to_rotate
+            title_plots : str
+            vector_x : float
+            vector_y : float
+            vector_z : float
+            verbose_operation
+            \_\_init\_\_()
+            _generate_plots()
+            _generate_plots_display_diagnostics()
+            _perform_quaternion_operations()
+            _preMultiplyVectorUsingQuaternion()
+            _rotateVectorUsingQuaternion()
+            _set_values_from_command_line_args()
+            _update_loop_parameters()
+            _update_plotting_agent()
+            run()
+          }
+          class SubPlotAgent {
+            _axis
+            _counter : int
+            _counter_hue_value : int
+            _plot_handle_surface : NoneType
+            _plot_handle_title_subplot : NoneType
+            _unit_sphere
+            _v : ndarray
+            _x : NoneType
+            _y : NoneType
+            _z : NoneType
+            plotting_agent
+            \_\_init\_\_(plotting_agent: PlottingAgent, axis_plot)
+            _configure_grid()
+            _fill_panes()
+            _plot_axes()
+            _setup_plot_basic()
+          }
+          class UnitSphere {
+            _ax
+            _color_sphere_surface : NoneType
+            _filename : NoneType
+            _grid_resolution : NoneType, int
+            _handle_surface : NoneType
+            _handle_wireframe : NoneType
+            _handles_lines_latitude : list
+            _handles_lines_longitude : list
+            _num_latitudes : NoneType, int
+            _num_longitudes : NoneType, int
+            _plot_handle_sphere_surface : NoneType
+            _plot_handle_sphere_wire_frame : NoneType
+            _radius : int
+            _sub_plot_agent : SubPlotAgent
+            _surface_color : NoneType
+            _surface_resolution : NoneType, int
+            _x : NoneType
+            _y : NoneType
+            _z : NoneType
+            \_\_init\_\_(sub_plot_agent: SubPlotAgent, axis_plot)
+            \_\_plot_latitude_lines_on_sphere()
+            \_\_plot_longitude_lines_on_sphere()
+            \_\_plot_surface()
+            \_\_plot_surface_and_grid_lines()
+            \_\_setup_plot_environment()
+            \_\_setup_values()
+            _clear_sphere_surface()
+            _clear_sphere_wire_frame()
+            _plot_unit_sphere()
+            configure(num_latitudes, num_longitudes, surface_resolution, grid_resolution)
+            delete_artifacts()
+            plot(radius, color_sphere_surface)
+          }
+          PlotHandleAgent_SubPlot_1 --|> SubPlotAgent
+          PlotHandleAgent_SubPlot_2 --|> SubPlotAgent
+          ColorAgent --* PlottingAgent : color_agent
+          ColorMapAgent --* PlotHandleAgent_SubPlot_1 : color_map_agent
+          LabelAgent --* PlotHandleAgent_SubPlot_1 : label_agent
+          PlotHandleAgent_SubPlot_1 --* PlottingAgent : _subPlot_1
+          PlotHandleAgent_SubPlot_2 --* PlottingAgent : _subPlot_2
+          PlottingAgent --* QuaternionManipulator : plottingAgent
+          QuaternionData --* PlottingAgent : quaternion_data
+          UnitSphere --* SubPlotAgent : _unit_sphere
+  
+       </div>
+  </body>
+</html>

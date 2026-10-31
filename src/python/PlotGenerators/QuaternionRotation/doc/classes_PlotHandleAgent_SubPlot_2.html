@@ -1,0 +1,97 @@
+<html>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+      <div class="mermaid">
+    
+        classDiagram
+          class PlotHandleAgent_SubPlot_2 {
+            _axis
+            _plot_handle_axis_rotation : NoneType
+            _plot_handle_quaternion_rotated : NoneType
+            _plot_handle_quaternion_rotated_history : NoneType
+            _plot_handle_surface : NoneType
+            _plot_handle_to_rotate : NoneType
+            _plotting_agent : PlottingAgent
+            _rgb_value_sphere : NoneType, tuple
+            label_angle_rotation : str
+            label_quaternion_axis_rotation : str
+            label_quaternion_pre_multiply : str
+            label_quaternion_pre_multiply_max : str
+            label_quaternion_pre_multiply_min : str
+            label_quaternion_rotated : str
+            label_quaternion_to_rotate : str
+            plot_handle_quaternion_axis_rotation
+            plot_handle_quaternion_rotated
+            plot_handle_quaternion_to_rotate
+            plot_handle_title_subplot_2
+            \_\_init\_\_(plotting_agent: PlottingAgent)
+            _plot_axes()
+            _plot_quaternions()
+            _set_aspect_ratios_and_extents()
+            _set_legend()
+            _set_rgb_value_for_sphere_surface()
+            _set_title()
+            clear_artifacts()
+            configure()
+            generate_plot()
+            plot_quaternion_pre_multiply()
+            set_plot_handle_title_subplot_2(plot_handle_title)
+          }
+          class SubPlotAgent {
+            _axis : NoneType
+            _counter : int
+            _counter_hue_value : int
+            _plot_handle_sphere_surface : NoneType
+            _plot_handle_sphere_wire_frame : NoneType
+            _plot_handle_surface : NoneType
+            _plot_handle_title_subplot : NoneType
+            _unit_sphere
+            _v : ndarray
+            _x : NoneType
+            _y : NoneType
+            _z : NoneType
+            plotting_agent
+            \_\_init\_\_(plotting_agent: PlottingAgent)
+            _configure_grid()
+            _fill_panes()
+            _plot_axes()
+            plot_unit_sphere(radius, color_sphere_surface)
+          }
+          class UnitSphere {
+            _ax
+            _color_sphere_surface : NoneType
+            _fig
+            _filename : NoneType
+            _grid_resolution : NoneType, int
+            _handle_surface : NoneType
+            _handle_wireframe : NoneType
+            _handles_lines_latitude : list
+            _handles_lines_longitude : list
+            _num_latitudes : NoneType, int
+            _num_longitudes : NoneType, int
+            _radius : int
+            _sub_plot_agent : SubPlotAgent
+            _surface_color : NoneType
+            _surface_resolution : NoneType, int
+            _x : NoneType
+            _y : NoneType
+            _z : NoneType
+            \_\_init\_\_(sub_plot_agent: SubPlotAgent)
+            \_\_plot_latitude_lines_on_sphere()
+            \_\_plot_longitude_lines_on_sphere()
+            \_\_plot_surface()
+            \_\_plot_surface_and_grid_lines()
+            \_\_setup_plot_environment()
+            \_\_setup_values()
+            _plot_unit_sphere()
+            configure(num_latitudes, num_longitudes, surface_resolution, grid_resolution)
+            destroy_plot()
+            plot_sphere(radius, color_sphere_surface)
+            remove_artifacts()
+          }
+          PlotHandleAgent_SubPlot_2 --|> SubPlotAgent
+          UnitSphere --* SubPlotAgent : _unit_sphere
+  
+       </div>
+  </body>
+</html>

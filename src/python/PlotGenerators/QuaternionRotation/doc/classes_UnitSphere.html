@@ -1,0 +1,38 @@
+<html>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+      <div class="mermaid">
+    
+        classDiagram
+          class UnitSphere {
+            _ax : NoneType
+            _fig : NoneType
+            _filename : NoneType, str
+            _grid_resolution : NoneType, int
+            _handle_surface : NoneType
+            _handles_lines_latitude : list
+            _handles_lines_longitude : list
+            _num_latitudes : NoneType, int
+            _num_longitudes : NoneType, int
+            _radius : NoneType, float
+            _surface_color : NoneType, str
+            _surface_resolution : NoneType, int
+            _x : NoneType
+            _y : NoneType
+            _z : NoneType
+            \_\_init\_\_()
+            \_\_plot_latitude_lines_on_sphere()
+            \_\_plot_longitude_lines_on_sphere()
+            \_\_plot_surface()
+            \_\_plot_surface_and_grid_lines()
+            \_\_setup_plot_environment()
+            \_\_setup_values()
+            configure(radius, surface_color, filename, num_latitudes, num_longitudes, surface_resolution, grid_resolution)
+            destroy_plot()
+            plot_sphere()
+            remove_artifacts()
+          }
+  
+       </div>
+  </body>
+</html>

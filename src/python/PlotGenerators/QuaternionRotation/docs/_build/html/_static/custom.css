@@ -1,0 +1,20 @@
+.mermaid {
+    width: 100%;
+}
+
+.mermaid svg {
+    width: 100%;
+    height: auto;
+}
+
+.mermaid-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    margin-bottom: 4em;
+}
+
+.mermaid-wrapper .mermaid {
+    transform: scale(2.0);
+    transform-origin: center top;
+}

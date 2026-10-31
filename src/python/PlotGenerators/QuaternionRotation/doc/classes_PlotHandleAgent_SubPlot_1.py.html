@@ -1,0 +1,126 @@
+<html>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+      <div class="mermaid">
+    
+        classDiagram
+          class ColorMapAgent {
+            _axis
+            _plot_handle_colormap : NoneType
+            _plot_handle_colormap_arrow : NoneType
+            _plot_handle_colormap_arrow_max : NoneType
+            _plot_handle_colormap_arrow_min : NoneType
+            _plotting_agent : PlottingAgent
+            \_\_init\_\_(plotting_agent: PlottingAgent, axis_plot)
+            _clear_plot_handle_colormap_arrows()
+            _update_colorbar()
+            add_colormap()
+          }
+          class LabelAgent {
+            _axis
+            _label_angle_rotation : str
+            _label_heading : str
+            _label_quaternion_axis_rotation : str
+            _label_quaternion_pre_multiply : str
+            _label_quaternion_pre_multiply_max : str
+            _label_quaternion_pre_multiply_min : str
+            _label_quaternion_rotated : str
+            _label_quaternion_to_rotate : str
+            _label_spacer : str
+            _label_viewing_angle_azimuth : str
+            _label_viewing_angle_azimuth_delta : str
+            _label_viewing_angle_azimuth_initial : str
+            _label_viewing_angle_elevation : str
+            _label_viewing_angle_elevation_delta : str
+            _label_viewing_angle_elevation_initial : str
+            _legend1
+            _plot_handle_legend
+            _plot_handle_text : NoneType
+            _plot_handle_title : NoneType
+            plotting_agent : PlottingAgent
+            \_\_init\_\_(plotting_agent: PlottingAgent, axis_plot)
+            _add_axis_labels_to_plot()
+            _add_labels_to_plot(axis, name_client)
+            _generate_labels_legend()
+            _generate_labels_vector_tips()
+            _set_legend(raise_if_set)
+            _set_title()
+            clear_plot_title()
+          }
+          class PlotHandleAgent_SubPlot_1 {
+            _axis
+            _plot_handle_legend : NoneType
+            _plot_handle_quaternion_pre_multiply : NoneType
+            _plot_handle_quaternion_pre_multiply_history : NoneType
+            _plot_handle_sphere_wire_frame : NoneType
+            color_map_agent
+            label_agent
+            \_\_init\_\_(plotting_agent: PlottingAgent.PlottingAgent)
+            _clear_plot_handle_quaternion_pre_multiply()
+            _clear_sphere_surface()
+            _clear_sphere_wire_frame()
+            _initialise_plot()
+            _plot_quaternion_pre_multiply()
+            _set_aspect_ratios_and_extents()
+            clear_artifacts()
+            configure()
+            generate_plot()
+          }
+          class SubPlotAgent {
+            _axis
+            _counter : int
+            _counter_hue_value : int
+            _plot_handle_sphere_surface : NoneType
+            _plot_handle_sphere_wire_frame : NoneType
+            _plot_handle_surface : NoneType
+            _plot_handle_title_subplot : NoneType
+            _unit_sphere
+            _v : ndarray
+            _x : NoneType
+            _y : NoneType
+            _z : NoneType
+            plotting_agent
+            \_\_init\_\_(plotting_agent: PlottingAgent, axis_plot)
+            _configure_grid()
+            _fill_panes()
+            _plot_axes()
+            plot_unit_sphere(radius, color_sphere_surface)
+          }
+          class UnitSphere {
+            _ax
+            _color_sphere_surface : NoneType
+            _filename : NoneType
+            _grid_resolution : NoneType, int
+            _handle_surface : NoneType
+            _handle_wireframe : NoneType
+            _handles_lines_latitude : list
+            _handles_lines_longitude : list
+            _num_latitudes : NoneType, int
+            _num_longitudes : NoneType, int
+            _radius : int
+            _sub_plot_agent : SubPlotAgent
+            _surface_color : NoneType
+            _surface_resolution : NoneType, int
+            _x : NoneType
+            _y : NoneType
+            _z : NoneType
+            \_\_init\_\_(sub_plot_agent: SubPlotAgent, axis_plot)
+            \_\_plot_latitude_lines_on_sphere()
+            \_\_plot_longitude_lines_on_sphere()
+            \_\_plot_surface()
+            \_\_plot_surface_and_grid_lines()
+            \_\_setup_plot_environment()
+            \_\_setup_values()
+            _plot_unit_sphere()
+            configure(num_latitudes, num_longitudes, surface_resolution, grid_resolution)
+            plot_sphere(radius, color_sphere_surface)
+            remove_artifacts()
+          }
+          PlotHandleAgent_SubPlot_1 --|> SubPlotAgent
+          ColorMapAgent --* PlotHandleAgent_SubPlot_1 : color_map_agent
+          LabelAgent --* PlotHandleAgent_SubPlot_1 : label_agent
+          UnitSphere --* SubPlotAgent : _unit_sphere
+  
+       </div>
+  </body>
+</html>
