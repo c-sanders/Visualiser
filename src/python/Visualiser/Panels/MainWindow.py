@@ -1,9 +1,15 @@
+import sys
 from   pathlib \
 import (
         Path
        )
+import subprocess
 import json
 import time
+
+shared_dir = Path(__file__).resolve().parent.parent.parent / "PlotGenerators/QuaternionRotation/python"
+print("shared_dir = " + str(shared_dir))
+sys.path.append(str(shared_dir))
 
 from   PySide6.QtCore \
 import (
@@ -52,11 +58,19 @@ from   Panels.PanelData_Slide        import PanelData_Slide
 from   Panels.PanelData_Plot         import PanelData_Plot
 from   Panels.PanelFrameTerminal     import PanelFrameTerminal
 from   Panels.PanelSettings          import PanelSettings
-from   Panels.MenuBuilder_MainWindow import MenuBuilder_MainWindow
+from   Panels.PanelRunScript         import PanelRunScript
+from   Panels.MenuBar_MainWindow     import MenuBar_MainWindow
 
 import Diagnostics.Diagnostics
 
-class MainWindow(QMainWindow, MenuBuilder_MainWindow):
+import QuaternionManipulator
+
+
+class \
+MainWindow \
+(
+ QMainWindow
+):
 
     def __init__(self, parent=None):
 
@@ -122,9 +136,9 @@ class MainWindow(QMainWindow, MenuBuilder_MainWindow):
         print("font_size                                            = " + str(self.settings.value("font_size", 14, type=int)))
         print("color_scheme                                         = " + str(self.settings.value("color_scheme", "Linux", type=str)))
         print("----------------------------------------")
-        print("ServiceObjects.settings_config.save_settings_on_exit = " + str(ServiceObjects.settings_config.save_settings_on_exit))
-        print("ServiceObjects.settings_config.font_size             = " + str(ServiceObjects.settings_config.font_size))
-        print("ServiceObjects.settings_config.color_scheme          = " + str(ServiceObjects.settings_config.color_scheme))
+        print("ServiceObjects.settings_config.save_settings_on_exit = " + str(Config.ServiceObjects.settings_config.save_settings_on_exit))
+        print("ServiceObjects.settings_config.font_size             = " + str(Config.ServiceObjects.settings_config.font_size))
+        print("ServiceObjects.settings_config.color_scheme          = " + str(Config.ServiceObjects.settings_config.color_scheme))
         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
         self.settings.setValue("save_settings_on_exit", ServiceObjects.settings_config.save_settings_on_exit)
@@ -157,7 +171,7 @@ class MainWindow(QMainWindow, MenuBuilder_MainWindow):
         Config.ServiceObjects.settings_config = Config.SettingsConfig.SettingsConfig()
 
 
-        print("Quaternion_rotation_visualiser::_read_settings_from_config_file : Enter")
+        print("MainWindow::_read_settings_from_config_file : Enter")
 
         Config.ServiceObjects.settings_config.save_settings_on_exit = str(self.settings.value("save_settings_on_exit", True, type=bool))
         Config.ServiceObjects.settings_config.font_size             = int(self.settings.value("font_size", 14, type=int))
@@ -176,7 +190,8 @@ class MainWindow(QMainWindow, MenuBuilder_MainWindow):
 
     def _create_gui_components(self):
 
-        self.menu = MenuBuilder_MainWindow()
+        self.menu_builder = MenuBar_MainWindow()
+        self.menu_builder.set_parent(self)
 
         self.frame_top = QFrame(self)
         self.layout_top = QVBoxLayout(self.frame_top)
@@ -208,10 +223,11 @@ class MainWindow(QMainWindow, MenuBuilder_MainWindow):
             '    main()\n'
         )
 
-        self.create_menu_bar()
+        self.panel_run_script = PanelRunScript(self)
 
-        self.panel_settings = PanelSettings(self)
-        # self.panel_settings.set_main_window(self)
+        self.menu_builder.create_menu_bar()
+
+        self.panel_settings   = PanelSettings(self)
 
 
     def _configure_gui_components(self):
@@ -288,7 +304,7 @@ class MainWindow(QMainWindow, MenuBuilder_MainWindow):
 
 
     @Slot()
-    def _panel_settings_display(self):
+    def panel_settings_display(self):
 
         print("Quaternion_rotation_visualiser::_panel_settings_display : Enter")
 
@@ -304,6 +320,40 @@ class MainWindow(QMainWindow, MenuBuilder_MainWindow):
         self.panel_settings.show()
         self.panel_settings.raise_()
         self.panel_settings.activateWindow()
+
+        print("Quaternion_rotation_visualiser::_panel_settings_display : Exit")
+
+
+    @Slot()
+    def build_frames_quaternion_rotation(self):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Exit")
+
+        self.generate_frames_quaternion_rotation()
+
+        print(nameMethod + " : Exit")
+
+
+    @Slot()
+    def panel_run_script_display(self):
+
+        print("Quaternion_rotation_visualiser::_panel_settings_display : Enter")
+
+        # Create the appropriate panel and display it.
+
+        if self.panel_run_script is None:
+
+            self.panel_run_script = PanelRunScript(self)
+            # self.panel_settings.set_main_window(self)
+
+        print("Quaternion_rotation_visualiser::_panel_settings_display : About to show panel.")
+
+        self.panel_run_script.show()
+        self.panel_run_script.raise_()
+        self.panel_run_script.activateWindow()
 
         print("Quaternion_rotation_visualiser::_panel_settings_display : Exit")
 
@@ -344,7 +394,7 @@ class MainWindow(QMainWindow, MenuBuilder_MainWindow):
 
     def _configure_for_plot(self, filename):
 
-        nameMethod = "Visualiser_MainWindow::_configure_for_plot"
+        nameMethod = "MainWindow::_configure_for_plot"
 
 
         print(nameMethod + " : Enter")
@@ -362,5 +412,144 @@ class MainWindow(QMainWindow, MenuBuilder_MainWindow):
         self.layout.replaceWidget(self.panel_display_data_slide, self.panel_display_data_plot)
 
         self.panel_display_data_slide.hide()
+
+        print(nameMethod + " : Exit")
+
+
+    # @Slot()
+    def build_latex_slides(self):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Enter")
+
+        print(nameMethod + " : Config.SettingsConfig.SettingsConfig.command_build_latex_slides = " + str(Config.ServiceObjects.settings_config.command_build_latex_slides))
+
+        self.panel_frame_terminal.panel_terminal.terminal.sendText(Config.ServiceObjects.settings_config.command_build_latex_slides)
+
+        print(nameMethod + " : Exit")
+
+
+    def build_uml_class_diagrams(self):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Enter")
+
+        command = "pyreverse \
+                   -c Visualiser \
+                   -a 1 \
+                   -s 1 \
+                   -f ALL \
+                   -o html \
+                   src/python/Visualiser"
+
+        result = subprocess.run(
+            [
+             "pwd"
+            ],
+            capture_output=True,
+            text=True
+        )
+
+        print("result = " + str(result.stdout))
+
+        if True:
+
+            files = [
+                     "./src/python/Visualiser/Visualiser.py",
+                     "./src/python/Visualiser/Panels/MenuBar_MainWindow.py",
+                     "./src/python/Visualiser/Panels/MainWindow.py"
+                     ]
+
+            # "pyreverse",
+            # "--verbose",
+            # "--source-roots=./src/python/Visualiser",
+            # "-c Visualiser",
+            # "-a 1",
+            # "-s 1",
+            # "-f ALL",
+            # "src/python/Visualiser"
+
+            # "pyreverse",
+            # "-o svg",
+            # "-c MenuBar_MainWindow",
+            # "./src/python/Visualiser/Panels/MenuBar_MainWindow.py"
+
+            for filename in files:
+
+                print("filename = " + filename)
+
+                result = subprocess.run(
+                    [
+                        "pyreverse",
+                        "-o", "html",
+                        # "-c", "MenuBar_MainWindow",
+                        filename
+                    ],
+                    capture_output=True,
+                    text=True
+                )
+
+                print("result stdout = " + str(result.stdout))
+                print("result stderr = " + str(result.stderr))
+
+        print(nameMethod + " : Exit")
+
+
+    def build_uml_sequence_diagrams(self):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Enter")
+
+        print(nameMethod + " : Exit")
+
+
+    # TODO : Run this method in a separate worker thread.
+
+    def generate_frames_quaternion_rotation(self):
+
+        nameMethod = "MainWindow::run_script"
+
+
+        print(nameMethod + " : Enter")
+
+        # print(nameMethod + " : Config.SettingsConfig.SettingsConfig.command_build_latex_slides = " + str(Config.ServiceObjects.settings_config.command_build_latex_slides))
+
+        # self.panel_frame_terminal.panel_terminal.terminal.sendText(Config.ServiceObjects.settings_config. command_run_script)
+
+        self.panel_frame_terminal.panel_terminal.terminal.sendText("echo \"In method : MainWindow::run_script\"")
+
+        # Invoke the Python class which runs the rotations.
+        #
+        # Instruct the following code to write certain messages to this program's terminal.
+        #
+        #   - QuaternionManipulator
+        #   -
+
+        # >>>>>>>>>>
+
+        quaternion_manipulator = QuaternionManipulator.QuaternionManipulator()
+
+        try:
+
+            # if len(sys.argv) != 10:
+            #     DisplayUsage.display_usage()
+            #
+            #     raise ValueError("Exactly 10 arguments were not passed to this program from the command line.")
+
+            quaternion_manipulator.run("False", "rotation", "0.577350", "0.577350", "0.577350",  "720",  "1", "0", "0")
+
+        except Exception as e:
+
+            # DisplayUsage.display_exception(e)
+
+            print("Received the exception: " + str(e))
+
+        # <<<<<<<<<<
 
         print(nameMethod + " : Exit")

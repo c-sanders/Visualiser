@@ -57,14 +57,42 @@ class QuaternionManipulator :
         self.plottingAgent            = PlottingAgent(self.title_plots)
 
 
-    def run(self) :
+    def run(self, \
+            verbose_operation, \
+            operation_type, \
+            vector_x, \
+            vector_y, \
+            vector_z, \
+            angle_rotation, \
+            axis_x, \
+            axis_y, \
+            axis_z):
 
         nameMethod  = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
         print(nameMethod + " : Enter")
 
-        self._set_values_from_command_line_args()
+        run_from_command_line = False
+
+        if run_from_command_line:
+
+            self._set_values_from_method_args()
+
+        else:
+
+            self._setup_values_from_method_args( \
+                verbose_operation, \
+                operation_type, \
+                vector_x, \
+                vector_y, \
+                vector_z, \
+                angle_rotation, \
+                axis_x, \
+                axis_y, \
+                axis_z
+            )
+
         self._generate_plots()
 
         print(nameMethod + " : Exit")
@@ -93,12 +121,40 @@ class QuaternionManipulator :
         self.quaternion_to_rotate     = np.quaternion(0, self.vector_x, self.vector_y, self.vector_z)
 
 
+    def _setup_values_from_method_args(self, \
+                                       verbose_operation, \
+                                       operation_type, \
+                                       vector_x, \
+                                       vector_y, \
+                                       vector_z, \
+                                       angle_rotation, \
+                                       axis_x, \
+                                       axis_y, \
+                                       axis_z):
+
+        self.verbose_operation   = verbose_operation
+        self.operation_type      = operation_type
+        self.axis_x              = float(vector_x)
+        self.axis_y              = float(vector_y)
+        self.axis_z              = float(vector_z)
+        self.angle_rotation_full = float(angle_rotation)
+        self.vector_x            = float(axis_x)
+        self.vector_y            = float(axis_y)
+        self.vector_z            = float(axis_z)
+
+        # Set up the appropriate values for the rotation.
+
+        self.quaternion_axis_rotation = np.quaternion(0, self.axis_x,   self.axis_y,   self.axis_z)
+        self.quaternion_to_rotate     = np.quaternion(0, self.vector_x, self.vector_y, self.vector_z)
+
     def _preMultiplyVectorUsingQuaternion(self) :
 
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
         operation_type = "partial_multiplication"
 
+
+        # TODO
 
         result = subprocess.run(
             [
@@ -237,7 +293,7 @@ class QuaternionManipulator :
 
     # Invoked by : run
 
-    def _generate_plots(self) :
+    def _generate_plots(self):
 
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
@@ -250,7 +306,7 @@ class QuaternionManipulator :
 
             self._generate_plots_display_diagnostics()
 
-            filename = f"./plots/rotation-{self.counter_loop:04d}.png"
+            filename = f"./rotation-{self.counter_loop:04d}.png"
 
             # - Perform the next batch of quaternion operations.
             # - Update the Plotting agent with the results of this quaternion rotation.

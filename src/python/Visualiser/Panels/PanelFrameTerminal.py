@@ -15,11 +15,13 @@ import (
         QPixmap
        )
 
-from Panels.PanelDisplay  import PanelDisplay
+from Panels.PanelFrame    import PanelFrame
 from Panels.PanelTerminal import PanelTerminal
 
 
 class PanelFrameTerminal(QFrame):
+
+    # Invoked by : MainWindow::_configure_for_plot
 
     @Slot(str)
     def update_panel(self, filename):
@@ -40,7 +42,7 @@ class PanelFrameTerminal(QFrame):
         print(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;")
         print(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;")
 
-        self.panel_display.update_panel(filename)
+        self.panel_frame.update_panel(filename)
 
         print(nameMethod + " : Exit")
 
@@ -62,7 +64,7 @@ class PanelFrameTerminal(QFrame):
 
         # self.form                  = QFormLayout()
 
-        self.panel_display         = PanelDisplay()
+        self.panel_frame           = PanelFrame()
         self.panel_terminal        = PanelTerminal()
         # self.image                 = QPixmap("my_image.png")
 
@@ -72,10 +74,10 @@ class PanelFrameTerminal(QFrame):
 
         self.setLayout(self.layout_top)
 
-        self.layout_top.addWidget(self.panel_display,  stretch=4)
+        self.layout_top.addWidget(self.panel_frame,  stretch=4)
         self.layout_top.addWidget(self.panel_terminal, stretch=1)
 
-        # self.panel_display.setPixmap(
+        # self.panel_frame.setPixmap(
         #     self.image.scaled(
         #         900,
         #         787,
