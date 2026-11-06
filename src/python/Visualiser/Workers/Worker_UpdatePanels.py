@@ -25,6 +25,8 @@ class Worker_UpdatePanels(QThread):
 
         super().__init__(parent)
 
+        self.parent = parent
+
 
     def run(self):
 

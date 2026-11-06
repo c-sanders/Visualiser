@@ -57,6 +57,11 @@ class QuaternionManipulator :
         self.plottingAgent            = PlottingAgent(self.title_plots)
 
 
+    def set_terminal(self, terminal=None):
+
+        self.terminal = terminal
+
+
     def run(self, \
             verbose_operation, \
             operation_type, \
@@ -147,6 +152,7 @@ class QuaternionManipulator :
         self.quaternion_axis_rotation = np.quaternion(0, self.axis_x,   self.axis_y,   self.axis_z)
         self.quaternion_to_rotate     = np.quaternion(0, self.vector_x, self.vector_y, self.vector_z)
 
+
     def _preMultiplyVectorUsingQuaternion(self) :
 
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
@@ -154,7 +160,7 @@ class QuaternionManipulator :
         operation_type = "partial_multiplication"
 
 
-        # TODO
+        # TODOprocess
 
         result = subprocess.run(
             [
@@ -191,8 +197,20 @@ class QuaternionManipulator :
 
     def _rotateVectorUsingQuaternion(self) :
 
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
         operation_type = "rotation"
 
+
+        print(nameMethod + " : Enter")
+
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : About to run the Haskell code.")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
 
         result = subprocess.run(
             [
@@ -211,6 +229,14 @@ class QuaternionManipulator :
             text=True
         )
 
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : Have run the Haskell code.")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+
         # Convert the string into a list of strings, breaking the original string at "," symbols.
 
         string_quaternion = (result.stdout).split(",")
@@ -223,6 +249,9 @@ class QuaternionManipulator :
         # print(result.stdout)
         # print(result.stderr)
         # print(result.returncode)
+
+        print(nameMethod + " : Exit")
+
 
         return self.quaternion_rotated
 
@@ -316,6 +345,8 @@ class QuaternionManipulator :
             self._update_plotting_agent()
 
             self.plottingAgent.generate_plot(filename)
+
+            self.terminal.sendText("Generated file : " + filename + " &> /dev/null\n")
 
             self._update_loop_parameters()
 

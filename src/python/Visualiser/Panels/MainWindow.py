@@ -1,15 +1,7 @@
 import sys
-from   pathlib \
-import (
-        Path
-       )
 import subprocess
 import json
 import time
-
-shared_dir = Path(__file__).resolve().parent.parent.parent / "PlotGenerators/QuaternionRotation/python"
-print("shared_dir = " + str(shared_dir))
-sys.path.append(str(shared_dir))
 
 from   PySide6.QtCore \
 import (
@@ -54,6 +46,7 @@ import Config.ServiceObjects
 import Config.SettingsConfig
 import Workers.Worker_PortListen
 import Workers.Worker_UpdatePanels
+import Workers.Worker_GenerateFrames_QuaternionRotation
 from   Panels.PanelData_Slide        import PanelData_Slide
 from   Panels.PanelData_Plot         import PanelData_Plot
 from   Panels.PanelFrameTerminal     import PanelFrameTerminal
@@ -62,8 +55,6 @@ from   Panels.PanelRunScript         import PanelRunScript
 from   Panels.MenuBar_MainWindow     import MenuBar_MainWindow
 
 import Diagnostics.Diagnostics
-
-import QuaternionManipulator
 
 
 class \
@@ -141,9 +132,9 @@ MainWindow \
         print("ServiceObjects.settings_config.color_scheme          = " + str(Config.ServiceObjects.settings_config.color_scheme))
         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
-        self.settings.setValue("save_settings_on_exit", ServiceObjects.settings_config.save_settings_on_exit)
-        self.settings.setValue("font_size",             ServiceObjects.settings_config.font_size)
-        self.settings.setValue("color_scheme",          ServiceObjects.settings_config.color_scheme)
+        self.settings.setValue("save_settings_on_exit", Config.ServiceObjects.settings_config.save_settings_on_exit)
+        self.settings.setValue("font_size",             Config.ServiceObjects.settings_config.font_size)
+        self.settings.setValue("color_scheme",          Config.ServiceObjects.settings_config.color_scheme)
 
         self.settings.sync()
 
@@ -247,14 +238,29 @@ MainWindow \
         return self.ip_address
 
 
-    def startWorkerThread(self):
+    # Invoked by function : main
 
-        if (self.worker is not None) and (self.worker.isRunning()):
+    def startWorkerThreads(self, raise_exception_on_error):
 
-            return
+        if (
+            (self.worker is not None) and
+            (self.worker.isRunning())
+           ):
 
-        self.worker_port_listen = Workers.Worker_PortListen.Worker_PortListen(self.ip_address, self.tcp_port, self)
+            if raise_exception_on_error:
+
+                raise Exception("An instance of the worker thread already appears to be running.")
+
+        else:
+
+            self.start_worker_thread_port_listener()
+            self.start_worker_thread()
+
+
+    def start_worker_thread(self):
+
         self.worker             = Workers.Worker_UpdatePanels.Worker_UpdatePanels()
+
 
         # Connect the appropriate signals to the appropriate slots.
 
@@ -299,8 +305,14 @@ MainWindow \
         #     self.panel_display_data.angle_rotation.setText(value)
         # )
 
-        self.worker_port_listen.start()
         self.worker.start()
+
+
+    def start_worker_thread_port_listener(self):
+
+        self.worker_port_listen = Workers.Worker_PortListen.Worker_PortListen(self.ip_address, self.tcp_port, self)
+
+        self.worker_port_listen.start()
 
 
     @Slot()
@@ -509,47 +521,24 @@ MainWindow \
         print(nameMethod + " : Exit")
 
 
-    # TODO : Run this method in a separate worker thread.
+    #
 
     def generate_frames_quaternion_rotation(self):
 
-        nameMethod = "MainWindow::run_script"
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
         print(nameMethod + " : Enter")
 
-        # print(nameMethod + " : Config.SettingsConfig.SettingsConfig.command_build_latex_slides = " + str(Config.ServiceObjects.settings_config.command_build_latex_slides))
+        thread_current = QThread.currentThread()
+        print(nameMethod + " : Current thread = " + str(thread_current))
+        print(nameMethod + " : Current thread = " + thread_current.objectName())
 
-        # self.panel_frame_terminal.panel_terminal.terminal.sendText(Config.ServiceObjects.settings_config. command_run_script)
+        # self.panel_frame_terminal.panel_terminal.terminal.sendText("echo \"In method : MainWindow::generate_frames_quaternion_rotation\"")
 
-        self.panel_frame_terminal.panel_terminal.terminal.sendText("echo \"In method : MainWindow::run_script\"")
+        # Create a worker thread for this task and then start it running.
 
-        # Invoke the Python class which runs the rotations.
-        #
-        # Instruct the following code to write certain messages to this program's terminal.
-        #
-        #   - QuaternionManipulator
-        #   -
-
-        # >>>>>>>>>>
-
-        quaternion_manipulator = QuaternionManipulator.QuaternionManipulator()
-
-        try:
-
-            # if len(sys.argv) != 10:
-            #     DisplayUsage.display_usage()
-            #
-            #     raise ValueError("Exactly 10 arguments were not passed to this program from the command line.")
-
-            quaternion_manipulator.run("False", "rotation", "0.577350", "0.577350", "0.577350",  "720",  "1", "0", "0")
-
-        except Exception as e:
-
-            # DisplayUsage.display_exception(e)
-
-            print("Received the exception: " + str(e))
-
-        # <<<<<<<<<<
+        self.worker_thread = Workers.Worker_GenerateFrames_QuaternionRotation.Worker_GenerateFrames_QuaternionRotation()
+        self.worker_thread.start()
 
         print(nameMethod + " : Exit")

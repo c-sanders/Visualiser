@@ -2,9 +2,10 @@ class SettingsConfig:
 
     def __init__(self):
 
-        self.save_settings_on_exit = None
-        self.font_size             = None
-        self.color_scheme          = None
+        self.raise_exception_on_error = True
+        self.save_settings_on_exit    = None
+        self.font_size                = None
+        self.color_scheme             = None
 
         self.command_build_latex_slides = "pwd && " + \
                                           "pdflatex -output-directory=./slides/pdf ./src/latex/slides/slide.tex && " + \
@@ -16,3 +17,4 @@ class SettingsConfig:
         #
 
 
+settings = SettingsConfig()

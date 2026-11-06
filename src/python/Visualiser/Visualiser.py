@@ -1,12 +1,19 @@
 import   sys
 from     pathlib import Path
 from     PySide6.QtCore \
-  import (
-          QTimer
-         )
-from     PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton
+import (
+        QTimer
+       )
+from   PySide6.QtWidgets \
+import (
+        QApplication,
+        QWidget,
+        QVBoxLayout,
+        QPushButton
+       )
 
-import   Panels.MainWindow
+import Config.SettingsConfig
+import Panels.MainWindow
 
 
 # --------------------------------------------------
@@ -32,7 +39,7 @@ if False:
 window = Panels.MainWindow.MainWindow()
 window.showMaximized()
 
-window.startWorkerThread()
+window.startWorkerThreads(Config.SettingsConfig.settings.raise_exception_on_error)
 
 window.startup()
 

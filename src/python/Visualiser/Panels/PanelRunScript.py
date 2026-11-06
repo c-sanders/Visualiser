@@ -3,7 +3,10 @@ import (
        Qt,
        Slot
        )
-
+from   PySide6.QtGui \
+import (
+       QFont
+       )
 from   PySide6.QtWidgets \
 import (
        QWidget,
@@ -14,6 +17,7 @@ import (
        QCheckBox,
        QComboBox,
        QLineEdit,
+       QTextEdit,
        QPushButton,
        QFileDialog
        )
@@ -31,7 +35,7 @@ class PanelRunScript(QWidget):
         self._configure_gui_components()
 
         self.setWindowTitle("Run script panel")
-        self.resize(600, 500)
+        self.resize(1200, 500)
 
         self._connect_signals_to_slots()
 
@@ -43,11 +47,54 @@ class PanelRunScript(QWidget):
         self.group_box           = QGroupBox("Script")
         self.layout_group_box    = QVBoxLayout()
 
+        self.label_overview      = QLabel("Overview of script")
+
+        self.text_edit = QTextEdit()
+        self.text_edit.setPlainText(
+            "Method : PanelRunScript::_connect_signals_to_slots\n"
+            "==================================================\n"
+            "\n"
+            "self.button_file_run_script.clicked.connect(Config.ServiceObjects.main_window.generate_frames_quaternion_rotation)\n"
+            "\n"
+            "Method : MainWindow::generate_frames_quaternion_rotation\n"
+            "========================================================\n"
+            "\n"
+            "self.worker_thread = Workers.Worker_GenerateFrames_QuaternionRotation.Worker_GenerateFrames_QuaternionRotation()\n"
+            "self.worker_thread.run()\n"
+            "\n"
+            "Method : Worker_GenerateFrames_QuaternionRotation::run\n"
+            "======================================================\n"
+            "\n"
+            "quaternion_manipulator = QuaternionManipulator.QuaternionManipulator()\n"
+            "quaternion_manipulator.run(\"False\", \"rotation\", \"0.577350\", \"0.577350\", \"0.577350\", \"720\", \"1\", \"0\", \"0\")\n"
+            "\n"    
+            "Class : QuaternionManipulator\n"
+            "===================================\n"
+            "\n"
+            "QuaternionManipulator::run\n"
+            "  |-QuaternionManipulator::_generate_plots\n"
+            "      |- while self.azimuth_view <= 720 :\n"
+            "           |- self._perform_quaternion_operations()\n"
+            "                |- self._preMultiplyVectorUsingQuaternion()\n"
+            "                |    |- subprocess.run(...)   ### This is where the Haskell code gets called.\n"
+            "                |- self._rotateVectorUsingQuaternion()\n"
+            "                     |- subprocess.run(...)   ### This is where the Haskell code gets called.\n"
+        )
+        font = QFont("Monospace", 10)
+        self.text_edit.setFont(font)
+
+        self.text_edit.setReadOnly(True)
+
+        self.script_combobox     = QComboBox()
+
         self.label_file_list     = QLabel("File list")
         self.layout_file_list    = QHBoxLayout()
         self.file_list           = QLineEdit()
         self.button_file_select  = QPushButton("Select")
 
+        self.button_file_run_script = QPushButton("Run script")
+
+        self.layout_buttons_top  = QHBoxLayout()
         self.layout_buttons      = QHBoxLayout()
         self.button_exit         = QPushButton("Exit")
 
@@ -61,19 +108,35 @@ class PanelRunScript(QWidget):
         self.group_box.setLayout(self.layout_group_box)
 
         self.layout_group_box.addWidget(self.label_file_list)
-        self.layout_group_box.addLayout(self.layout_file_list)
+        self.layout_group_box.addWidget(self.script_combobox)
 
-        self.layout_file_list.addWidget(self.file_list)
-        self.layout_file_list.addWidget(self.button_file_select)
-        self.button_file_select.setFixedSize(120, 35)
+        self.script_combobox.addItem("Quaternion rotation")
+        self.script_combobox.addItem("Euler's formula flyaround")
+        self.script_combobox.addItem("Euler's formula flyaround for varying base")
 
-        self.layout_group_box.addStretch(1)
+        self.layout_group_box.addLayout(self.layout_buttons_top)
+
+        self.layout_buttons_top.addStretch(1)
+        self.layout_buttons_top.addWidget(self.button_file_run_script, Qt.AlignCenter)
+        self.layout_buttons_top.addStretch(1)
+
+        self.layout_group_box.addWidget(self.label_overview)
+        self.layout_group_box.addWidget(self.text_edit)
+        self.button_file_run_script.setFixedSize(120, 35)
+        self.button_file_run_script.setShortcut("Ctrl+R")
+        self.button_file_run_script.setToolTip("Press Ctrl+R to run the script")
+
+        # self.layout_file_list.addWidget(self.file_list)
+        # self.layout_file_list.addWidget(self.button_file_select)
+        # self.button_file_select.setFixedSize(120, 35)
+
+        # self.layout_group_box.addStretch(1)
 
         self.layout_top.addLayout(self.layout_buttons)
 
         self.layout_buttons.addStretch(1)
         # self.layout_buttons.addStretch(1)
-        self.layout_buttons.addWidget(self.button_exit,  Qt.AlignCenter)
+        self.layout_buttons.addWidget(self.button_exit, Qt.AlignCenter)
         self.layout_buttons.addStretch(1)
 
         self.button_exit.setFixedSize(120, 35)
@@ -101,4 +164,5 @@ class PanelRunScript(QWidget):
 
         self.button_file_select.clicked.connect(self._select_file)
         # self.button_apply.clicked.connect(self._apply_settings)
+        self.button_file_run_script.clicked.connect(Config.ServiceObjects.main_window.generate_frames_quaternion_rotation)
         self.button_exit.clicked.connect(self.close)
