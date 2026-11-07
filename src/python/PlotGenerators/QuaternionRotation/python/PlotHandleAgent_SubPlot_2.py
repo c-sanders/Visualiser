@@ -1,10 +1,14 @@
 import sys
 import colorsys
+import logging
 
-import numpy             as np
+import numpy as np
 
 import GlobalSettings
 import SubPlotAgent_UnitSphere
+
+
+logger = logging.getLogger(__name__)
 
 
 class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere) :
@@ -76,10 +80,17 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
 
     def delete_plot_artifacts(self):
 
+        nameMethod = f"{type(self).__name__}::{sys._getframe().f_code.co_name}"
+
+
+        logger.debug(nameMethod + " : Enter")
+
         if self._plot_handle_quaternion_rotated is not None :
 
             self._plot_handle_quaternion_rotated.remove()
             self._plot_handle_quaternion_rotated = None
+
+        logger.debug(nameMethod + " : Exit")
 
 
     def _set_rgb_value_for_sphere_surface(self) :
@@ -87,7 +98,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         hue_value = 0.5
 
@@ -98,7 +109,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
             1.0  # value
         )
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def generate_plot(self) :
@@ -106,7 +117,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self._unit_sphere.plot(
                                1,
@@ -130,7 +141,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
             azim=self._plotting_agent._azimuth_view
         )
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def setup_plot_basic(self) :
@@ -138,7 +149,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self._axis = self.plotting_agent._ax2
 
@@ -146,7 +157,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
 
         # self.create_static_labels()
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def _set_title(self) :
@@ -154,9 +165,9 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : configure
@@ -166,7 +177,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # ----------------------------
         # Set equal aspect ratio
@@ -183,7 +194,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
 
         self._axis.set_box_aspect([1, 1, 1])
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : configure
@@ -226,9 +237,9 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def plot_quaternion_pre_multiply(self) :
@@ -236,18 +247,18 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # If w = 0, plot this quaternion in the pure imaginary space as well and keep this plot
         # there. That is, do not remove it from the plot.
 
         if abs(self.plotting_agent.quaternion_pre_multiply.w) < 0.001 :
 
-            print(nameMethod + " : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            print(nameMethod + " : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            print(nameMethod + " : Plotting vector in the pure imaginary space")
-            print(nameMethod + " : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            print(nameMethod + " : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            logger.debug(nameMethod + " : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            logger.debug(nameMethod + " : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            logger.debug(nameMethod + " : Plotting vector in the pure imaginary space")
+            logger.debug(nameMethod + " : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            logger.debug(nameMethod + " : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
             # We do not need a handle to this artifact, as we are never going to remove it.
 
@@ -260,7 +271,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
                 arrow_length_ratio=0.1
             )
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def _plot_quaternions(self) :
@@ -268,7 +279,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # Plot an arrow from the origin which represents : the axis of rotation
 
@@ -281,7 +292,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
             arrow_length_ratio=0.1
         )
 
-        print(nameMethod + " : MARKER 0")
+        logger.debug(nameMethod + " : MARKER 0")
 
         # Plot an arrow from the origin which represents : the vector/quaternion which is to be rotated.
 
@@ -294,7 +305,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
             arrow_length_ratio=0.1
         )
 
-        print(nameMethod + " : MARKER 1")
+        logger.debug(nameMethod + " : MARKER 1")
 
         # Plot an arrow from the origin which represents : the vector/quaternion after it has been rotated.
 
@@ -307,7 +318,7 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
             arrow_length_ratio=0.1
         )
 
-        print(nameMethod + " : MARKER 2")
+        logger.debug(nameMethod + " : MARKER 2")
 
         if GlobalSettings.plot_quaternion_rotated_history :
 
@@ -321,4 +332,4 @@ class PlotHandleAgent_SubPlot_2(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere)
                 color='magenta'
             )
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")

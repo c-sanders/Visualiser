@@ -1,5 +1,6 @@
 import sys
 import colorsys
+import logging
 
 import numpy as np
 
@@ -9,6 +10,9 @@ import SubPlotAgent_UnitSphere
 import PlottingAgent
 import ColorMapAgent
 import LabelAgent
+
+
+logger = logging.getLogger(__name__)
 
 
 # A UML class diagram can be generated for the class which is defined in this file, by using the following commands;
@@ -53,9 +57,9 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : External clients
@@ -71,7 +75,7 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self._axis_plot = self.plotting_agent._ax1
 
@@ -81,7 +85,7 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
 
         # raise Exception("CODE ANALYSIS EXCEPTION!!!")
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : configure
@@ -91,7 +95,7 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # ----------------------------
         # Set equal aspect ratio
@@ -108,7 +112,7 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
 
         self._axis_plot.set_box_aspect([1, 1, 1])
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def _clear_plot_handle_quaternion_pre_multiply(self) :
@@ -127,12 +131,12 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
         self.color_map_agent._clear_plot_handle_colormap_arrows()
 
 
-    def delete_plot_artifacts(self):
+    def delete_plot_artifacts(self, name_client):
 
-        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+        nameMethod = f"{type(self).__name__}.{sys._getframe().f_code.co_name}"
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # Delete artifacts which have been created by this class.
 
@@ -142,7 +146,7 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
 
         super().delete_artifacts()
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : _generate_subplot_1
@@ -154,7 +158,7 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
         sub_plot = self.plotting_agent._ax1
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         if self._plot_handle_quaternion_pre_multiply is not None :
 
@@ -204,7 +208,7 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
                 color=self.plotting_agent.color_agent.get_rgb_value_current()
             )
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : External clients
@@ -216,7 +220,7 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         radius_sphere        = 1 - (self.plotting_agent.quaternion_data.quaternion_pre_multiply.w ** 2)
         color_sphere_surface = self.plotting_agent.color_agent.get_rgb_value_current()
@@ -225,9 +229,9 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
         # - Set the legend which is to be used for this sub-plot.
 
         self.label_agent._set_title()
-        print(nameMethod + " : MARKER 0")
+        logger.debug(nameMethod + " : MARKER 0")
         self.label_agent._set_legend(True)
-        print(nameMethod + " : MARKER 1")
+        logger.debug(nameMethod + " : MARKER 1")
 
         # - Update the arrows which are associated with the color bar.
 
@@ -250,12 +254,12 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
 
         # self._plot_quaternions()
 
-        print(nameMethod + " : About to invoke method : self._unit_sphere.plot_sphere")
+        logger.debug(nameMethod + " : About to invoke method : self._unit_sphere.plot_sphere")
 
         # self._plot_quaternion_pre_multiply()
         # self.add_labels_to_plot(axis)
 
-        print(nameMethod + " : Elevation = " + str(self.plotting_agent._elevation_view))
+        logger.debug(nameMethod + " : Elevation = " + str(self.plotting_agent._elevation_view))
 
         self._axis_plot.view_init(
 
@@ -263,4 +267,4 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
             azim=self.plotting_agent._azimuth_view
         )
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")

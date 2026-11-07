@@ -51,7 +51,11 @@ class Worker_GenerateFrames_QuaternionRotation(QThread):
 
             command = "False", "rotation", "0.577350", "0.577350", "0.577350",  "720",  "1", "0", "0"
 
-            Config.ServiceObjects.main_window.panel_frame_terminal.panel_terminal.terminal.sendText("echo \"BLAH!!!\"")
+            command = "cd ./src/python/PlotGenerators/QuaternionRotation && ./generate_plot_frames.sh\n"
+
+            # Config.ServiceObjects.main_window.panel_frame_terminal.panel_terminal.terminal.sendText("echo \"BLAH!!!\"\n")
+            # Config.ServiceObjects.main_window.panel_frame_terminal.panel_terminal.terminal.sendText("pwd\n")
+            Config.ServiceObjects.main_window.panel_frame_terminal.panel_terminal.terminal.sendText(command)
 
         else:
 
