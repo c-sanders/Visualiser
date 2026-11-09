@@ -1,1 +1,1 @@
-./file_list_full.txt
+./file_list_short.txt

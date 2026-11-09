@@ -15,7 +15,7 @@ import (
         QTermWidget
        )
 
-import Config.ServiceObjects
+import Config.ObjectDirectory
 
 
 class PanelTerminal(QFrame):
@@ -96,7 +96,7 @@ class PanelTerminal(QFrame):
 
         self.terminal.setColorScheme(
             # self.settings_colour_scheme
-            Config.ServiceObjects.settings_config.color_scheme
+            Config.ObjectDirectory.object_directory.settings_config.color_scheme
         )
 
         # font = QFont("Monospace", self.settings_font_size)

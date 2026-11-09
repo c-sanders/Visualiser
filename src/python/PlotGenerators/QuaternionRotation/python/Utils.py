@@ -1,4 +1,8 @@
 import sys
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def format_component(
@@ -10,15 +14,15 @@ def format_component(
     nameMethod = "::" + str(sys._getframe().f_code.co_name)
 
 
-    print(nameMethod + " : Enter")
+    logger.debug(nameMethod + " : Enter")
 
-    print(nameMethod + " : name  = " + str(name))
-    print(nameMethod + " : space = " + str(space))
-    print(nameMethod + " : value = " + str(value))
+    logger.debug(nameMethod + " : name  = " + str(name))
+    logger.debug(nameMethod + " : space = " + str(space))
+    logger.debug(nameMethod + " : value = " + str(value))
 
     if value == 0 :
 
-        print(nameMethod + " : MARKER 0")
+        logger.debug(nameMethod + " : MARKER 0")
 
         if space :
 
@@ -26,11 +30,11 @@ def format_component(
 
         else :
 
-            print(nameMethod + " : MARKER 0A")
+            logger.debug(nameMethod + " : MARKER 0A")
 
             return_value = f"+{name}{abs(value):.3f}"
 
-            print(nameMethod + " : return_value = " + str(return_value))
+            logger.debug(nameMethod + " : return_value = " + str(return_value))
 
             return return_value
 
@@ -44,7 +48,7 @@ def format_component(
 
             return f"-{name}{abs(value):.3f}"
 
-        print(nameMethod + " : MARKER 1")
+        logger.debug(nameMethod + " : MARKER 1")
 
     else :
 
@@ -56,9 +60,9 @@ def format_component(
 
             return f"+{name}{value:.3f}"
 
-        print(nameMethod + " : MARKER 2")
+        logger.debug(nameMethod + " : MARKER 2")
 
-    print(nameMethod + " : Exit")
+    logger.debug(nameMethod + " : Exit")
 
 
 def generate_string(

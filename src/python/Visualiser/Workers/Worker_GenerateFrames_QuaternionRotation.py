@@ -13,7 +13,7 @@ shared_dir = Path(__file__).resolve().parent.parent.parent / "PlotGenerators/Qua
 print("shared_dir = " + str(shared_dir))
 sys.path.append(str(shared_dir))
 
-import Config.ServiceObjects
+import Config.ObjectDirectory
 import QuaternionManipulator
 
 
@@ -53,14 +53,14 @@ class Worker_GenerateFrames_QuaternionRotation(QThread):
 
             command = "cd ./src/python/PlotGenerators/QuaternionRotation && ./generate_plot_frames.sh\n"
 
-            # Config.ServiceObjects.main_window.panel_frame_terminal.panel_terminal.terminal.sendText("echo \"BLAH!!!\"\n")
-            # Config.ServiceObjects.main_window.panel_frame_terminal.panel_terminal.terminal.sendText("pwd\n")
-            Config.ServiceObjects.main_window.panel_frame_terminal.panel_terminal.terminal.sendText(command)
+            # Config.ObjectDirectory.object_directory.terminal.sendText("echo \"BLAH!!!\"\n")
+            # Config.ObjectDirectory.object_directory.terminal.sendText("pwd\n")
+            Config.ObjectDirectory.object_directory.terminal.sendText(command)
 
         else:
 
             quaternion_manipulator = QuaternionManipulator.QuaternionManipulator()
-            quaternion_manipulator.set_terminal(Config.ServiceObjects.main_window.panel_frame_terminal.panel_terminal.terminal)
+            quaternion_manipulator.set_terminal(Config.ObjectDirectory.object_directory.terminal)
 
             try:
 

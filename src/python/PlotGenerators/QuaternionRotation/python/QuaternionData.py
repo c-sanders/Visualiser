@@ -1,4 +1,8 @@
 import sys
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class QuaternionData :
@@ -47,7 +51,7 @@ class QuaternionData :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # Update the quaternion values.
 
@@ -62,7 +66,7 @@ class QuaternionData :
 
         # self._update_rgb_values()
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : set_quaternions_and_min_max_values
@@ -72,7 +76,7 @@ class QuaternionData :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # Add the point to the list of points.
 
@@ -90,13 +94,13 @@ class QuaternionData :
 
             raise Exception("Not enough values in the list.")
 
-        print(nameMethod + " : {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{")
-        print(nameMethod + " : {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{")
-        print(nameMethod + " : self.w_difference = " + str(self._w_difference))
-        print(nameMethod + " : }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}")
-        print(nameMethod + " : }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}")
+        logger.debug(nameMethod + " : {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{")
+        logger.debug(nameMethod + " : {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{")
+        logger.debug(nameMethod + " : self.w_difference = " + str(self._w_difference))
+        logger.debug(nameMethod + " : }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}")
+        logger.debug(nameMethod + " : }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}")
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : set_quaternions_and_min_max_values
@@ -106,7 +110,7 @@ class QuaternionData :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # Add the point to the list of points.
 
@@ -120,19 +124,19 @@ class QuaternionData :
         self.quaternion_rotated_y_components.append(self.quaternion_rotated.y)
         self.quaternion_rotated_z_components.append(self.quaternion_rotated.z)
 
-        print(f"Length self.w_components = {len(self.quaternion_rotated_w_components):d}")
-        print(f"Length self.x_components = {len(self.quaternion_rotated_x_components):d}")
-        print(f"Length self.y_components = {len(self.quaternion_rotated_y_components):d}")
-        print(f"Length self.z_components = {len(self.quaternion_rotated_z_components):d}")
+        logger.debug(f"Length self.w_components = {len(self.quaternion_rotated_w_components):d}")
+        logger.debug(f"Length self.x_components = {len(self.quaternion_rotated_x_components):d}")
+        logger.debug(f"Length self.y_components = {len(self.quaternion_rotated_y_components):d}")
+        logger.debug(f"Length self.z_components = {len(self.quaternion_rotated_z_components):d}")
 
-        print(nameMethod + " : self._plotting_agent.x_components = ")
-        print(self.quaternion_rotated_x_components)
-        print(nameMethod + " : self._plotting_agent.y_components = ")
-        print(self.quaternion_rotated_y_components)
-        print(nameMethod + " : self._plotting_agent.z_components = ")
-        print(self.quaternion_rotated_z_components)
+        logger.debug(nameMethod + " : self._plotting_agent.x_components = ")
+        logger.debug(self.quaternion_rotated_x_components)
+        logger.debug(nameMethod + " : self._plotting_agent.y_components = ")
+        logger.debug(self.quaternion_rotated_y_components)
+        logger.debug(nameMethod + " : self._plotting_agent.z_components = ")
+        logger.debug(self.quaternion_rotated_z_components)
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : set_quaternions_and_min_max_values

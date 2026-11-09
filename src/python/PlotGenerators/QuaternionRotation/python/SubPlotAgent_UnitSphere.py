@@ -1,5 +1,6 @@
 import sys
 import colorsys
+import logging
 
 import numpy as np
 
@@ -7,6 +8,9 @@ from   matplotlib.ticker import MultipleLocator
 
 import PlottingAgent
 import UnitSphere
+
+
+logger = logging.getLogger(__name__)
 
 
 # This class is inherited by :
@@ -28,7 +32,7 @@ class SubPlotAgent_UnitSphere :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self.plotting_agent = plotting_agent
         self._axis          = axis_plot
@@ -56,7 +60,7 @@ class SubPlotAgent_UnitSphere :
         self._y                                           = None
         self._z                                           = None
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Method : _setup_plot_basic
@@ -66,7 +70,7 @@ class SubPlotAgent_UnitSphere :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self._plot_axes()
 
@@ -76,7 +80,7 @@ class SubPlotAgent_UnitSphere :
         self._configure_grid()
         # self.create_static_labels()
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : configure
@@ -119,13 +123,13 @@ class SubPlotAgent_UnitSphere :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self._axis.xaxis.pane.fill = False
         self._axis.yaxis.pane.fill = False
         self._axis.zaxis.pane.fill = False
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def _configure_grid(self) :
@@ -133,7 +137,7 @@ class SubPlotAgent_UnitSphere :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # ax.grid(False)
 
@@ -141,7 +145,7 @@ class SubPlotAgent_UnitSphere :
         self._axis.yaxis.set_major_locator(MultipleLocator(1))
         self._axis.zaxis.set_major_locator(MultipleLocator(1))
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def delete_artifacts(self) :
@@ -149,9 +153,9 @@ class SubPlotAgent_UnitSphere :
         nameMethod = str(self.__class__.__name__) + "(->" + self.class_name + ")::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self._unit_sphere._clear_sphere_wire_frame()
         self._unit_sphere._clear_sphere_surface()
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")

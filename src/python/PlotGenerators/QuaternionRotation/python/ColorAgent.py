@@ -1,5 +1,9 @@
 import sys
 import colorsys
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class ColorAgent :
@@ -9,13 +13,13 @@ class ColorAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self.__rgb_value_current = None
         self.__rgb_value_minimum = None
         self.__rgb_value_maximum = None
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def _compute_rgb_value(self,
@@ -42,13 +46,13 @@ class ColorAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # Set the current RGB value.
 
         self.__rgb_value_current = self._compute_rgb_value(value)
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def update_rgb_value_minimum(self,
@@ -59,13 +63,13 @@ class ColorAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # Set the minimum RGB value.
 
         self.__rgb_value_minimum = self._compute_rgb_value(value)
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def update_rgb_value_maximum(self,
@@ -76,13 +80,13 @@ class ColorAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # Set the maximum RGB value.
 
         self.__rgb_value_maximum = self._compute_rgb_value(value)
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def get_rgb_value_current(self) :

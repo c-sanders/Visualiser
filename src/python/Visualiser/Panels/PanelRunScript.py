@@ -22,7 +22,7 @@ import (
        QFileDialog
        )
 
-import Config.ServiceObjects
+import Config.ObjectDirectory
 
 
 class PanelRunScript(QWidget):
@@ -54,7 +54,7 @@ class PanelRunScript(QWidget):
             "Method : PanelRunScript::_connect_signals_to_slots\n"
             "==================================================\n"
             "\n"
-            "self.button_file_run_script.clicked.connect(Config.ServiceObjects.main_window.generate_frames_quaternion_rotation)\n"
+            "self.button_file_run_script.clicked.connect(Config.ObjectDirectory.main_window.generate_frames_quaternion_rotation)\n"
             "\n"
             "Method : MainWindow::generate_frames_quaternion_rotation\n"
             "========================================================\n"
@@ -164,5 +164,5 @@ class PanelRunScript(QWidget):
 
         self.button_file_select.clicked.connect(self._select_file)
         # self.button_apply.clicked.connect(self._apply_settings)
-        self.button_file_run_script.clicked.connect(Config.ServiceObjects.main_window.generate_frames_quaternion_rotation)
+        self.button_file_run_script.clicked.connect(Config.ObjectDirectory.object_directory.main_window.generate_frames_quaternion_rotation)
         self.button_exit.clicked.connect(self.close)

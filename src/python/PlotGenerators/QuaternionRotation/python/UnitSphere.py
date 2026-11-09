@@ -1,7 +1,11 @@
 import sys
+import logging
 
 import numpy as np
 import matplotlib.pyplot as plt
+
+
+logger = logging.getLogger(__name__)
 
 
 class UnitSphere :
@@ -270,11 +274,11 @@ class UnitSphere :
         self._radius               = radius
         self._color_sphere_surface = color_sphere_surface
 
-        print(nameMethod + "////////////////////////////////////////")
-        print(nameMethod + "////////////////////////////////////////")
-        print(nameMethod + " : radius = " + str(radius))
-        print(nameMethod + "////////////////////////////////////////")
-        print(nameMethod + "////////////////////////////////////////")
+        logger.debug(nameMethod + "////////////////////////////////////////")
+        logger.debug(nameMethod + "////////////////////////////////////////")
+        logger.debug(nameMethod + " : radius = " + str(radius))
+        logger.debug(nameMethod + "////////////////////////////////////////")
+        logger.debug(nameMethod + "////////////////////////////////////////")
 
         # Only proceed if all the necessary attributes are set.
 
@@ -306,7 +310,7 @@ class UnitSphere :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # ----------------------------
         # Plot the unit sphere.
@@ -361,7 +365,7 @@ class UnitSphere :
                 cstride=4
             )
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def _clear_sphere_wire_frame(self) :

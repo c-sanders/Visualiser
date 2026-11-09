@@ -42,7 +42,7 @@ import (
 
 from PIL import Image
 
-import Config.ServiceObjects
+import Config.ObjectDirectory
 import Config.SettingsConfig
 import Workers.Worker_PortListen
 import Workers.Worker_UpdatePanels
@@ -65,13 +65,11 @@ MainWindow \
 
     def __init__(self, parent=None):
 
-        if Config.ServiceObjects.main_window is not None:
+        if Config.ObjectDirectory.object_directory is None:
 
-            raise Exception("It looks like a main window already exists.")
+            raise Exception("The service objects directory doesn't appear to exist.")
 
-        else:
-
-            Config.ServiceObjects.main_window = self
+        Config.ObjectDirectory.object_directory.main_window = self
 
         super().__init__(parent)
 
@@ -88,7 +86,7 @@ MainWindow \
 
         self._configure_terminal()
 
-        self.diagnostics.set_terminal(self.panel_frame_terminal.panel_terminal.terminal)
+        # self.diagnostics.set_terminal(self.panel_frame_terminal.panel_terminal.terminal)
 
         if self.run_diagnostic_code:
 
@@ -108,8 +106,8 @@ MainWindow \
 
     def _configure_terminal(self):
 
-        font         = Config.ServiceObjects.settings_config.font_size
-        color_scheme = Config.ServiceObjects.settings_config.color_scheme
+        font         = Config.ObjectDirectory.object_directory.settings_config.font_size
+        color_scheme = Config.ObjectDirectory.object_directory.settings_config.color_scheme
 
         self.panel_frame_terminal.panel_terminal.terminal.setTerminalFont(QFont("Monospace", font))
         self.panel_frame_terminal.panel_terminal.terminal.setColorScheme(color_scheme)
@@ -127,14 +125,14 @@ MainWindow \
         print("font_size                                            = " + str(self.settings.value("font_size", 14, type=int)))
         print("color_scheme                                         = " + str(self.settings.value("color_scheme", "Linux", type=str)))
         print("----------------------------------------")
-        print("ServiceObjects.settings_config.save_settings_on_exit = " + str(Config.ServiceObjects.settings_config.save_settings_on_exit))
-        print("ServiceObjects.settings_config.font_size             = " + str(Config.ServiceObjects.settings_config.font_size))
-        print("ServiceObjects.settings_config.color_scheme          = " + str(Config.ServiceObjects.settings_config.color_scheme))
+        print("Config.ObjectDirectory.object_directory.settings_config.save_settings_on_exit = " + str(Config.ObjectDirectory.oject_directory.settings_config.save_settings_on_exit))
+        print("Config.ObjectDirectory.object_directory.settings_config.font_size             = " + str(Config.ObjectDirectory.oject_directory.settings_config.font_size))
+        print("Config.ObjectDirectory.object_directory.settings_config.color_scheme          = " + str(Config.ObjectDirectory.oject_directory.settings_config.color_scheme))
         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
-        self.settings.setValue("save_settings_on_exit", Config.ServiceObjects.settings_config.save_settings_on_exit)
-        self.settings.setValue("font_size",             Config.ServiceObjects.settings_config.font_size)
-        self.settings.setValue("color_scheme",          Config.ServiceObjects.settings_config.color_scheme)
+        self.settings.setValue("save_settings_on_exit", Config.ObjectDirectory.oject_directory.settings_config.save_settings_on_exit)
+        self.settings.setValue("font_size",             Config.ObjectDirectory.oject_directory.settings_config.font_size)
+        self.settings.setValue("color_scheme",          Config.ObjectDirectory.oject_directory.settings_config.color_scheme)
 
         self.settings.sync()
 
@@ -159,23 +157,23 @@ MainWindow \
 
     def _read_settings_from_config_file(self):
 
-        Config.ServiceObjects.settings_config = Config.SettingsConfig.SettingsConfig()
+        Config.ObjectDirectory.object_directory.settings_config = Config.SettingsConfig.SettingsConfig()
 
 
         print("MainWindow::_read_settings_from_config_file : Enter")
 
-        Config.ServiceObjects.settings_config.save_settings_on_exit = str(self.settings.value("save_settings_on_exit", True, type=bool))
-        Config.ServiceObjects.settings_config.font_size             = int(self.settings.value("font_size", 14, type=int))
-        Config.ServiceObjects.settings_config.color_scheme          = str(self.settings.value("color_scheme", "Linux", type=str))
+        Config.ObjectDirectory.object_directory.settings_config.save_settings_on_exit = str(self.settings.value("save_settings_on_exit", True, type=bool))
+        Config.ObjectDirectory.object_directory.settings_config.font_size             = int(self.settings.value("font_size", 14, type=int))
+        Config.ObjectDirectory.object_directory.settings_config.color_scheme          = str(self.settings.value("color_scheme", "Linux", type=str))
 
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         print("save_settings_on_exit                                = " + str(self.settings.value("save_settings_on_exit", True, type=bool)))
         print("font_size                                            = " + str(self.settings.value("font_size", 14, type=int)))
         print("color_scheme                                         = " + str(self.settings.value("color_scheme", "Linux", type=str)))
         print("----------------------------------------")
-        print("Config.ServiceObjects.settings_config.save_settings_on_exit = " + str(Config.ServiceObjects.settings_config.save_settings_on_exit))
-        print("Config.ServiceObjects.settings_config.font_size             = " + str(Config.ServiceObjects.settings_config.font_size))
-        print("Config.ServiceObjects.settings_config.color_scheme          = " + str(Config.ServiceObjects.settings_config.color_scheme))
+        print("Config.ObjectDirectory.object_directory.settings_config.save_settings_on_exit = " + str(Config.ObjectDirectory.object_directory.settings_config.save_settings_on_exit))
+        print("Config.ObjectDirectory.object_directory.settings_config.font_size             = " + str(Config.ObjectDirectory.object_directory.settings_config.font_size))
+        print("Config.ObjectDirectory.object_directory.settings_config.color_scheme          = " + str(Config.ObjectDirectory.object_directory.settings_config.color_scheme))
         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
 
@@ -204,6 +202,9 @@ MainWindow \
         self.panel_display_data_plot  = PanelData_Plot()
         self.panel_frame_terminal     = PanelFrameTerminal()
         self.panel_display_code       = ScintillaEdit()
+
+        Config.ObjectDirectory.object_directory.panel_frame_terminal = self.panel_frame_terminal
+        Config.ObjectDirectory.object_directory.terminal             = self.panel_frame_terminal.panel_terminal.terminal
 
         # Populate the editor with some Python code.
         self.panel_display_code.setText(
@@ -436,9 +437,9 @@ MainWindow \
 
         print(nameMethod + " : Enter")
 
-        print(nameMethod + " : Config.SettingsConfig.SettingsConfig.command_build_latex_slides = " + str(Config.ServiceObjects.settings_config.command_build_latex_slides))
+        print(nameMethod + " : Config.SettingsConfig.SettingsConfig.command_build_latex_slides = " + str(Config.ObjectDirectory.object_directory.settings_config.command_build_latex_slides))
 
-        self.panel_frame_terminal.panel_terminal.terminal.sendText(Config.ServiceObjects.settings_config.command_build_latex_slides)
+        self.panel_frame_terminal.panel_terminal.terminal.sendText(Config.ObjectDirectory.object_directory.settings_config.command_build_latex_slides)
 
         print(nameMethod + " : Exit")
 

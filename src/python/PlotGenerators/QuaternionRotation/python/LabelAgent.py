@@ -1,9 +1,13 @@
 import sys
+import logging
 
 from   matplotlib.lines  import Line2D
 
 import GlobalSettings
 import Utils
+
+
+logger = logging.getLogger(__name__)
 
 
 class LabelAgent :
@@ -17,7 +21,7 @@ class LabelAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self.plotting_agent = plotting_agent
         self._axis          = axis_plot
@@ -42,7 +46,7 @@ class LabelAgent :
         self._label_viewing_angle_elevation         = ""
         self._label_viewing_angle_elevation_delta   = ""
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : _add_labels_to_plot
@@ -52,28 +56,28 @@ class LabelAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         label_quaternion_axis_rotation = Utils.generate_string(self.plotting_agent.quaternion_data.quaternion_axis_rotation.w,
                                                                self.plotting_agent.quaternion_data.quaternion_axis_rotation.x,
                                                                self.plotting_agent.quaternion_data.quaternion_axis_rotation.y,
                                                                self.plotting_agent.quaternion_data.quaternion_axis_rotation.z)
 
-        print(nameMethod + " : MARKER 0")
+        logger.debug(nameMethod + " : MARKER 0")
 
         label_quaternion_to_rotate     = Utils.generate_string(self.plotting_agent.quaternion_data.quaternion_to_rotate.w,
                                                                self.plotting_agent.quaternion_data.quaternion_to_rotate.x,
                                                                self.plotting_agent.quaternion_data.quaternion_to_rotate.y,
                                                                self.plotting_agent.quaternion_data.quaternion_to_rotate.z)
 
-        print(nameMethod + " : MARKER 1")
+        logger.debug(nameMethod + " : MARKER 1")
 
         label_quaternion_pre_multiply  = Utils.generate_string(self.plotting_agent.quaternion_data.quaternion_pre_multiply.w,
                                                                self.plotting_agent.quaternion_data.quaternion_pre_multiply.x,
                                                                self.plotting_agent.quaternion_data.quaternion_pre_multiply.y,
                                                                self.plotting_agent.quaternion_data.quaternion_pre_multiply.z)
 
-        print(nameMethod + " : MARKER 2")
+        logger.debug(nameMethod + " : MARKER 2")
 
         label_quaternion_rotated       = Utils.generate_string(self.plotting_agent.quaternion_data.quaternion_rotated.w,
                                                                self.plotting_agent.quaternion_data.quaternion_rotated.x,
@@ -85,7 +89,7 @@ class LabelAgent :
         label_quaternion_pre_multiply_min = Utils.format_component("", False, self.plotting_agent.quaternion_data.quaternion_pre_multiply_min)
         label_quaternion_pre_multiply_max = Utils.format_component("", False, self.plotting_agent.quaternion_data.quaternion_pre_multiply_max)
 
-        print(nameMethod + " : MARKER 2")
+        logger.debug(nameMethod + " : MARKER 2")
 
         self._label_quaternion_axis_rotation        = f"Axis of rotation (q)      : " + label_quaternion_axis_rotation
         self._label_quaternion_to_rotate            = f"Quaternion to rotate (v)  : " + label_quaternion_to_rotate
@@ -103,7 +107,7 @@ class LabelAgent :
         self._label_viewing_angle_elevation         = f"  - Elevation             =   {self.plotting_agent._elevation_view:4.1f} degrees"
         self._label_viewing_angle_elevation_delta   = f"  - Elevation $\Delta\;\:$          =   {self.plotting_agent._elevation_view_delta:4.1f} degrees"
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : generate_plot
@@ -116,7 +120,7 @@ class LabelAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # If exceptions are enabled for this method and the plot title is already set, then have this method raise an
         # exception.
@@ -222,16 +226,16 @@ class LabelAgent :
             #     1.0  # value
             # )
 
-            # print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            # print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            # print(nameMethod + f" : About to set legend color to = <{hue_value:f}, 1.0, 1.0>")
-            # print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            # print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            # logger.debug(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            # logger.debug(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            # logger.debug(nameMethod + f" : About to set legend color to = <{hue_value:f}, 1.0, 1.0>")
+            # logger.debug(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            # logger.debug(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
             # self._plot_handle_legend.get_texts()[1].set_color(self.plotting_agent.color_agent.get_rgb_value_minimum)
             # self._plot_handle_legend.get_texts()[2].set_color(self.plotting_agent.color_agent.get_rgb_value_maximum)
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by :
@@ -245,15 +249,15 @@ class LabelAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self._generate_labels_legend()
 
-        print(nameMethod + " : MARKER 0")
+        logger.debug(nameMethod + " : MARKER 0")
 
         self._generate_labels_vector_tips()
 
-        print(nameMethod + " : MARKER 1")
+        logger.debug(nameMethod + " : MARKER 1")
 
         self._add_axis_labels_to_plot()
 
@@ -275,7 +279,7 @@ class LabelAgent :
         #     color="magenta"
         # )
 
-        print(nameMethod + " : Exivt")
+        logger.debug(nameMethod + " : Exivt")
 
 
     # Invoked by : _add_labels_to_plot
@@ -285,7 +289,7 @@ class LabelAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # Label vector tip
 
@@ -298,7 +302,7 @@ class LabelAgent :
         # label_quaternion_to_rotate_tip = f"Vector     : 0.000 + i{quaternion_to_rotate[0]:.3f} + j{quaternion_to_rotate[1]:.3f} + k{quaternion_to_rotate[2]:.3f}"
         # label_vector_c_tip = f"Partial    : {quaternion[0]:.3f} + i{quaternion[1]:.3f} + j{quaternion[2]:.3f} + k{quaternion[3]:.3f}"
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : _add_labels_to_plot
@@ -308,7 +312,7 @@ class LabelAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self._axis.text(
             1.3, 0, 0,
@@ -328,7 +332,7 @@ class LabelAgent :
             color="black"
         )
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : generate_plot
@@ -338,7 +342,7 @@ class LabelAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # if (
         #     (raise_if_set) and
@@ -351,7 +355,7 @@ class LabelAgent :
 
         w = Utils.format_component("", False, self.plotting_agent.quaternion_data.quaternion_pre_multiply.w)
 
-        print(nameMethod + " : MARKER 0")
+        logger.debug(nameMethod + " : MARKER 0")
 
         # local_string = f"Hue = {self._hue_value:.3f}"
 
@@ -369,7 +373,7 @@ class LabelAgent :
 
             title_sub_plot = f"$w={w} -$"
 
-        print(nameMethod + " : MARKER 1")
+        logger.debug(nameMethod + " : MARKER 1")
 
         radius = 1 - (self.plotting_agent.quaternion_data.quaternion_pre_multiply.w ** 2)
 
@@ -380,7 +384,7 @@ class LabelAgent :
         #     fontsize=14
         # )
 
-        print(nameMethod + " : MARKER 2")
+        logger.debug(nameMethod + " : MARKER 2")
 
         self._plot_handle_text = self._axis.text2D(
                                                    0.5, -0.12,
@@ -391,7 +395,7 @@ class LabelAgent :
                                                    fontsize=14
                                                   )
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def delete_artifacts(self) :
@@ -399,13 +403,13 @@ class LabelAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        print(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-        print(nameMethod + " : Enter")
-        print(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        print(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        logger.debug(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        logger.debug(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        logger.debug(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        logger.debug(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
 
         if self._plot_handle_title is not None :
 
@@ -417,11 +421,11 @@ class LabelAgent :
             self._plot_handle_text.remove()
             self._plot_handle_text = None
 
-        print(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        print(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-        print(nameMethod + " : Exit`")
-        print(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        print(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        logger.debug(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        logger.debug(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        logger.debug(nameMethod + " : Exit`")
+        logger.debug(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        logger.debug(nameMethod + " : &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
 

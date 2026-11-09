@@ -1,10 +1,14 @@
 import sys
+import logging
 
 from   matplotlib.colors import LinearSegmentedColormap
 from   matplotlib.colors import Normalize
 from   matplotlib.cm     import ScalarMappable
 
 import GlobalSettings
+
+
+logger = logging.getLogger(__name__)
 
 
 my_colormap = LinearSegmentedColormap.from_list(
@@ -47,7 +51,7 @@ class ColorMapAgent :
         self._plot_handle_colormap_arrow_min              = None
         self._plot_handle_colormap_arrow_max              = None
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     # Invoked by : External clients
@@ -85,15 +89,15 @@ class ColorMapAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(nameMethod + " : Enter")
-        print(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        logger.debug(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        logger.debug(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        logger.debug(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        logger.debug(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
         if self._plot_handle_colormap_arrow is not None :
 
-            print(nameMethod + " : self._plot_handle_colormap_arrow is not None")
+            logger.debug(nameMethod + " : self._plot_handle_colormap_arrow is not None")
 
             self._plot_handle_colormap_arrow.remove()
             self._plot_handle_colormap_arrow = None
@@ -104,13 +108,13 @@ class ColorMapAgent :
         self._plot_handle_colormap_arrow_min = None
         self._plot_handle_colormap_arrow_max = None
 
-        print(nameMethod + " : self._plot_handle_colormap_arrow is None")
+        logger.debug(nameMethod + " : self._plot_handle_colormap_arrow is None")
 
-        print(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(nameMethod + " : Exit")
-        print(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        logger.debug(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        logger.debug(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        logger.debug(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        logger.debug(nameMethod + " : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
 
     # Invoked by : generate_plot
@@ -120,7 +124,7 @@ class ColorMapAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         # If an arrow currently points to the colorbar, then remove it.
         # Then place a new updated arrow next to the colorbar.
@@ -131,7 +135,7 @@ class ColorMapAgent :
         current_value_min = self._plotting_agent.quaternion_data.quaternion_pre_multiply_min
         current_value_max = self._plotting_agent.quaternion_data.quaternion_pre_multiply_max
 
-        print(nameMethod + " : MARKER 2")
+        logger.debug(nameMethod + " : MARKER 2")
 
         # Plot the arrows which are associated with the color bar.
         #
@@ -178,4 +182,4 @@ class ColorMapAgent :
             )
         )
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")

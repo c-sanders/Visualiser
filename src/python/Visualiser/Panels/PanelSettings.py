@@ -18,7 +18,7 @@ import (
        QFileDialog
        )
 
-import Config.ServiceObjects
+import Config.ObjectDirectory
 
 
 class PanelSettings(QWidget):
@@ -84,7 +84,7 @@ class PanelSettings(QWidget):
         self.layout_group_box.addWidget(self.label_font_size)
         self.layout_group_box.addWidget(self.font_size)
 
-        for scheme in Config.ServiceObjects.main_window.panel_frame_terminal.panel_terminal.terminal.availableColorSchemes():
+        for scheme in Config.ObjectDirectory.object_directory.terminal.availableColorSchemes():
 
             print("scheme: ", scheme)
 
@@ -143,10 +143,10 @@ class PanelSettings(QWidget):
         print(self.colour_scheme.currentText())
         print(self.font_size.currentText())
 
-        ServiceObjects.main_window.panel_display_terminal.panel_terminal.terminal.setColorScheme(self.colour_scheme.currentText())
-        ServiceObjects.main_window.panel_display_terminal.panel_terminal.terminal.setTerminalFont(self.font_size.currentText())
+        Config.ObjectDirectory.object_directory.terminal.setColorScheme(self.colour_scheme.currentText())
+        Config.ObjectDirectory.object_directory.terminal.setTerminalFont(self.font_size.currentText())
 
-        ServiceObjects.settings_config.font_size = int(self.font_size.currentText())
+        Config.ObjectDirectory.object_directory.settings_config.font_size = int(self.font_size.currentText())
 
 
     def _connect_signals_to_slots(self):
