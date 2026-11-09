@@ -1,8 +1,12 @@
 import sys
+import logging
 
 import GlobalSettings
 import DisplayUsage
 from   QuaternionManipulator import QuaternionManipulator
+
+
+logger = logging.getLogger(__name__)
 
 
 # main
@@ -21,12 +25,12 @@ def main() :
     quaternion_manipulator = QuaternionManipulator()
 
 
-    print(nameMethod + " : Enter")
+    logger.debug(nameMethod + " : Enter")
 
     try :
 
-        print(nameMethod + " : Number of arguments: " + str(len(sys.argv)))
-        print(nameMethod + " : Arguments = " + str(sys.argv))
+        logger.debug(nameMethod + " : Number of arguments: " + str(len(sys.argv)))
+        logger.debug(nameMethod + " : Arguments = " + str(sys.argv))
 
         if len(sys.argv) != 10 :
 
@@ -40,7 +44,7 @@ def main() :
 
         DisplayUsage.display_exception(e)
 
-    print(nameMethod + " : Exit")
+    logger.debug(nameMethod + " : Exit")
 
 
 if __name__ == "__main__":

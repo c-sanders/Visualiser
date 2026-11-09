@@ -125,14 +125,14 @@ MainWindow \
         print("font_size                                            = " + str(self.settings.value("font_size", 14, type=int)))
         print("color_scheme                                         = " + str(self.settings.value("color_scheme", "Linux", type=str)))
         print("----------------------------------------")
-        print("Config.ObjectDirectory.object_directory.settings_config.save_settings_on_exit = " + str(Config.ObjectDirectory.oject_directory.settings_config.save_settings_on_exit))
-        print("Config.ObjectDirectory.object_directory.settings_config.font_size             = " + str(Config.ObjectDirectory.oject_directory.settings_config.font_size))
-        print("Config.ObjectDirectory.object_directory.settings_config.color_scheme          = " + str(Config.ObjectDirectory.oject_directory.settings_config.color_scheme))
+        print("Config.ObjectDirectory.object_directory.settings_config.save_settings_on_exit = " + str(Config.ObjectDirectory.object_directory.settings_config.save_settings_on_exit))
+        print("Config.ObjectDirectory.object_directory.settings_config.font_size             = " + str(Config.ObjectDirectory.object_directory.settings_config.font_size))
+        print("Config.ObjectDirectory.object_directory.settings_config.color_scheme          = " + str(Config.ObjectDirectory.object_directory.settings_config.color_scheme))
         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
-        self.settings.setValue("save_settings_on_exit", Config.ObjectDirectory.oject_directory.settings_config.save_settings_on_exit)
-        self.settings.setValue("font_size",             Config.ObjectDirectory.oject_directory.settings_config.font_size)
-        self.settings.setValue("color_scheme",          Config.ObjectDirectory.oject_directory.settings_config.color_scheme)
+        self.settings.setValue("save_settings_on_exit", Config.ObjectDirectory.object_directory.settings_config.save_settings_on_exit)
+        self.settings.setValue("font_size",             Config.ObjectDirectory.object_directory.settings_config.font_size)
+        self.settings.setValue("color_scheme",          Config.ObjectDirectory.object_directory.settings_config.color_scheme)
 
         self.settings.sync()
 

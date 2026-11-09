@@ -87,12 +87,13 @@ class PanelRunScript(QWidget):
 
         self.script_combobox     = QComboBox()
 
-        self.label_file_list     = QLabel("File list")
+        self.label_file_list     = QLabel("Script to generates frames for")
         self.layout_file_list    = QHBoxLayout()
         self.file_list           = QLineEdit()
         self.button_file_select  = QPushButton("Select")
 
-        self.button_file_run_script = QPushButton("Run script")
+        self.button_file_run_script  = QPushButton("Run script")
+        self.button_file_stop_script = QPushButton("Stop script")
 
         self.layout_buttons_top  = QHBoxLayout()
         self.layout_buttons      = QHBoxLayout()
@@ -117,7 +118,8 @@ class PanelRunScript(QWidget):
         self.layout_group_box.addLayout(self.layout_buttons_top)
 
         self.layout_buttons_top.addStretch(1)
-        self.layout_buttons_top.addWidget(self.button_file_run_script, Qt.AlignCenter)
+        self.layout_buttons_top.addWidget(self.button_file_run_script,  Qt.AlignCenter)
+        self.layout_buttons_top.addWidget(self.button_file_stop_script, Qt.AlignCenter)
         self.layout_buttons_top.addStretch(1)
 
         self.layout_group_box.addWidget(self.label_overview)
@@ -125,6 +127,9 @@ class PanelRunScript(QWidget):
         self.button_file_run_script.setFixedSize(120, 35)
         self.button_file_run_script.setShortcut("Ctrl+R")
         self.button_file_run_script.setToolTip("Press Ctrl+R to run the script")
+        self.button_file_stop_script.setFixedSize(120, 35)
+        # self.button_file_stop_script.setShortcut("Ctrl+R")
+        self.button_file_stop_script.setToolTip("Stop a script if one is currently running")
 
         # self.layout_file_list.addWidget(self.file_list)
         # self.layout_file_list.addWidget(self.button_file_select)

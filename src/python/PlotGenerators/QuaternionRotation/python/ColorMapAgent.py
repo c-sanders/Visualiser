@@ -36,7 +36,7 @@ class ColorMapAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         self._plotting_agent = plotting_agent
         self._axis           = axis_plot

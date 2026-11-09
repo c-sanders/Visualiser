@@ -81,7 +81,7 @@ class QuaternionManipulator :
         nameMethod  = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.critical(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         run_from_command_line = False
 
@@ -352,6 +352,8 @@ class QuaternionManipulator :
             self.plottingAgent.generate_plot(filename)
 
             # self.terminal.sendText("Generated file : " + filename + " &> /dev/null\n")
+
+            print("Generated file : " + filename)
 
             self._update_loop_parameters()
 
