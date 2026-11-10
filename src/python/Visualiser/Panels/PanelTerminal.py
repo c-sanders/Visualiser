@@ -105,7 +105,7 @@ class PanelTerminal(QFrame):
         print("Available colour schemes:")
         print(self.terminal.availableColorSchemes())
 
-        # self.terminal.setEnabled(not self.read_only.isChecked())
+        self.terminal.setEnabled(not Config.ObjectDirectory.object_directory.settings_config.terminal_is_read_only)
 
         font = QFont("Monospace")
         font.setStyleHint(QFont.StyleHint.Monospace)

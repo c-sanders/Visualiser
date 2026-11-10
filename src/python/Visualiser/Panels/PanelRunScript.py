@@ -1,6 +1,10 @@
+import sys
+import logging
+
 from   PySide6.QtCore \
 import (
        Qt,
+       QThread,
        Slot
        )
 from   PySide6.QtGui \
@@ -22,7 +26,8 @@ import (
        QFileDialog
        )
 
-import Config.ObjectDirectory
+# import Config.ObjectDirectory
+import Workers.Worker_GenerateFrames_QuaternionRotation
 
 
 class PanelRunScript(QWidget):
@@ -86,8 +91,10 @@ class PanelRunScript(QWidget):
         self.text_edit.setReadOnly(True)
 
         self.script_combobox     = QComboBox()
+        self.debug_combobox      = QComboBox()
 
-        self.label_file_list     = QLabel("Script to generates frames for")
+        self.label_file_list     = QLabel("Frame generating script")
+        self.label_logging_level = QLabel("Script logging level")
         self.layout_file_list    = QHBoxLayout()
         self.file_list           = QLineEdit()
         self.button_file_select  = QPushButton("Select")
@@ -110,10 +117,19 @@ class PanelRunScript(QWidget):
 
         self.layout_group_box.addWidget(self.label_file_list)
         self.layout_group_box.addWidget(self.script_combobox)
+        self.layout_group_box.addWidget(self.label_logging_level)
+        self.layout_group_box.addWidget(self.debug_combobox)
 
-        self.script_combobox.addItem("Quaternion rotation")
+        self.script_combobox.addItem("Quaternion rotation  :  ./src/python/PlotGenerators/QuaternionRotation/generate_plot_frames.sh")
         self.script_combobox.addItem("Euler's formula flyaround")
         self.script_combobox.addItem("Euler's formula flyaround for varying base")
+
+        self.debug_combobox.addItems(["DEBUG",
+                                      "INFO",
+                                      "WARNING",
+                                      "ERROR",
+                                      "CRITICAL",
+                                      "NOTSET"])
 
         self.layout_group_box.addLayout(self.layout_buttons_top)
 
@@ -126,7 +142,7 @@ class PanelRunScript(QWidget):
         self.layout_group_box.addWidget(self.text_edit)
         self.button_file_run_script.setFixedSize(120, 35)
         self.button_file_run_script.setShortcut("Ctrl+R")
-        self.button_file_run_script.setToolTip("Press Ctrl+R to run the script")
+        self.button_file_run_script.setToolTip("Press Ctrl+R to run the selected script")
         self.button_file_stop_script.setFixedSize(120, 35)
         # self.button_file_stop_script.setShortcut("Ctrl+R")
         self.button_file_stop_script.setToolTip("Stop a script if one is currently running")
@@ -165,9 +181,105 @@ class PanelRunScript(QWidget):
             self.file_list.setText(filename)
 
 
+    def generate_frames_quaternion_rotation(self):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Enter")
+
+        thread_current = QThread.currentThread()
+        print(nameMethod + " : Current thread = " + str(thread_current))
+        print(nameMethod + " : Current thread = " + thread_current.objectName())
+
+        # self.panel_frame_terminal.panel_terminal.terminal.sendText("echo \"In method : MainWindow::generate_frames_quaternion_rotation\"")
+
+        # Create a worker thread for this task and then start it running.
+
+        self.worker_thread = Workers.Worker_GenerateFrames_QuaternionRotation.Worker_GenerateFrames_QuaternionRotation()
+        self.worker_thread.start()
+
+        print(nameMethod + " : Exit")
+
+
+    def _update_logging_level(self, level_logging):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Enter")
+
+        logger = logging.getLogger()
+
+        logger.setLevel(level_logging)
+        level_logging = logger.getEffectiveLevel()
+
+        print(nameMethod + " : Current logging level = " + str(level_logging))
+
+        print(nameMethod + " : Exit")
+
+
+    def _debug_combobox_changed(self, index):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Enter")
+
+        print(nameMethod + " : Index = " + str(index))
+
+        # 0 = DEBUG
+        # 1 = INFO
+        # 2 = WARNING
+        # 3 = ERROR
+        # 4 = CRITICAL
+        # 5 = NOTSET
+
+        if index == 0:
+
+            print(nameMethod + " : Index = " + str(index) + " = DEBUG")
+            level_logging = logging.DEBUG
+
+        elif index == 1:
+
+            print(nameMethod + " : Index = " + str(index) + " = INFO")
+            level_logging = logging.INFO
+
+        elif index == 2:
+
+            print(nameMethod + " : Index = " + str(index) + " = WARNING")
+            level_logging = logging.WARNING
+
+        elif index == 3:
+
+            print(nameMethod + " : Index = " + str(index) + " = ERROR")
+            level_logging = logging.ERROR
+
+        elif index == 4:
+
+            print(nameMethod + " : Index = " + str(index) + " = CRITICAL")
+            level_logging = logging.CRITICAL
+
+        elif index == 5:
+
+            print(nameMethod + " : Index = " + str(index) + " = NOTSET")
+            level_logging = logging.NOTSET
+
+        else:
+
+            raise Exception("Invalid QComboBox index : " + str(index))
+
+        self._update_logging_level(level_logging)
+
+        print(nameMethod + " : Exit")
+
+
     def _connect_signals_to_slots(self):
 
         self.button_file_select.clicked.connect(self._select_file)
         # self.button_apply.clicked.connect(self._apply_settings)
-        self.button_file_run_script.clicked.connect(Config.ObjectDirectory.object_directory.main_window.generate_frames_quaternion_rotation)
+        # self.button_file_run_script.clicked.connect(Config.ObjectDirectory.object_directory.main_window.generate_frames_quaternion_rotation)
+        self.button_file_run_script.clicked.connect(self.generate_frames_quaternion_rotation)
         self.button_exit.clicked.connect(self.close)
+
+        self.debug_combobox.currentIndexChanged.connect(self._debug_combobox_changed)

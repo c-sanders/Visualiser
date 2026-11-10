@@ -12,7 +12,7 @@ import GlobalSettings
 from   PlottingAgent import PlottingAgent
 
 
-logging.basicConfig(level=logging.CRITICAL)
+# logging.basicConfig(level=logging.CRITICAL)
 logger = logging.getLogger(__name__)
 
 

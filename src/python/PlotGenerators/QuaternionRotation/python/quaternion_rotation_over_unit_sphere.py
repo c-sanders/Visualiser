@@ -20,25 +20,33 @@ logger = logging.getLogger(__name__)
 
 def main() :
 
-    nameMethod = "main"
-
+    nameMethod             = "::" + str(sys._getframe().f_code.co_name)
     quaternion_manipulator = QuaternionManipulator()
 
 
-    logger.debug(nameMethod + " : Enter")
+    # logger.debug(nameMethod + " : Enter")
 
     try :
 
         logger.debug(nameMethod + " : Number of arguments: " + str(len(sys.argv)))
         logger.debug(nameMethod + " : Arguments = " + str(sys.argv))
 
-        if len(sys.argv) != 10 :
+        if len(sys.argv) != 11 :
 
             DisplayUsage.display_usage()
 
-            raise ValueError("Exactly 10 arguments were not passed to this program from the command line.")
+            raise ValueError("Exactly 11 arguments were not passed to this program from the command line.")
 
-        quaternion_manipulator.run(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9])
+        level_logging = int(sys.argv[1])
+
+        # logger = logging.getLogger()
+
+        logger.setLevel(level_logging)
+        level_logging = logger.getEffectiveLevel()
+
+        print(nameMethod + " : Current logging level = " + str(level_logging))
+
+        quaternion_manipulator.run(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], sys.argv[10])
 
     except Exception as e :
 
