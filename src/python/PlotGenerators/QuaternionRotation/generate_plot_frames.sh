@@ -3,6 +3,8 @@
 PYTHON="/home/craig/local/source_code/python/sine_wave/venv/bin/python"
 PYTHON_FILE="./python/quaternion_rotation_over_unit_sphere.py"
 
+LOGGING_LEVEL=10
+
 
 if [[ ! -x "${PYTHON}" ]];
 then
@@ -22,4 +24,4 @@ then
 
 fi
 
-exec "${PYTHON}" "${PYTHON_FILE}" "False" "rotation" "0.577350" "0.577350" "0.577350" "720" "1" "0" "0"
+exec "${PYTHON}" "${PYTHON_FILE}" "${LOGGING_LEVEL}" "False" "rotation" "0.577350" "0.577350" "0.577350" "720" "1" "0" "0"

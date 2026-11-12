@@ -3,6 +3,7 @@ from   pathlib \
 import (
         Path
        )
+import logging
 
 from   PySide6.QtCore \
 import (
@@ -15,6 +16,9 @@ sys.path.append(str(shared_dir))
 
 import Config.ObjectDirectory
 import QuaternionManipulator
+
+
+logger = logging.getLogger(__file__)
 
 
 class Worker_GenerateFrames_QuaternionRotation(QThread):
@@ -49,9 +53,21 @@ class Worker_GenerateFrames_QuaternionRotation(QThread):
 
         if True:
 
-            command = "False", "rotation", "0.577350", "0.577350", "0.577350",  "720",  "1", "0", "0"
+            command = Config.SettingsConfig.settings.command_run_script + \
+                      str(logger.getEffectiveLevel()) + " " + \
+                      Config.SettingsConfig.settings.command_run_script_arguments + "\n"
 
-            command = "cd ./src/python/PlotGenerators/QuaternionRotation && ./generate_plot_frames.sh\n"
+            print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            print(nameMethod + " : command = " + command)
+            print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+
+            # command = "False", "rotation", "0.577350", "0.577350", "0.577350",  "720",  "1", "0", "0"
+
+            # command = "cd ./src/python/PlotGenerators/QuaternionRotation && ./generate_plot_frames.sh\n"
 
             # Config.ObjectDirectory.object_directory.terminal.sendText("echo \"BLAH!!!\"\n")
             # Config.ObjectDirectory.object_directory.terminal.sendText("pwd\n")

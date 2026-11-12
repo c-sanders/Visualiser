@@ -23,6 +23,10 @@ class QuaternionManipulator :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
+        level_logging = logger.getEffectiveLevel()
+
+        print(nameMethod + " : Current logging level = " + str(level_logging))
+
         self.title_plots  = "Rotating a vector (v) around a quaternion (q)."
 
         self.counter_loop = 0
@@ -81,6 +85,9 @@ class QuaternionManipulator :
         nameMethod  = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
+        print(nameMethod + " : Current logging level = " + str(logger.getEffectiveLevel()))
+        print(nameMethod + " : @-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-")
+
         logger.debug(nameMethod + " : Enter")
 
         run_from_command_line = False
@@ -106,6 +113,20 @@ class QuaternionManipulator :
         self._generate_plots()
 
         logger.critical(nameMethod + " : Exit")
+
+
+    def set_logging_level(self, level):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Enter")
+
+        logger.setLevel(level)
+
+        print(nameMethod + " : Logging level = " + str(logger.getEffectiveLevel()))
+
+        print(nameMethod + " : Exit")
 
 
     def _set_values_from_command_line_args(self) :
@@ -334,6 +355,67 @@ class QuaternionManipulator :
 
         logger.debug(nameMethod + " : Enter")
 
+        level_logging = logger.getEffectiveLevel()
+
+        if True:
+
+            logging.basicConfig(
+                level=logging.DEBUG,
+                format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+                datefmt="%H:%M:%S",
+                force=True
+            )
+
+            print(nameMethod + " : Current logging level = " + str(level_logging))
+            logger.debug(nameMethod + " : Current logging level = " + str(level_logging))
+
+            print("Logger name       :", logger.name)
+            print("Logger level      :", logging.getLevelName(logger.level))
+            print("Effective level   :", logging.getLevelName(logger.getEffectiveLevel()))
+            print("Logger disabled   :", logger.disabled)
+            print("Propagation       :", logger.propagate)
+
+            for handler in logger.handlers:
+                print("Handler           :", handler)
+                print("Handler level     :", logging.getLevelName(handler.level))
+
+            root_logger = logging.getLogger()
+
+            print("\nRoot logger level:",
+                  logging.getLevelName(root_logger.level))
+
+            print("Root handlers:")
+
+            for handler in root_logger.handlers:
+                print("Handler:", handler)
+                print("Handler level:",
+                      logging.getLevelName(handler.level))
+
+            logger_root = logging.getLogger()
+
+            level_logging_root  = logger_root.getEffectiveLevel()
+            level_logging_local = logger.getEffectiveLevel()
+
+            print(nameMethod + " : Root  effective logging level current = " + str(level_logging_root))
+            print(nameMethod + " : Local effective logging level current = " + str(level_logging_local))
+
+            print(nameMethod + " : Root  logging level current = " + str(logger_root.level))
+            print(nameMethod + " : Local logging level current = " + str(logger.level))
+
+
+            if level_logging_local < level_logging_root:
+
+                logger_root.setLevel(level_logging_local)
+
+            level_logging_root  = logger_root.getEffectiveLevel()
+            level_logging_local = logger.getEffectiveLevel()
+
+            print(nameMethod + " : Root  effective logging level current = " + str(level_logging_root))
+            print(nameMethod + " : Local effective logging level current = " + str(level_logging_local))
+            print(nameMethod + " : Root  logging level current = " + str(logger_root.level))
+            print(nameMethod + " : Local logging level current = " + str(logger.level))
+
+
         self.plottingAgent.set_view_initial(self.azimuth_view, self.elevation_view)
 
         while self.azimuth_view <= 720 :
@@ -354,6 +436,7 @@ class QuaternionManipulator :
             # self.terminal.sendText("Generated file : " + filename + " &> /dev/null\n")
 
             print("Generated file : " + filename)
+            logger.debug("Generated file : " + filename)
 
             self._update_loop_parameters()
 

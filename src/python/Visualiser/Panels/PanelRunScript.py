@@ -26,7 +26,7 @@ import (
        QFileDialog
        )
 
-# import Config.ObjectDirectory
+import Config.ObjectDirectory
 import Workers.Worker_GenerateFrames_QuaternionRotation
 
 
@@ -36,6 +36,8 @@ class PanelRunScript(QWidget):
 
         super().__init__(None)
 
+        self._setup_loggers()
+
         self._create_gui_components()
         self._configure_gui_components()
 
@@ -43,6 +45,22 @@ class PanelRunScript(QWidget):
         self.resize(1200, 500)
 
         self._connect_signals_to_slots()
+
+        level_logging = self.logger_root.getEffectiveLevel()
+
+
+    def _setup_loggers(self):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+        print(nameMethod + " : Enter")
+
+        self.logger_root = logging.getLogger()
+        self.logger_file = logging.getLogger(__file__)
+
+        level_logging = logging.getLevelName(self.logger_root.getEffectiveLevel())
+
+        print(nameMethod + " : Exit")
 
 
     def _create_gui_components(self):
@@ -109,6 +127,9 @@ class PanelRunScript(QWidget):
 
     def _configure_gui_components(self):
 
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
         self.setLayout(self.layout_top)
 
         self.layout_top.addWidget(self.group_box)
@@ -120,7 +141,7 @@ class PanelRunScript(QWidget):
         self.layout_group_box.addWidget(self.label_logging_level)
         self.layout_group_box.addWidget(self.debug_combobox)
 
-        self.script_combobox.addItem("Quaternion rotation  :  ./src/python/PlotGenerators/QuaternionRotation/generate_plot_frames.sh")
+        self.script_combobox.addItem("Quaternion rotation  :  " + Config.ObjectDirectory.object_directory.settings_config.file_generate_plot_frames)
         self.script_combobox.addItem("Euler's formula flyaround")
         self.script_combobox.addItem("Euler's formula flyaround for varying base")
 
@@ -130,6 +151,16 @@ class PanelRunScript(QWidget):
                                       "ERROR",
                                       "CRITICAL",
                                       "NOTSET"])
+
+        print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print(nameMethod + " : level_logging = " + level_logging)
+        print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
+        self.debug_combobox.setCurrentText(level_logging)
 
         self.layout_group_box.addLayout(self.layout_buttons_top)
 
@@ -209,12 +240,13 @@ class PanelRunScript(QWidget):
 
         print(nameMethod + " : Enter")
 
-        logger = logging.getLogger()
+        logger_root = logging.getLogger()
 
-        logger.setLevel(level_logging)
-        level_logging = logger.getEffectiveLevel()
+        logger_root.setLevel(level_logging)
+        level_logging = logger_root.getEffectiveLevel()
 
-        print(nameMethod + " : Current logging level = " + str(level_logging))
+        print(nameMethod + " : Root logger current level  = " + str(level_logging))
+        print(nameMethod + " : Local logger current level = " + str(logger.getEffectiveLevel()))
 
         print(nameMethod + " : Exit")
 

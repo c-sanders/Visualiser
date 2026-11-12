@@ -28,6 +28,9 @@ def main() :
 
     try :
 
+        print(nameMethod + " : Number of arguments: " + str(len(sys.argv)))
+        print(nameMethod + " : Arguments = " + str(sys.argv))
+
         logger.debug(nameMethod + " : Number of arguments: " + str(len(sys.argv)))
         logger.debug(nameMethod + " : Arguments = " + str(sys.argv))
 
@@ -45,6 +48,8 @@ def main() :
         level_logging = logger.getEffectiveLevel()
 
         print(nameMethod + " : Current logging level = " + str(level_logging))
+
+        quaternion_manipulator.set_logging_level(level_logging)
 
         quaternion_manipulator.run(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], sys.argv[10])
 
