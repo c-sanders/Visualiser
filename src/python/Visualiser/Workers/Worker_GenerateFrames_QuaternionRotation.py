@@ -53,9 +53,9 @@ class Worker_GenerateFrames_QuaternionRotation(QThread):
 
         if True:
 
-            command = Config.SettingsConfig.settings.command_run_script + \
+            command = Config.SettingsConfig.settings.command_generate_plot_frames + \
                       str(logger.getEffectiveLevel()) + " " + \
-                      Config.SettingsConfig.settings.command_run_script_arguments + "\n"
+                      Config.SettingsConfig.settings.arguments_generate_plot_frames + "\n"
 
             print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
             print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")

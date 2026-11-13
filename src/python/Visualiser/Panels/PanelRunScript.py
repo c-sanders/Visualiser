@@ -26,6 +26,7 @@ import (
        QFileDialog
        )
 
+import Logging.RootLoggerConfig
 import Config.ObjectDirectory
 import Workers.Worker_GenerateFrames_QuaternionRotation
 
@@ -36,7 +37,10 @@ class PanelRunScript(QWidget):
 
         super().__init__(None)
 
-        self._setup_loggers()
+        self.logger_config = Logging.RootLoggerConfig.RootLoggerConfig()
+
+        self.logger_root   = self.logger_config.get_logger_root()
+        self.logger_module = self.logger_config.get_logger_module(__name__)
 
         self._create_gui_components()
         self._configure_gui_components()
@@ -45,22 +49,6 @@ class PanelRunScript(QWidget):
         self.resize(1200, 500)
 
         self._connect_signals_to_slots()
-
-        level_logging = self.logger_root.getEffectiveLevel()
-
-
-    def _setup_loggers(self):
-
-        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
-
-        print(nameMethod + " : Enter")
-
-        self.logger_root = logging.getLogger()
-        self.logger_file = logging.getLogger(__file__)
-
-        level_logging = logging.getLevelName(self.logger_root.getEffectiveLevel())
-
-        print(nameMethod + " : Exit")
 
 
     def _create_gui_components(self):
@@ -119,6 +107,7 @@ class PanelRunScript(QWidget):
 
         self.button_file_run_script  = QPushButton("Run script")
         self.button_file_stop_script = QPushButton("Stop script")
+        self.button_display_logger_handlers = QPushButton("Handlers")
 
         self.layout_buttons_top  = QHBoxLayout()
         self.layout_buttons      = QHBoxLayout()
@@ -155,18 +144,19 @@ class PanelRunScript(QWidget):
         print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-        print(nameMethod + " : level_logging = " + level_logging)
+        print(nameMethod + " : self.level_logging = " + str(self.logger_root.getEffectiveLevel()))
         print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
-        self.debug_combobox.setCurrentText(level_logging)
+        self.debug_combobox.setCurrentText(logging.getLevelName(self.logger_root.getEffectiveLevel()))
 
         self.layout_group_box.addLayout(self.layout_buttons_top)
 
         self.layout_buttons_top.addStretch(1)
         self.layout_buttons_top.addWidget(self.button_file_run_script,  Qt.AlignCenter)
         self.layout_buttons_top.addWidget(self.button_file_stop_script, Qt.AlignCenter)
+        self.layout_buttons_top.addWidget(self.button_display_logger_handlers, Qt.AlignCenter)
         self.layout_buttons_top.addStretch(1)
 
         self.layout_group_box.addWidget(self.label_overview)
@@ -177,6 +167,9 @@ class PanelRunScript(QWidget):
         self.button_file_stop_script.setFixedSize(120, 35)
         # self.button_file_stop_script.setShortcut("Ctrl+R")
         self.button_file_stop_script.setToolTip("Stop a script if one is currently running")
+        self.button_display_logger_handlers.setFixedSize(120, 35)
+        self.button_display_logger_handlers.setShortcut("Ctrl+H")
+        # self.button_file_stop_script.setToolTip("Stop a script if one is currently running")
 
         # self.layout_file_list.addWidget(self.file_list)
         # self.layout_file_list.addWidget(self.button_file_select)
@@ -240,13 +233,13 @@ class PanelRunScript(QWidget):
 
         print(nameMethod + " : Enter")
 
-        logger_root = logging.getLogger()
+        self.logger_root = logging.getLogger()
 
-        logger_root.setLevel(level_logging)
-        level_logging = logger_root.getEffectiveLevel()
+        self.logger_root.setLevel(level_logging)
+        level_logging = self.logger_root.getEffectiveLevel()
 
         print(nameMethod + " : Root logger current level  = " + str(level_logging))
-        print(nameMethod + " : Local logger current level = " + str(logger.getEffectiveLevel()))
+        print(nameMethod + " : Local logger current level = " + str(self.logger_root.getEffectiveLevel()))
 
         print(nameMethod + " : Exit")
 
@@ -312,6 +305,7 @@ class PanelRunScript(QWidget):
         # self.button_apply.clicked.connect(self._apply_settings)
         # self.button_file_run_script.clicked.connect(Config.ObjectDirectory.object_directory.main_window.generate_frames_quaternion_rotation)
         self.button_file_run_script.clicked.connect(self.generate_frames_quaternion_rotation)
+        self.button_display_logger_handlers.clicked.connect(self.logger_config.print_message)
         self.button_exit.clicked.connect(self.close)
 
         self.debug_combobox.currentIndexChanged.connect(self._debug_combobox_changed)
