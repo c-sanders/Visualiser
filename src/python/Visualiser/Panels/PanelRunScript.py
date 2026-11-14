@@ -108,6 +108,10 @@ class PanelRunScript(QWidget):
         self.button_file_run_script  = QPushButton("Run script")
         self.button_file_stop_script = QPushButton("Stop script")
         self.button_display_logger_handlers = QPushButton("Handlers")
+        self.button_generate_log_debug      = QPushButton("DEBUG")
+        self.button_generate_log_info       = QPushButton("INFO")
+        self.button_generate_log_warning    = QPushButton("WARNING")
+        # self.button_display_logger_handlers = QPushButton("")
 
         self.layout_buttons_top  = QHBoxLayout()
         self.layout_buttons      = QHBoxLayout()
@@ -157,6 +161,9 @@ class PanelRunScript(QWidget):
         self.layout_buttons_top.addWidget(self.button_file_run_script,  Qt.AlignCenter)
         self.layout_buttons_top.addWidget(self.button_file_stop_script, Qt.AlignCenter)
         self.layout_buttons_top.addWidget(self.button_display_logger_handlers, Qt.AlignCenter)
+        self.layout_buttons_top.addWidget(self.button_generate_log_debug,      Qt.AlignCenter)
+        self.layout_buttons_top.addWidget(self.button_generate_log_info,       Qt.AlignCenter)
+        self.layout_buttons_top.addWidget(self.button_generate_log_warning,    Qt.AlignCenter)
         self.layout_buttons_top.addStretch(1)
 
         self.layout_group_box.addWidget(self.label_overview)
@@ -170,6 +177,9 @@ class PanelRunScript(QWidget):
         self.button_display_logger_handlers.setFixedSize(120, 35)
         self.button_display_logger_handlers.setShortcut("Ctrl+H")
         # self.button_file_stop_script.setToolTip("Stop a script if one is currently running")
+        self.button_generate_log_debug.setFixedSize(120, 35)
+        self.button_generate_log_info.setFixedSize(120, 35)
+        self.button_generate_log_warning.setFixedSize(120, 35)
 
         # self.layout_file_list.addWidget(self.file_list)
         # self.layout_file_list.addWidget(self.button_file_select)
@@ -299,6 +309,42 @@ class PanelRunScript(QWidget):
         print(nameMethod + " : Exit")
 
 
+    def _generate_log_debug(self):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Enter")
+
+        logging.debug("Test log message from method : " + nameMethod)
+
+        print(nameMethod + " : Exit")
+
+
+    def _generate_log_info(self):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Enter")
+
+        logging.debug("Test log message from method : " + nameMethod)
+
+        print(nameMethod + " : Exit")
+
+
+    def _generate_log_warning(self):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Enter")
+
+        logging.debug("Test log message from method : " + nameMethod)
+
+        print(nameMethod + " : Exit")
+
+
     def _connect_signals_to_slots(self):
 
         self.button_file_select.clicked.connect(self._select_file)
@@ -306,6 +352,9 @@ class PanelRunScript(QWidget):
         # self.button_file_run_script.clicked.connect(Config.ObjectDirectory.object_directory.main_window.generate_frames_quaternion_rotation)
         self.button_file_run_script.clicked.connect(self.generate_frames_quaternion_rotation)
         self.button_display_logger_handlers.clicked.connect(self.logger_config.print_message)
+        self.button_generate_log_debug.clicked.connect(self._generate_log_debug)
+        self.button_generate_log_info.clicked.connect(self._generate_log_info)
+        self.button_generate_log_warning.clicked.connect(self._generate_log_warning)
         self.button_exit.clicked.connect(self.close)
 
         self.debug_combobox.currentIndexChanged.connect(self._debug_combobox_changed)
