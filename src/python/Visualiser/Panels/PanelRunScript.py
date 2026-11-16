@@ -37,7 +37,7 @@ class PanelRunScript(QWidget):
 
         super().__init__(None)
 
-        self.logger_config = Logging.RootLoggerConfig.RootLoggerConfig()
+        self.logger_config = Logging.RootLoggerConfig.RootLoggerConfig(logging.INFO)
 
         self.logger_root   = self.logger_config.get_logger_root()
         self.logger_module = self.logger_config.get_logger_module(__name__)
@@ -328,7 +328,7 @@ class PanelRunScript(QWidget):
 
         print(nameMethod + " : Enter")
 
-        logging.debug("Test log message from method : " + nameMethod)
+        logging.info("Test log message from method : " + nameMethod)
 
         print(nameMethod + " : Exit")
 
@@ -340,7 +340,7 @@ class PanelRunScript(QWidget):
 
         print(nameMethod + " : Enter")
 
-        logging.debug("Test log message from method : " + nameMethod)
+        logging.warning("Test log message from method : " + nameMethod)
 
         print(nameMethod + " : Exit")
 
