@@ -1,9 +1,12 @@
+import os
+import socket
+
 from   PySide6.QtCore \
 import (
         QThread
        )
 
-import socket
+import Config.ObjectDirectory
 
 
 class Worker_PortListen(QThread):
@@ -26,6 +29,9 @@ class Worker_PortListen(QThread):
 
 
     def run(self):
+
+        nameMethod = "Worker_PortListen::run"
+
 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
 
@@ -68,6 +74,39 @@ class Worker_PortListen(QThread):
                             # print("Label contents:", self.label.contentsRect())
                             # print("Image size:", image.size())
 
-                        if value == "q\n":
+                        elif value == "q\n":
 
                             print("Query with newline")
+
+                        elif value == "complete\n":
+
+                            # The frame generation operation appears to have completed.
+
+                            Config.ObjectDirectory.object_directory.panel_run_script.button_file_stop_script.setEnabled(False)
+                            Config.ObjectDirectory.object_directory.panel_run_script.button_file_start_script.setEnabled(True)
+
+                        else:
+
+                            # Assuming that the received data is a filename.
+
+                            if os.path.exists(value) :
+
+                                print("   Filename actually exists")
+
+                                # Maybe instruct;
+                                #
+                                #   - the GUI to load the frame
+                                #   - the GUI to take a screenshot of itself
+
+                                filename_base = os.path.basename(value)
+                                filename      = "./slides/screenshot_" + filename_base
+
+                                print(nameMethod + " : filename_base = " + filename_base)
+                                print(nameMethod + " : filename      = " + filename)
+
+                                pixmap = Config.ObjectDirectory.object_directory.main_window.grab()
+                                pixmap.save(filename)
+
+                            else :
+
+                                print("   Warning. Filename doesn't seem to exist")

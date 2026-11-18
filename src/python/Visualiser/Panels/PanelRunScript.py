@@ -50,6 +50,8 @@ class PanelRunScript(QWidget):
 
         self._connect_signals_to_slots()
 
+        Config.ObjectDirectory.object_directory.panel_run_script = self
+
 
     def _create_gui_components(self):
 
@@ -172,7 +174,7 @@ class PanelRunScript(QWidget):
         self.button_file_run_script.setShortcut("Ctrl+R")
         self.button_file_run_script.setToolTip("Press Ctrl+R to run the selected script")
         self.button_file_stop_script.setFixedSize(120, 35)
-        # self.button_file_stop_script.setShortcut("Ctrl+R")
+        self.button_file_stop_script.setShortcut("Ctrl+S")
         self.button_file_stop_script.setToolTip("Stop a script if one is currently running")
         self.button_display_logger_handlers.setFixedSize(120, 35)
         self.button_display_logger_handlers.setShortcut("Ctrl+H")
@@ -180,6 +182,8 @@ class PanelRunScript(QWidget):
         self.button_generate_log_debug.setFixedSize(120, 35)
         self.button_generate_log_info.setFixedSize(120, 35)
         self.button_generate_log_warning.setFixedSize(120, 35)
+
+        self.button_file_stop_script.setEnabled(False)
 
         # self.layout_file_list.addWidget(self.file_list)
         # self.layout_file_list.addWidget(self.button_file_select)
@@ -221,6 +225,11 @@ class PanelRunScript(QWidget):
 
 
         print(nameMethod + " : Enter")
+
+        # Disable the Run Script button, so that it can't be called whilst it is already running.
+
+        self.button_file_run_script.setEnabled(False)
+        self.button_file_stop_script.setEnabled(True)
 
         thread_current = QThread.currentThread()
         print(nameMethod + " : Current thread = " + str(thread_current))

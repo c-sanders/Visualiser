@@ -2,6 +2,10 @@ class SettingsConfig:
 
     def __init__(self):
 
+        self.stdout                   = None
+        self.stdin                    = None
+        self.stderr                   = None
+
         self.raise_exception_on_error = True
         self.save_settings_on_exit    = None
         self.terminal_is_read_only    = True

@@ -1,4 +1,7 @@
 import sys
+import os
+import time
+import socket
 import math
 import subprocess
 import logging
@@ -25,7 +28,7 @@ class QuaternionManipulator :
 
         level_logging = logger.getEffectiveLevel()
 
-        print(nameMethod + " : Current logging level = " + str(level_logging))
+        logger.debug(nameMethod + " : Current logging level = " + str(level_logging))
 
         self.title_plots  = "Rotating a vector (v) around a quaternion (q)."
 
@@ -85,8 +88,8 @@ class QuaternionManipulator :
         nameMethod  = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Current logging level = " + str(logger.getEffectiveLevel()))
-        print(nameMethod + " : @-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-")
+        logger.debug(nameMethod + " : Current logging level = " + str(logger.getEffectiveLevel()))
+        logger.debug(nameMethod + " : @-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-")
 
         logger.debug(nameMethod + " : Enter")
 
@@ -98,21 +101,21 @@ class QuaternionManipulator :
 
         else:
 
-            self._setup_values_from_method_args( \
-                verbose_operation, \
-                operation_type, \
-                vector_x, \
-                vector_y, \
-                vector_z, \
-                angle_rotation, \
-                axis_x, \
-                axis_y, \
+            self._setup_values_from_method_args(
+                verbose_operation,
+                operation_type,
+                vector_x,
+                vector_y,
+                vector_z,
+                angle_rotation,
+                axis_x,
+                axis_y,
                 axis_z
             )
 
         self._generate_plots()
 
-        logger.critical(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def set_logging_level(self, level):
@@ -120,13 +123,13 @@ class QuaternionManipulator :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        print(nameMethod + " : Enter")
+        logger.debug(nameMethod + " : Enter")
 
         logger.setLevel(level)
 
-        print(nameMethod + " : Logging level = " + str(logger.getEffectiveLevel()))
+        logger.debug(nameMethod + " : Logging level = " + str(logger.getEffectiveLevel()))
 
-        print(nameMethod + " : Exit")
+        logger.debug(nameMethod + " : Exit")
 
 
     def _set_values_from_command_line_args(self) :
@@ -357,29 +360,47 @@ class QuaternionManipulator :
 
         self.plottingAgent.set_view_initial(self.azimuth_view, self.elevation_view)
 
-        while self.azimuth_view <= 720 :
+        print()
 
-            self._generate_plots_display_diagnostics()
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
-            filename = f"./rotation-{self.counter_loop:04d}.png"
+            s.connect(("127.0.0.1", 5000))
 
-            # - Perform the next batch of quaternion operations.
-            # - Update the Plotting agent with the results of this quaternion rotation.
-            # - Instruct the Plotting agent to generate the new plot.
+            # while self.azimuth_view <= 720 :
+            while self.azimuth_view <= (self.azimuth_view_start + 5):
 
-            self._perform_quaternion_operations()
-            self._update_plotting_agent()
+                self._generate_plots_display_diagnostics()
 
-            self.plottingAgent.generate_plot(filename)
+                # filename = f"{os.getcwd()}{GlobalSettings.sub_dir_slides_png:s}/rotation-{self.counter_loop:04d}.png"
+                filename = os.path.join(
+                    os.getcwd(),
+                    GlobalSettings.sub_dir_slides_png,
+                    f"rotation-{self.counter_loop:04d}.png"
+                )
 
-            # self.terminal.sendText("Generated file : " + filename + " &> /dev/null\n")
+                print("\r\033[K... Generating frame file : " + filename + " ", end="", flush=True)
 
-            print("Generated file : " + filename)
-            logger.info("Generated file : " + filename)
+                # - Perform the next batch of quaternion operations.
+                # - Update the Plotting agent with the results of this quaternion rotation.
+                # - Instruct the Plotting agent to generate the new plot.
 
-            self._update_loop_parameters()
+                self._perform_quaternion_operations()
+                self._update_plotting_agent()
 
-            logger.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-            # logger.debug()
+                self.plottingAgent.generate_plot(filename)
+
+                print("\r\033[K... Generating frame file : " + filename + " ... Done ", end="", flush=True)
+
+                # Send a message to the GUI, informing it that the file has been generated.
+
+                s.sendall(filename.encode("utf-8"))
+
+                time.sleep(2)
+
+                self._update_loop_parameters()
+
+            # Send a message to the GUI, informing it that this method has finished generating the plots.
+
+            s.sendall(b"Complete")
 
         logger.debug(nameMethod + " : Exit")

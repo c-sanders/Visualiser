@@ -16,6 +16,16 @@ import Config.SettingsConfig
 import Panels.MainWindow
 
 
+for path in sys.path:
+
+    print(path)
+
+# Save these in a global location so that the QTermWidget has access to them.
+
+Config.SettingsConfig.settings.stdout = sys.stdout
+Config.SettingsConfig.settings.stdin  = sys.stdin
+Config.SettingsConfig.settings.stderr = sys.stderr
+
 # --------------------------------------------------
 # Run the application
 # --------------------------------------------------

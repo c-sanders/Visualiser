@@ -1,12 +1,15 @@
 import sys
+import time
 import logging
 
-import GlobalSettings
+# from    ...Visualiser.Config     import SettingsConfig
 import DisplayUsage
-from   QuaternionManipulator import QuaternionManipulator
+from   QuaternionManipulator      import QuaternionManipulator
+# from   ..Logging.RootLoggerConfig import RootLoggerConfig
 
 
-logger = logging.getLogger(__name__)
+logger_root   = logging.getLogger()
+logger_module = logging.getLogger(__name__)
 
 
 # main
@@ -18,21 +21,33 @@ logger = logging.getLogger(__name__)
 #           |- VectorManipulator::generate_plot
 #                |- PlotAgent::generate_plot
 
+# This main function is invoked in a QTermWidget from the following method;
+#
+#   Worker_GenerateFrames_QuaternionRotation::run
+#
+# using the following command;
+#
+#   Config.ObjectDirectory.object_directory.terminal.sendText(command)
+
 def main() :
 
-    nameMethod             = "::" + str(sys._getframe().f_code.co_name)
+    nameMethod             = str(sys._getframe().f_code.co_name)
     quaternion_manipulator = QuaternionManipulator()
-
-
-    # logger.debug(nameMethod + " : Enter")
 
     try :
 
-        print(nameMethod + " : Number of arguments: " + str(len(sys.argv)))
-        print(nameMethod + " : Arguments = " + str(sys.argv))
+        setup_loggers()
+        display_config_loggers()
 
-        logger.debug(nameMethod + " : Number of arguments: " + str(len(sys.argv)))
-        logger.debug(nameMethod + " : Arguments = " + str(sys.argv))
+        logger_module.debug(nameMethod + " : Enter")
+        logger_module.debug(nameMethod + " : Python search path : ")
+
+        for dirname in sys.path:
+
+            logger_root.debug(nameMethod + " :    - " + dirname)
+
+        logger_module.debug(nameMethod + " : Number of arguments: " + str(len(sys.argv)))
+        logger_module.debug(nameMethod + " : Arguments = " + str(sys.argv))
 
         if len(sys.argv) != 11 :
 
@@ -40,24 +55,91 @@ def main() :
 
             raise ValueError("Exactly 11 arguments were not passed to this program from the command line.")
 
+        # Configure the root logger.
+
         level_logging = int(sys.argv[1])
 
-        # logger = logging.getLogger()
+        configure_loggers(level_logging)
 
-        logger.setLevel(level_logging)
-        level_logging = logger.getEffectiveLevel()
-
-        print(nameMethod + " : Current logging level = " + str(level_logging))
+        # logger_root.debug(nameMethod + " : About to sleep for 10 seconds - C")
+        # time.sleep(10)
 
         quaternion_manipulator.set_logging_level(level_logging)
 
-        quaternion_manipulator.run(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], sys.argv[10])
+        quaternion_manipulator.run(
+            sys.argv[2],
+            sys.argv[3],
+            sys.argv[4],
+            sys.argv[5],
+            sys.argv[6],
+            sys.argv[7],
+            sys.argv[8],
+            sys.argv[9],
+            sys.argv[10],
+        )
 
     except Exception as e :
 
         DisplayUsage.display_exception(e)
 
-    logger.debug(nameMethod + " : Exit")
+    logger_module.debug(nameMethod + " : <<<<< Exit >>>>>")
+
+
+def setup_loggers() :
+
+    nameMethod = str(sys._getframe().f_code.co_name)
+
+
+    # Set up the root logger and the module logger for this module/file.
+
+    # handler = logging.FileHandler(Config.SettingsConfig.settings.stdout)
+
+    handler_file = logging.FileHandler(
+        filename="application.log",
+        mode="a",
+        encoding="utf-8"
+    )
+
+    formatter = logging.Formatter(
+        fmt="%(asctime)s : %(name)s : %(levelname)s : %(message)s",
+        datefmt="%H:%M:%S"
+    )
+
+    handler_file.setLevel(logging.DEBUG)
+    handler_file.setFormatter(formatter)
+
+    logging.basicConfig(
+        level=logging.DEBUG,
+        handlers=[handler_file],
+        # format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        format="%(asctime)s :  %(message)s",
+        datefmt="%H:%M:%S",
+        force=True
+    )
+
+
+def display_config_loggers() :
+
+    nameMethod = str(sys._getframe().f_code.co_name)
+
+
+    logger_module.debug(nameMethod + " : Root logger level             = %s", logger_root.level)
+    logger_module.debug(nameMethod + " : Module logger level           = %s", logger_module.level)
+
+    logger_module.debug(nameMethod + " : Root logger effective level   = %s", str(logger_root.getEffectiveLevel()))
+    logger_module.debug(nameMethod + " : Module logger effective level = %s", str(logger_module.getEffectiveLevel()))
+
+
+def configure_loggers(level_logging) :
+
+    nameMethod = "::" + str(sys._getframe().f_code.co_name)
+
+
+    logger_root.setLevel(level_logging)
+
+    level_logging = logger_root.getEffectiveLevel()
+
+    logger_module.debug(nameMethod + " : New root logger logging level = " + str(level_logging))
 
 
 if __name__ == "__main__":

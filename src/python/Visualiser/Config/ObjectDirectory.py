@@ -10,6 +10,8 @@ class ObjectDirectory:
         panel_frame_terminal = None  # self.panel_frame_terminal
         terminal             = None  # self.panel_frame_terminal.panel_terminal.terminal
 
+        panel_run_script     = None
+
 
 # Create one shared global instance of this object.
 
