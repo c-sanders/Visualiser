@@ -401,6 +401,6 @@ class QuaternionManipulator :
 
             # Send a message to the GUI, informing it that this method has finished generating the plots.
 
-            s.sendall(b"Complete")
+            s.sendall(b"complete")
 
         logger.debug(nameMethod + " : Exit")

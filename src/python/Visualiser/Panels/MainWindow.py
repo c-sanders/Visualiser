@@ -1,7 +1,10 @@
 import sys
+import os
 import subprocess
 import json
 import time
+import shutil
+from   pathlib import Path
 
 from   PySide6.QtCore \
 import (
@@ -180,7 +183,7 @@ MainWindow \
     def _create_gui_components(self):
 
         self.menu_builder = MenuBar_MainWindow()
-        self.menu_builder.set_parent(self)
+        # self.menu_builder.set_parent(self)
 
         self.frame_top = QFrame(self)
         self.layout_top = QVBoxLayout(self.frame_top)
@@ -312,6 +315,18 @@ MainWindow \
     def start_worker_thread_port_listener(self):
 
         self.worker_port_listen = Workers.Worker_PortListen.Worker_PortListen(self.ip_address, self.tcp_port, self)
+
+        self.worker_port_listen.processing_new_file.connect \
+        (
+            # self.panel_frame_terminal.panel_display.update_plot
+            self._display_filename_in_field
+        )
+
+        self.worker_port_listen.processing_new_file.connect \
+        (
+            # self.panel_frame_terminal.panel_display.update_plot
+            self._configure_for_plot
+        )
 
         self.worker_port_listen.start()
 
@@ -451,30 +466,121 @@ MainWindow \
 
         print(nameMethod + " : Enter")
 
-        command = "pyreverse \
-                   -c Visualiser \
-                   -a 1 \
-                   -s 1 \
-                   -f ALL \
-                   -o html \
-                   src/python/Visualiser"
+        excludes = [
+            "./src/python/Visualiser/Visualiser.py",
+            "./src/python/PlotGenerators/QuaternionRotation/docs/conf.py",
+            "./src/python/PlotGenerators/QuaternionRotation/python/quaternion_rotation_over_unit_sphere.py",
+            "./src/python/PlotGenerators/QuaternionRotation/python/Utils.py",
+        ]
 
-        result = subprocess.run(
-            [
-             "pwd"
-            ],
-            capture_output=True,
-            text=True
-        )
+        command = [
+            "find", "./",
+            "-type", "d", "-path", "./src/python/Visualiser/old", "-prune",
+            "-o",
+            "-type", "f", "-name", "*.py",
+        ]
+        for path in excludes:
+
+            command += ["!", "-path", path]
+
+        # command.append("-print0")
+
+        print(nameMethod + " : command = " + str(command))
+
+        result = subprocess.run(command, capture_output=True, text=True, check=True)
 
         print("result = " + str(result.stdout))
 
-        if True:
+        for filename in result.stdout.strip().split("\n"):
+
+            print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+            print(nameMethod + " : filename = " + filename)
+
+            if "SubPlotAgent_UnitSphere.py" in filename:
+
+                print("========================================")
+                print("Not processing file : " + filename)
+                print("========================================")
+
+            else:
+
+                result = subprocess.run(
+                    [
+                        "./scripts/generate_uml_class_diagram_for_python_file.sh", filename
+                    ],
+                    capture_output=True,
+                    text=True
+                )
+
+                print("result = " + str(result.stdout))
+                print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+
+        if False:
+
+            command = "pyreverse \
+                       -c Visualiser \
+                       -a 1 \
+                       -s 1 \
+                       -f ALL \
+                       -o html \
+                       src/python/Visualiser"
+
+            # result = subprocess.run(
+            #     [
+            #      "pyreverse",
+            #      "-c", "Visualiser",
+            #      "-a", "1",
+            #      "-s", "1",
+            #      "-f", "ALL",
+            #      "-o", "html",
+            #      "src/python/Visualiser",
+            #     ],
+            #     capture_output=True,
+            #     text=True
+            # )
+
+            print(nameMethod + " : sys.executable = " + str(sys.executable))
+            print(nameMethod + " : pyreverse      = " + str(shutil.which("pyreverse")))
+            print(nameMethod + " : python         = " + str(shutil.which("python")))
+            print(nameMethod + " : pyreverse      = " + str(shutil.which("pyreverse")))
+
+            result = subprocess.run(
+                [
+                 "pyreverse",
+                 "-o", "html",
+                 "src/python/Visualiser/Visualiser.py",
+                ],
+                capture_output=True,
+                text=True
+            )
+
+            print(nameMethod + " : cwd = " + str(os.getcwd()))
+
+            print("result = " + str(result.stdout))
+
+        if False:
 
             files = [
-                     "./src/python/Visualiser/Visualiser.py",
-                     "./src/python/Visualiser/Panels/MenuBar_MainWindow.py",
-                     "./src/python/Visualiser/Panels/MainWindow.py"
+                "./src/python/Visualiser/Widgets/ColorBar.py",
+                "./src/python/Visualiser/Config/ObjectDirectory.py",
+                "./src/python/Visualiser/Config/SettingsConfig.py",
+                "./src/python/Visualiser/Logging/RootLoggerConfig.py",
+                "./src/python/Visualiser/Logging/Filter_ModuleNameEndsWith.py",
+                "./src/python/Visualiser/Logging/Filter_ModuleNameEquals.py",
+                "./src/python/Visualiser/Logging/Filter_LogLevel.py",
+                "./src/python/Visualiser/Workers/Worker_GenerateFrames_QuaternionRotation.py",
+                "./src/python/Visualiser/Workers/Worker_PortListen.py",
+                "./src/python/Visualiser/Workers/Worker_UpdatePanels.py",
+                "./src/python/Visualiser/Diagnostics/Diagnostics.py",
+                "./src/python/Visualiser/Panels/PanelRunScript.py",
+                "./src/python/Visualiser/Panels/MainWindow.py",
+                "./src/python/Visualiser/Panels/PanelData_Slide.py",
+                "./src/python/Visualiser/Panels/PanelTerminal.py",
+                "./src/python/Visualiser/Panels/PanelData_Plot.py",
+                "./src/python/Visualiser/Panels/PanelFrameTerminal.py",
+                "./src/python/Visualiser/Panels/MenuBar_MainWindow.py",
+                "./src/python/Visualiser/Panels/PanelSettings.py",
+                "./src/python/Visualiser/Panels/PanelFrame.py",
                      ]
 
             # "pyreverse",
@@ -493,21 +599,26 @@ MainWindow \
 
             for filename in files:
 
-                print("filename = " + filename)
+                print(nameMethod + " : filename = " + filename)
+
+                class_name = Path(filename).stem
+
+                print(nameMethod + " : Class name = " + class_name)
 
                 result = subprocess.run(
                     [
                         "pyreverse",
                         "-o", "html",
-                        # "-c", "MenuBar_MainWindow",
+                        "-c", class_name,
+                        "--output-directory=./images/UML_class_diagrams",
                         filename
                     ],
                     capture_output=True,
                     text=True
                 )
 
-                print("result stdout = " + str(result.stdout))
-                print("result stderr = " + str(result.stderr))
+                print(nameMethod + " : result stdout = " + str(result.stdout))
+                print(nameMethod + " : result stderr = " + str(result.stderr))
 
         print(nameMethod + " : Exit")
 

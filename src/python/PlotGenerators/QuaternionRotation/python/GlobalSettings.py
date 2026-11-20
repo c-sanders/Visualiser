@@ -32,5 +32,5 @@ image_dimensions_2x1 = (8, 10)
 image_dimensions_2x2 = (16, 14)
 
 image_dimensions     = image_dimensions_2x2
-image_dpi            = 300
+image_dpi            = 100
 image_bbox_argument  = None

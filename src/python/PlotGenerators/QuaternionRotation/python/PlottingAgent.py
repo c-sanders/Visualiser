@@ -251,7 +251,7 @@ class PlottingAgent :
         #     # subplot_kw={'projection': '3d'}
         # )
 
-        self._fig = plt.figure(figsize=(16, 14))
+        self._fig = plt.figure(figsize=(19.2, 10.8), dpi=100)
 
         self._gs = self._fig.add_gridspec(2, 2)
 

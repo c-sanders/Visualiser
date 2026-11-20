@@ -3,13 +3,19 @@ import socket
 
 from   PySide6.QtCore \
 import (
-        QThread
+        QThread,
+        Signal
        )
 
 import Config.ObjectDirectory
 
 
 class Worker_PortListen(QThread):
+
+    # Define the signals that this class can emit.
+
+    processing_new_file = Signal(str)
+
 
     def __init__(self, host, port, parent=None):
 
@@ -58,6 +64,7 @@ class Worker_PortListen(QThread):
                         value = data.decode("utf-8", errors="replace")
 
                         print(f"Received: {value!r}")
+                        print("Length of received value = " + str(len(value)))
 
                         if value.strip() == "q":
 
@@ -78,18 +85,21 @@ class Worker_PortListen(QThread):
 
                             print("Query with newline")
 
-                        elif value == "complete\n":
+                        elif (value == "complete\n") or \
+                             (value == "complete"):
 
                             # The frame generation operation appears to have completed.
 
                             Config.ObjectDirectory.object_directory.panel_run_script.button_file_stop_script.setEnabled(False)
-                            Config.ObjectDirectory.object_directory.panel_run_script.button_file_start_script.setEnabled(True)
+                            Config.ObjectDirectory.object_directory.panel_run_script.button_file_run_script.setEnabled(True)
 
                         else:
 
                             # Assuming that the received data is a filename.
 
-                            if os.path.exists(value) :
+                            filename = value
+
+                            if os.path.exists(filename) :
 
                                 print("   Filename actually exists")
 
@@ -98,14 +108,19 @@ class Worker_PortListen(QThread):
                                 #   - the GUI to load the frame
                                 #   - the GUI to take a screenshot of itself
 
-                                filename_base = os.path.basename(value)
-                                filename      = "./slides/screenshot_" + filename_base
+                                # Config.ObjectDirectory.object_directory.
 
-                                print(nameMethod + " : filename_base = " + filename_base)
-                                print(nameMethod + " : filename      = " + filename)
+                                filename_base       = os.path.basename(filename)
+                                filename_screenshot = "./slides/screenshot_" + filename_base
+
+                                print(nameMethod + " : filename            = " + filename)
+                                print(nameMethod + " : filename_base       = " + filename_base)
+                                print(nameMethod + " : filename_screenshot = " + filename_screenshot)
+
+                                self.processing_new_file.emit(filename)
 
                                 pixmap = Config.ObjectDirectory.object_directory.main_window.grab()
-                                pixmap.save(filename)
+                                pixmap.save(filename_screenshot)
 
                             else :
 

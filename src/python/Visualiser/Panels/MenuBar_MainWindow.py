@@ -5,17 +5,19 @@ import (
         QFont
        )
 
+import Config.ObjectDirectory
+
 
 class MenuBar_MainWindow():
 
     def __init__(self):
 
-        pass
+        self.main_window = Config.ObjectDirectory.object_directory.main_window
 
 
-    def set_parent(self, main_window):
+    # def set_parent(self, main_window):
 
-        self.main_window = main_window
+        # self.main_window = main_window
 
 
     # --------------------------------------------------
@@ -115,7 +117,8 @@ class MenuBar_MainWindow():
         action_1 = QAction("Build animation frames : Quaternion rotation", self.menu_build)
         action_1.triggered.connect(self.main_window.build_frames_quaternion_rotation)
 
-        action_2 = QAction("Build UML class diagrams", self.menu_build)
+        action_2 = QAction("Build UML class diagrams (scripts/generate_uml_class_diagrams.sh)", self.menu_build)
+        action_2.setWhatsThis("Invokes : (Panels/MenuBar_MainWindow)MenuBar_MainWindowmain_window.build_uml_class_diagrams")
         action_2.triggered.connect(self.main_window.build_uml_class_diagrams)
 
         action_3 = QAction("Build UML sequence diagrams", self.menu_build)

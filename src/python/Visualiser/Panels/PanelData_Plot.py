@@ -395,10 +395,10 @@ class PanelData_Plot(QWidget):
         self.pre_min       = QLineEdit("0")
         self.pre_max       = QLineEdit("0")
 
-        self.colorbar_pre_w = Widgets.ColorBar.ColorBarWidget()
-        self.colorbar_pre_x = Widgets.ColorBar.ColorBarWidget()
-        self.colorbar_pre_y = Widgets.ColorBar.ColorBarWidget()
-        self.colorbar_pre_z = Widgets.ColorBar.ColorBarWidget()
+        self.colorbar_pre_w = Widgets.ColorBar.ColorBar()
+        self.colorbar_pre_x = Widgets.ColorBar.ColorBar()
+        self.colorbar_pre_y = Widgets.ColorBar.ColorBar()
+        self.colorbar_pre_z = Widgets.ColorBar.ColorBar()
 
         self.checkbox_pre_w   = QCheckBox()
         self.checkbox_pre_x   = QCheckBox()

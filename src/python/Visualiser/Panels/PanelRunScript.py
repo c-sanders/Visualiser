@@ -200,7 +200,7 @@ class PanelRunScript(QWidget):
 
         self.button_exit.setFixedSize(120, 35)
 
-        self.button_exit.setShortcut("Ctrl+X")
+        self.button_exit.setShortcut("Ctrl+Q")
 
 
     def _select_file(self):

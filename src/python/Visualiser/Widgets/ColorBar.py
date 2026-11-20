@@ -7,7 +7,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 
 
-class ColorBarWidget(QWidget):
+class ColorBar(QWidget):
 
     def __init__(self, parent=None):
 
