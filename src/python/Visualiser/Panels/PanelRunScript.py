@@ -63,36 +63,9 @@ class PanelRunScript(QWidget):
         self.label_overview      = QLabel("Overview of script")
 
         self.text_edit = QTextEdit()
-        self.text_edit.setPlainText(
-            "Method : PanelRunScript::_connect_signals_to_slots\n"
-            "==================================================\n"
-            "\n"
-            "self.button_file_run_script.clicked.connect(Config.ObjectDirectory.main_window.generate_frames_quaternion_rotation)\n"
-            "\n"
-            "Method : MainWindow::generate_frames_quaternion_rotation\n"
-            "========================================================\n"
-            "\n"
-            "self.worker_thread = Workers.Worker_GenerateFrames_QuaternionRotation.Worker_GenerateFrames_QuaternionRotation()\n"
-            "self.worker_thread.run()\n"
-            "\n"
-            "Method : Worker_GenerateFrames_QuaternionRotation::run\n"
-            "======================================================\n"
-            "\n"
-            "quaternion_manipulator = QuaternionManipulator.QuaternionManipulator()\n"
-            "quaternion_manipulator.run(\"False\", \"rotation\", \"0.577350\", \"0.577350\", \"0.577350\", \"720\", \"1\", \"0\", \"0\")\n"
-            "\n"    
-            "Class : QuaternionManipulator\n"
-            "===================================\n"
-            "\n"
-            "QuaternionManipulator::run\n"
-            "  |-QuaternionManipulator::_generate_plots\n"
-            "      |- while self.azimuth_view <= 720 :\n"
-            "           |- self._perform_quaternion_operations()\n"
-            "                |- self._preMultiplyVectorUsingQuaternion()\n"
-            "                |    |- subprocess.run(...)   ### This is where the Haskell code gets called.\n"
-            "                |- self._rotateVectorUsingQuaternion()\n"
-            "                     |- subprocess.run(...)   ### This is where the Haskell code gets called.\n"
-        )
+        with open("resources/PanelRunScript.txt", "r", encoding="utf-8") as file:
+            text = file.read()
+            self.text_edit.setPlainText(text)
         font = QFont("Monospace", 10)
         self.text_edit.setFont(font)
 
