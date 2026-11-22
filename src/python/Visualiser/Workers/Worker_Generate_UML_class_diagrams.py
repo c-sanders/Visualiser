@@ -83,7 +83,7 @@ class Worker_Generate_UML_class_diagrams(QThread):
         print("result = " + str(result.stdout))
 
         time.sleep(1)
-
+    
         # self.signal_terminal_command.emit("exec 4>&2\n")
         # self.signal_terminal_command.emit("exec 2> /dev/null\n")
 
