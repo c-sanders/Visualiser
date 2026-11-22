@@ -1,0 +1,33 @@
+Method : PanelRunScript::_connect_signals_to_slots
+==================================================
+
+self.button_file_run_script.clicked.connect(Config.ObjectDirectory.main_window.generate_frames_quaternion_rotation)
+
+Method : MainWindow::generate_frames_quaternion_rotation
+========================================================
+
+self.worker_thread = Workers.Worker_GenerateFrames_QuaternionRotation.Worker_GenerateFrames_QuaternionRotation()
+self.worker_thread.run()
+
+Method : Worker_GenerateFrames_QuaternionRotation::run
+======================================================
+
+quaternion_manipulator = QuaternionManipulator.QuaternionManipulator()
+quaternion_manipulator.run(\"False\", \"rotation\", \"0.577350\", \"0.577350\", \"0.577350\", \"720\", \"1\", \"0\", \"0\")
+
+Class : QuaternionManipulator
+===================================
+
+QuaternionManipulator::run
+  |-QuaternionManipulator::_generate_plots
+      |- while self.azimuth_view <= 720 :
+           |- self._perform_quaternion_operations()
+           |    |- self._preMultiplyVectorUsingQuaternion()
+           |    |    |- subprocess.run(...)   ### This is where the Haskell code gets called.
+           |    |- self._rotateVectorUsingQuaternion()
+           |         |- subprocess.run(...)   ### This is where the Haskell code gets called.
+           |- self._update_plotting_agent()
+           |    |- self.plottingAgent.set_angle_rotation(...)
+           |    |- self.plottingAgent.set_quaternion_values(...)
+           |    |- self.plottingAgent.set_view(...)
+           |- self.plottingAgent.generate_plot(...)
