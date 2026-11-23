@@ -67,7 +67,7 @@ do
     "$filename" && cd "$UML_DIR" && mv -vi classes.html "${classname}.html"
 
   done
-  
+
 printf "UML diagram generation completed.\n"
 
 exit 0  
