@@ -504,9 +504,14 @@ MainWindow \
 
             else:
 
+                print(nameMethod + " : About to invoke the shell script for file : " + filename)
+
+                # filename = "\"" + filename + "\""
+
                 result = subprocess.run(
                     [
                         "./scripts/generate_uml_class_diagram_for_python_file.sh", filename
+                        # "./test.sh", filename
                     ],
                     capture_output=True,
                     text=True
