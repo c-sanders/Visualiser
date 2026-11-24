@@ -225,17 +225,23 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
         radius_sphere        = 1 - (self.plotting_agent.quaternion_data.quaternion_pre_multiply.w ** 2)
         color_sphere_surface = self.plotting_agent.color_agent.get_rgb_value_current()
 
-        # - Set the title which is to be used for this sub-plot.
-        # - Set the legend which is to be used for this sub-plot.
+        # Set the title which is to be used for this sub-plot.
 
         self.label_agent._set_title()
         logger.debug(nameMethod + " : MARKER 0")
+
+        # Set the legend which is to be used for this sub-plot.
+
         self.label_agent._set_legend(True)
         logger.debug(nameMethod + " : MARKER 1")
 
-        # - Update the arrows which are associated with the color bar.
+        # Update the arrows which are associated with the color bar.
 
         self.color_map_agent._update_colorbar()
+
+        # Plot the sphere onto the plot.
+
+        logger.debug(nameMethod + " : About to invoke method : self._unit_sphere.plot")
 
         self._unit_sphere.plot(
 
@@ -254,12 +260,12 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
 
         # self._plot_quaternions()
 
-        logger.debug(nameMethod + " : About to invoke method : self._unit_sphere.plot_sphere")
-
         # self._plot_quaternion_pre_multiply()
         # self.add_labels_to_plot(axis)
 
         logger.debug(nameMethod + " : Elevation = " + str(self.plotting_agent._elevation_view))
+
+        # Set the view parameters of the plot.
 
         self._axis_plot.view_init(
 

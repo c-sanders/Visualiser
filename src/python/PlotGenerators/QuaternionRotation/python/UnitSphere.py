@@ -16,6 +16,8 @@ class UnitSphere :
         axis_plot
     ) :
 
+        self.file_log                 = open("logs/UnitSphere.log", "w", buffering=1)
+
         self._sub_plot_agent          = sub_plot_agent
         self._ax                      = axis_plot
 
@@ -77,38 +79,66 @@ class UnitSphere :
 
     def __plot_surface_and_grid_lines(self) :
 
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        self.file_log.write(nameMethod + " : Enter\n")
+
         self.__plot_surface()
 
         # self.__plot_latitude_lines_on_sphere()
         # self.__plot_longitude_lines_on_sphere()
 
-        self._handle_wireframe = self._ax.plot_wireframe(
+        self.file_log.write(nameMethod + " : self._handle_wireframe = " + str(self._handle_wireframe) + "\n")
 
-            self._x,
-            self._y,
-            self._z,
-            color='black',
-            linewidth=0.4,
-            rstride=4,
-            cstride=4
-        )
+        if self._handle_wireframe is None:
 
+            self.file_log.write(nameMethod + " : About to create a wireframe for the sphere\n")
 
-    #
+            self._handle_wireframe = self._ax.plot_wireframe(
+
+                self._x,
+                self._y,
+                self._z,
+                color='black',
+                linewidth=0.4,
+                rstride=4,
+                cstride=4
+            )
+
+            self.file_log.write(nameMethod + " : self._handle_wireframe = " + str(self._handle_wireframe) + "\n")
+
+        self.file_log.write(nameMethod + " : Exit\n")
+
 
     def __plot_surface(self) :
 
-        self._handle_surface = self._ax.plot_surface(
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
-            self._x,
-            self._y,
-            self._z,
-            color       = self._color_sphere_surface,
-            alpha       = 0.2,
-            shade       = True,
-            linewidth   = 0,
-            antialiased = True
-        )
+
+        self.file_log.write(nameMethod + " : self._handle_wireframe = " + str(self._handle_wireframe) + "\n")
+
+        if self._handle_surface is None:
+
+            self.file_log.write(nameMethod + " : About to create a surface for the sphere\n")
+
+            self._handle_surface = self._ax.plot_surface(
+
+                self._x,
+                self._y,
+                self._z,
+                color       = self._color_sphere_surface,
+                alpha       = 0.2,
+                shade       = True,
+                linewidth   = 0,
+                antialiased = True
+            )
+
+            self.file_log.write(nameMethod + " : self._handle_wireframe = " + str(self._handle_wireframe) + "\n")
+
+        else:
+
+            self._handle_surface.set_color(self._color_sphere_surface)
 
 
     def __plot_latitude_lines_on_sphere(self) :
@@ -197,37 +227,41 @@ class UnitSphere :
 
     def delete_artifacts(self) :
 
+        pass
+
         # Remove the following artifacts from the plot;
         #
         #   - lines of longitude
         #   - lines of latitude
         #   - surface of spherve
 
-        if self._handle_wireframe is not None :
+        # Don't keep deleting the sphere's wireframe. ChatGPT advises against it.
 
-            self._handle_wireframe.remove()
-            self._handle_wireframe = None
+        # if self._handle_wireframe is not None :
 
-        for handles_list in self._handles_lines_longitude :
+        #     self._handle_wireframe.remove()
+        #     self._handle_wireframe = None
 
-            for handle in handles_list :
+        # for handles_list in self._handles_lines_longitude:
+        #
+        #     for handle in handles_list :
+        #
+        #         handle.remove()
 
-                handle.remove()
+        # self._handles_lines_longitude.clear()
 
-        self._handles_lines_longitude.clear()
+        # for handles_list in self._handles_lines_latitude :
+        #
+        #     for handle in handles_list :
+        #
+        #         handle.remove()
 
-        for handles_list in self._handles_lines_latitude :
+        # self._handles_lines_latitude.clear()
 
-            for handle in handles_list :
-
-                handle.remove()
-
-        self._handles_lines_latitude.clear()
-
-        if self._handle_surface is not None:
-
-            self._handle_surface.remove()
-            self._handle_surface = None
+        # if self._handle_surface is not None:
+        #
+        #     self._handle_surface.remove()
+        #     self._handle_surface = None
 
 
     # Invoked by : External clients

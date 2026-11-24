@@ -15,6 +15,7 @@ print("shared_dir = " + str(shared_dir))
 sys.path.append(str(shared_dir))
 
 import Config.ObjectDirectory
+import Config.Settings_Scripts
 import QuaternionManipulator
 
 
@@ -53,9 +54,9 @@ class Worker_GenerateFrames_QuaternionRotation(QThread):
 
         if True:
 
-            command = Config.SettingsConfig.settings.command_generate_plot_frames + \
+            command = Config.Settings_Scripts.settings_scripts.command_generate_plot_frames + \
                       str(logger.getEffectiveLevel()) + " " + \
-                      Config.SettingsConfig.settings.arguments_generate_plot_frames + "\n"
+                      Config.Settings_Scripts.settings_scripts.arguments_generate_plot_frames + "\n"
 
             print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
             print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")

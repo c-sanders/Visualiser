@@ -47,7 +47,7 @@ class SubPlotAgent_UnitSphere :
         # Declare the following attributes;
         #
         #   - axis which this sub-plot belongs to
-        #   - title of sub-plot
+        #   - title of this sub-plot
         #   - RGB color code for the surface of the unit sphere
         #   - unit sphere
 

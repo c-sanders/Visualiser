@@ -367,25 +367,30 @@ class QuaternionManipulator :
             s.connect(("127.0.0.1", 5000))
 
             # while self.azimuth_view <= 720 :
-            while self.azimuth_view <= (self.azimuth_view_start + 5):
+            while self.azimuth_view <= (self.azimuth_view_start + 25):
 
                 self._generate_plots_display_diagnostics()
 
+                # - Generate the fully qualified name of the file that the plot will be saved into.
+
                 # filename = f"{os.getcwd()}{GlobalSettings.sub_dir_slides_png:s}/rotation-{self.counter_loop:04d}.png"
                 filename = os.path.join(
-                    os.getcwd(),
-                    GlobalSettings.sub_dir_slides_png,
-                    f"rotation-{self.counter_loop:04d}.png"
-                )
+                                        os.getcwd(),
+                                        GlobalSettings.sub_dir_slides_png,
+                                        f"rotation-{self.counter_loop:04d}.png"
+                                       )
 
                 print("\r\033[K... Generating frame file : " + filename + " ", end="", flush=True)
 
-                # - Perform the next batch of quaternion operations.
-                # - Update the Plotting agent with the results of this quaternion rotation.
-                # - Instruct the Plotting agent to generate the new plot.
+                # Perform the next batch of quaternion operations.
 
                 self._perform_quaternion_operations()
+
+                # Update the Plotting agent with the results of this quaternion rotation.
+
                 self._update_plotting_agent()
+
+                # Instruct the Plotting agent to generate the new plot.
 
                 self.plottingAgent.generate_plot(filename)
 

@@ -28,6 +28,9 @@ import (
 
 import Logging.RootLoggerConfig
 import Config.ObjectDirectory
+import Config.SettingsConfig
+import Config.Settings_FileOverviews
+import Config.Settings_Scripts
 import Workers.Worker_GenerateFrames_QuaternionRotation
 
 
@@ -63,7 +66,7 @@ class PanelRunScript(QWidget):
         self.label_overview      = QLabel("Overview of script")
 
         self.text_edit = QTextEdit()
-        with open("resources/PanelRunScript.txt", "r", encoding="utf-8") as file:
+        with open(Config.Settings_FileOverviews.settings_file_overviews.quaternion_rotation_over_unit_sphere, "r", encoding="utf-8") as file:
             text = file.read()
             self.text_edit.setPlainText(text)
         font = QFont("Monospace", 10)
@@ -76,12 +79,15 @@ class PanelRunScript(QWidget):
 
         self.label_file_list     = QLabel("Frame generating script")
         self.label_logging_level = QLabel("Script logging level")
+        self.label_blank         = QLabel("")
+        self.label_file_overview = QLabel("Overview file")
         self.layout_file_list    = QHBoxLayout()
         self.file_list           = QLineEdit()
         self.button_file_select  = QPushButton("Select")
+        self.file_overview       = QLineEdit(Config.Settings_FileOverviews.settings_file_overviews.quaternion_rotation_over_unit_sphere)
 
-        self.button_file_run_script  = QPushButton("Run script")
-        self.button_file_stop_script = QPushButton("Stop script")
+        self.button_file_run_script         = QPushButton("Run script")
+        self.button_file_stop_script        = QPushButton("Stop script")
         self.button_display_logger_handlers = QPushButton("Handlers")
         self.button_generate_log_debug      = QPushButton("DEBUG")
         self.button_generate_log_info       = QPushButton("INFO")
@@ -106,10 +112,11 @@ class PanelRunScript(QWidget):
 
         self.layout_group_box.addWidget(self.label_file_list)
         self.layout_group_box.addWidget(self.script_combobox)
+        self.layout_group_box.addWidget(self.label_blank)
         self.layout_group_box.addWidget(self.label_logging_level)
         self.layout_group_box.addWidget(self.debug_combobox)
 
-        self.script_combobox.addItem("Quaternion rotation  :  " + Config.ObjectDirectory.object_directory.settings_config.file_generate_plot_frames)
+        self.script_combobox.addItem("Quaternion rotation  :  " + Config.Settings_Scripts.settings_scripts.file_generate_plot_frames)
         self.script_combobox.addItem("Euler's formula flyaround")
         self.script_combobox.addItem("Euler's formula flyaround for varying base")
 
@@ -143,6 +150,9 @@ class PanelRunScript(QWidget):
 
         self.layout_group_box.addWidget(self.label_overview)
         self.layout_group_box.addWidget(self.text_edit)
+        self.layout_group_box.addWidget(self.label_blank)
+        self.layout_group_box.addWidget(self.label_file_overview)
+        self.layout_group_box.addWidget(self.file_overview)
         self.button_file_run_script.setFixedSize(120, 35)
         self.button_file_run_script.setShortcut("Ctrl+R")
         self.button_file_run_script.setToolTip("Press Ctrl+R to run the selected script")
