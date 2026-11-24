@@ -87,7 +87,8 @@ do
     #   --output-directory="$UML_DIR" \
     #   "$filename"
 
-    pyreverse -o html \
+    pyreverse --filter-mode =ALL \
+              -o html \
               "$filename"
 
     if [[ -f "classes.html" ]]; then

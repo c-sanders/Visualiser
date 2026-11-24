@@ -29,5 +29,6 @@ QuaternionManipulator::run
            |- self._update_plotting_agent()
            |    |- self.plottingAgent.set_angle_rotation(...)
            |    |- self.plottingAgent.set_quaternion_values(...)
+           |    |- # self.plottingAgent.set_radius_for_unit_sphere(1 - (self.quaternion_pre_multiply.w ** 2))
            |    |- self.plottingAgent.set_view(...)
            |- self.plottingAgent.generate_plot(...)
