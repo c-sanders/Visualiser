@@ -39,15 +39,15 @@ def main() :
         setup_loggers()
         display_config_loggers()
 
-        logger_module.debug(nameMethod + " : Enter")
-        logger_module.debug(nameMethod + " : Python search path : ")
+        print(nameMethod + " : Enter")
+        print(nameMethod + " : Python search path : ")
 
         for dirname in sys.path:
 
             logger_root.debug(nameMethod + " :    - " + dirname)
 
-        logger_module.debug(nameMethod + " : Number of arguments: " + str(len(sys.argv)))
-        logger_module.debug(nameMethod + " : Arguments = " + str(sys.argv))
+        print(nameMethod + " : Number of arguments: " + str(len(sys.argv)))
+        print(nameMethod + " : Arguments = " + str(sys.argv))
 
         if len(sys.argv) != 11 :
 
@@ -66,6 +66,8 @@ def main() :
 
         quaternion_manipulator.set_logging_level(level_logging)
 
+        print(nameMethod + " : About to invoke : quaternion_manipulator.run")
+
         quaternion_manipulator.run(
             sys.argv[2],
             sys.argv[3],
@@ -82,7 +84,7 @@ def main() :
 
         DisplayUsage.display_exception(e)
 
-    logger_module.debug(nameMethod + " : <<<<< Exit >>>>>")
+    print(nameMethod + " : <<<<< Exit >>>>>")
 
 
 def setup_loggers() :
@@ -123,11 +125,11 @@ def display_config_loggers() :
     nameMethod = str(sys._getframe().f_code.co_name)
 
 
-    logger_module.debug(nameMethod + " : Root logger level             = %s", logger_root.level)
-    logger_module.debug(nameMethod + " : Module logger level           = %s", logger_module.level)
+    print(nameMethod + " : Root logger level             = %s", logger_root.level)
+    print(nameMethod + " : Module logger level           = %s", logger_module.level)
 
-    logger_module.debug(nameMethod + " : Root logger effective level   = %s", str(logger_root.getEffectiveLevel()))
-    logger_module.debug(nameMethod + " : Module logger effective level = %s", str(logger_module.getEffectiveLevel()))
+    print(nameMethod + " : Root logger effective level   = %s", str(logger_root.getEffectiveLevel()))
+    print(nameMethod + " : Module logger effective level = %s", str(logger_module.getEffectiveLevel()))
 
 
 def configure_loggers(level_logging) :
@@ -139,7 +141,7 @@ def configure_loggers(level_logging) :
 
     level_logging = logger_root.getEffectiveLevel()
 
-    logger_module.debug(nameMethod + " : New root logger logging level = " + str(level_logging))
+    print(nameMethod + " : New root logger logging level = " + str(level_logging))
 
 
 if __name__ == "__main__":

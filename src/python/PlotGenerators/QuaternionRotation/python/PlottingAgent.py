@@ -50,7 +50,7 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self._initialise_attributes(title_plot)
         self._initialise_plot()
@@ -60,11 +60,11 @@ class PlottingAgent :
         self._create_subplots()
         self._initialise_subplots()
 
-        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        logger.debug(nameMethod + " : Exit")
-        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print(nameMethod + " : Exit")
+        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
 
 
     def _initialise_attributes(self,
@@ -75,7 +75,7 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         # Attributes which pertain to the layout of the plot.
 
@@ -113,7 +113,7 @@ class PlottingAgent :
         self._subPlot_1                   = None
         self._subPlot_2                   = None
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     # Invoked by : __init__
@@ -123,11 +123,11 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self._create_figure_and_axes()
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     def _create_subplots(self) :
@@ -135,12 +135,12 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self._subPlot_1 = SubPlotAgent_Quaternion_PreMultiply.SubPlotAgent_Quaternion_PreMultiply(self)
         self._subPlot_2 = PlotHandleAgent_SubPlot_2.PlotHandleAgent_SubPlot_2(self)
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     def _initialise_subplots(self) :
@@ -148,12 +148,12 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self._subPlot_1.setup_plot_basic()
         self._subPlot_2.setup_plot_basic()
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     def set_radius_for_unit_sphere(self,
@@ -183,19 +183,19 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self._angle_rotation = angle_rotation
 
-        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
 
-        logger.debug(nameMethod + " : self._angle_rotation = " + str(self._angle_rotation))
+        print(nameMethod + " : self._angle_rotation = " + str(self._angle_rotation))
 
-        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        logger.debug(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print(nameMethod + " : %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     # Invoked by : External clients
@@ -214,7 +214,7 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self.quaternion_data.set_quaternions_and_min_max_values(
 
@@ -226,7 +226,7 @@ class PlottingAgent :
 
         self.__update_rgb_values()
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     # Invoked by : _initialise_plot
@@ -275,11 +275,11 @@ class PlottingAgent :
         axis = self._ax1
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self._subPlot_1.plot_unit_sphere(axis)
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     # Invoked by : _generate_subplot_1
@@ -289,12 +289,12 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self._subPlot_1.plot_quaternion_pre_multiply()
         self._subPlot_2.plot_quaternion_pre_multiply()
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     # Invoked by : set_quaternions_and_min_max_values
@@ -304,7 +304,7 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self.color_agent.update_rgb_value_current(self.quaternion_data.quaternion_pre_multiply.w)
 
@@ -320,7 +320,7 @@ class PlottingAgent :
 
             self.color_agent.update_rgb_value_current(self.quaternion_data.quaternion_pre_multiply_max)
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     def _encode_metadata(self) :
@@ -385,16 +385,16 @@ class PlottingAgent :
 
             quaternion_pre_multiply = np.quaternion(w,x,y,z)
 
-            logger.debug(f"quaternion_pre_multiply = <{quaternion_pre_multiply.w:.03f}, {quaternion_pre_multiply.x:.03f}, {quaternion_pre_multiply.y:.03f}, {quaternion_pre_multiply.z:.03f}>")
+            print(f"quaternion_pre_multiply = <{quaternion_pre_multiply.w:.03f}, {quaternion_pre_multiply.x:.03f}, {quaternion_pre_multiply.y:.03f}, {quaternion_pre_multiply.z:.03f}>")
 
-            logger.debug("========================================")
-            logger.debug("JSON metadata from the file :")
-            logger.debug("-----------------------------")
-            logger.debug("View azimuth   = " + str(metadata["view"]["azimuth"]))
-            logger.debug("View elevation = " + str(metadata["view"]["elevation"]))
-            logger.debug("Rotation angle = " + str(metadata["rotation"]["angle"]))
-            logger.debug("Rotation axis  = " + str(metadata["rotation"]["axis"]["scalar"]))
-            logger.debug("========================================")
+            print("========================================")
+            print("JSON metadata from the file :")
+            print("-----------------------------")
+            print("View azimuth   = " + str(metadata["view"]["azimuth"]))
+            print("View elevation = " + str(metadata["view"]["elevation"]))
+            print("Rotation angle = " + str(metadata["rotation"]["angle"]))
+            print("Rotation axis  = " + str(metadata["rotation"]["axis"]["scalar"]))
+            print("========================================")
 
 
     # Invoked by : PlottingAgent::_generate_subplot_1
@@ -404,7 +404,7 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         # ----------------------------
         # Labels
@@ -421,11 +421,11 @@ class PlottingAgent :
 
         self._subPlot_1.set_legend()
 
-        logger.debug(nameMethod + " : MARKER A")
+        print(nameMethod + " : MARKER A")
 
         # Set the legend for subplot 1.
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     # Invoked by : _generate_subplot_2()
@@ -449,7 +449,7 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self._ax2.set_title(GlobalSettings.title_sub_plot_2)
 
@@ -496,15 +496,15 @@ class PlottingAgent :
                 1.0  # value
             )
 
-            logger.debug(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            logger.debug(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            logger.debug(nameMethod + f" : About to set legend color to = <{hue_value:f}, 1.0, 1.0>")
-            logger.debug(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            logger.debug(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            print(nameMethod + f" : About to set legend color to = <{hue_value:f}, 1.0, 1.0>")
+            print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            print(nameMethod + " : @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
             legend.get_texts()[2].set_color(rgb_value_local)
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     def _add_metadata_to_file(
@@ -560,9 +560,9 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
-        logger.debug("Saving the figure to file : " + str(filename) + "\n")
+        print("Saving the figure to file : " + str(filename) + "\n")
 
         self._fig.savefig(
 
@@ -573,13 +573,13 @@ class PlottingAgent :
 
         with Image.open(filename) as image_handle :
 
-            logger.debug(nameMethod + " : ????????????????????????????????????????")
-            logger.debug(nameMethod + " : ????????????????????????????????????????")
-            logger.debug(nameMethod + " : Image dimensions = " + str(image_handle.size))
-            logger.debug(nameMethod + " : ????????????????????????????????????????")
-            logger.debug(nameMethod + " : ????????????????????????????????????????")
+            print(nameMethod + " : ????????????????????????????????????????")
+            print(nameMethod + " : ????????????????????????????????????????")
+            print(nameMethod + " : Image dimensions = " + str(image_handle.size))
+            print(nameMethod + " : ????????????????????????????????????????")
+            print(nameMethod + " : ????????????????????????????????????????")
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     def _encode_metadata_into_file(
@@ -591,13 +591,13 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self._encode_metadata()
         self._add_metadata_to_file(filename)
         self._display_metadata(filename)
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     def _delete_artifacts(self) :
@@ -605,19 +605,19 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        logger.debug(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        logger.debug(nameMethod + " : Enter")
-        logger.debug(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        logger.debug(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print(nameMethod + " : Enter")
+        print(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
         # Remove artifacts from the sub-plots.
 
         self._subPlot_2.delete_plot_artifacts()
-        logger.debug(nameMethod + " : Have deleted the plot artifacts from subPlot_2")
+        print(nameMethod + " : Have deleted the plot artifacts from subPlot_2")
 
         self._subPlot_1.delete_plot_artifacts(nameMethod)
-        logger.debug(nameMethod + " : Have deleted the plot artifacts from subPlot_1")
+        print(nameMethod + " : Have deleted the plot artifacts from subPlot_1")
 
         # Remove artifacts from the plot itself.
 
@@ -627,7 +627,7 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         # Set the title for the entire plot.
 
@@ -636,7 +636,7 @@ class PlottingAgent :
                                                      fontsize=20
                                                     )
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     def _show_plot_if_enabled(self) :
@@ -644,13 +644,13 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         if show_plots :
 
             plt.show()
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     # Invoked by : generate_plot
@@ -660,15 +660,15 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self._subPlot_1._set_rgb_value_for_sphere_surface()
 
-        logger.debug(nameMethod + " : MARKER 1")
+        print(nameMethod + " : MARKER 1")
 
         self._subPlot_2._set_rgb_value_for_sphere_surface()
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     # Invoked by : QuaternionManipulator::_generate_plots
@@ -696,13 +696,13 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        logger.debug(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        logger.debug(nameMethod + " : Enter")
-        logger.debug(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        logger.debug(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        logger.debug(nameMethod + " : self._angle_rotation = " + str(self._angle_rotation))
-        logger.debug(nameMethod + " : <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        print(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print(nameMethod + " : Enter")
+        print(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print(nameMethod + " : >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print(nameMethod + " : self._angle_rotation = " + str(self._angle_rotation))
+        print(nameMethod + " : <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
         # Plot handles may be created by the following methods.
 
@@ -721,11 +721,11 @@ class PlottingAgent :
 
         self._delete_artifacts()
 
-        logger.debug(nameMethod + " : <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-        logger.debug(nameMethod + " : <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-        logger.debug(nameMethod + " : Exit")
-        logger.debug(nameMethod + " : <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-        logger.debug(nameMethod + " : <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        print(nameMethod + " : <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        print(nameMethod + " : <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        print(nameMethod + " : Exit")
+        print(nameMethod + " : <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        print(nameMethod + " : <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
 
     def _destroy_plot(self) :
@@ -733,7 +733,7 @@ class PlottingAgent :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         # Close the figure so that we can free up the memory it is using.
 
@@ -742,4 +742,4 @@ class PlottingAgent :
         self._fig = None
         self.ax  = None
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")

@@ -1,10 +1,12 @@
 #! /bin/bash
 
 PYTHON="/home/craig/local/source_code/python/sine_wave/venv/bin/python"
-PYTHON_FILE="./python/quaternion_rotation_over_unit_sphere.py"
+PYTHON_FILE="./src/python/PlotGenerators/QuaternionRotation/python/quaternion_rotation_over_unit_sphere.py"
 
 LOGGING_LEVEL=10
 
+
+pwd
 
 if [[ ! -x "${PYTHON}" ]];
 then

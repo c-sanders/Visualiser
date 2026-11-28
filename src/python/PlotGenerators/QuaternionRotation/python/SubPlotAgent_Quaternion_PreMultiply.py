@@ -26,9 +26,17 @@ logger = logging.getLogger(__name__)
 #   \
 #   plantuml ./packages_PlotHandleAgent_SubPlot_1.puml
 
+
+# This class contains the following public methods;
+#
+#   - __init__
+#   - setup_plot_basic
+#   - generate_plot
+#   - delete_plot_artifacts
+
 class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_UnitSphere) :
 
-    # Only create an instance of this class once an instance of the PlottingAgent class has been fully configures.
+    # Only create an instance of this class once an instance of the PlottingAgent class has been fully configured.
 
     def __init__(self,
 
@@ -40,6 +48,10 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
             plotting_agent,
             plotting_agent._ax1
         )
+
+        self.file_log = open("logs/SubPlotAgent_Quaterion_PreMultiply.log", "w", buffering=1)
+
+        super().clear_plot_lines_sphere_surface()
 
         self._axis_plot                                   = None
 
@@ -164,6 +176,8 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
 
             raise Exception("Attribute _plot_handle_quaternion_pre_multiply : Trying to set this attribute whilst it is already set.")
 
+        self.file_log.write(nameMethod + " : About to plot the quiver\n")
+
         self._plot_handle_quaternion_pre_multiply = self._axis_plot.quiver(
 
             0, 0, 0,
@@ -260,7 +274,9 @@ class SubPlotAgent_Quaternion_PreMultiply(SubPlotAgent_UnitSphere.SubPlotAgent_U
 
         # self._plot_quaternions()
 
-        # self._plot_quaternion_pre_multiply()
+        self.file_log.write(nameMethod + " : About to invoke method : _plot_quaternion_pre_multiply\n")
+
+        self._plot_quaternion_pre_multiply()
         # self.add_labels_to_plot(axis)
 
         logger.debug(nameMethod + " : Elevation = " + str(self.plotting_agent._elevation_view))

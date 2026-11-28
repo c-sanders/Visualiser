@@ -8,6 +8,16 @@ import matplotlib.pyplot as plt
 logger = logging.getLogger(__name__)
 
 
+# This class contains the following public methods;
+#
+#   - __init__
+#   - configure
+#   - delete_artifacts
+#   - set_plot_grid_lines
+#   - clear_plot_grid_lines
+#   - plot
+
+
 class UnitSphere :
 
     def __init__(self,
@@ -17,10 +27,12 @@ class UnitSphere :
     ) :
 
         self.file_log                 = open("logs/UnitSphere.log", "w", buffering=1)
+        self.file_log_radius          = open("logs/UnitSphere_radius.log", "w", buffering=1)
+
+        self._plot_lines_sphere_surface = True
 
         self._sub_plot_agent          = sub_plot_agent
         self._ax                      = axis_plot
-
 
         self._x                       = None
         self._y                       = None
@@ -38,7 +50,7 @@ class UnitSphere :
         self._num_latitudes           = None
         self._num_longitudes          = None
 
-        self._handle_wireframe        = None
+        self._plot_handle_sphere_wire_frame        = None
 
         self._handles_lines_latitude  = []
         self._handles_lines_longitude = []
@@ -51,6 +63,8 @@ class UnitSphere :
 
     def configure(self,
 
+        display_plot_lines_sphere_surface = True,
+
         num_latitudes      = 9,
         num_longitudes     = 12,
         surface_resolution = 100,
@@ -62,13 +76,25 @@ class UnitSphere :
         self._surface_resolution = surface_resolution
         self._grid_resolution    = grid_resolution
 
-
     # Invoked by : plot_sphere
 
-    def __setup_values(self) :
+    def _setup_values(self) :
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        print(nameMethod + " : Enter")
+
+        print(nameMethod + " : ////////////////////////////////////////")
+        print(nameMethod + " : ////////////////////////////////////////")
+        print(nameMethod + " : self._radius = " + str(self._radius))
+        print(nameMethod + " : ////////////////////////////////////////")
+        print(nameMethod + " : ////////////////////////////////////////")
+
+        self.file_log_radius.write(nameMethod + " : radius = " + str(self._radius * 0.5) + "\n")
 
         u = np.linspace(0, 2 * np.pi, self._surface_resolution)
-        v = np.linspace(0, np.pi,     self._surface_resolution)
+        v = np.linspace(0,     np.pi, self._surface_resolution)
 
         u, v = np.meshgrid(u, v)
 
@@ -76,72 +102,141 @@ class UnitSphere :
         self._y = self._radius * np.sin(v) * np.sin(u)
         self._z = self._radius * np.cos(v)
 
-
-    def __plot_surface_and_grid_lines(self) :
-
-        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+        print(nameMethod + " : Exit")
 
 
-        self.file_log.write(nameMethod + " : Enter\n")
-
-        self.__plot_surface()
-
-        # self.__plot_latitude_lines_on_sphere()
-        # self.__plot_longitude_lines_on_sphere()
-
-        self.file_log.write(nameMethod + " : self._handle_wireframe = " + str(self._handle_wireframe) + "\n")
-
-        if self._handle_wireframe is None:
-
-            self.file_log.write(nameMethod + " : About to create a wireframe for the sphere\n")
-
-            self._handle_wireframe = self._ax.plot_wireframe(
-
-                self._x,
-                self._y,
-                self._z,
-                color='black',
-                linewidth=0.4,
-                rstride=4,
-                cstride=4
-            )
-
-            self.file_log.write(nameMethod + " : self._handle_wireframe = " + str(self._handle_wireframe) + "\n")
-
-        self.file_log.write(nameMethod + " : Exit\n")
-
-
-    def __plot_surface(self) :
+    def _plot_sphere_surface(self):
 
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        self.file_log.write(nameMethod + " : self._handle_wireframe = " + str(self._handle_wireframe) + "\n")
+        self.file_log.write(nameMethod + " : self._plot_handle_sphere_wire_frame = " + str(self._plot_handle_sphere_wire_frame) + "\n")
+
+        if self._handle_surface is not None:
+
+            self._handle_surface.remove()
+            self._handle_surface = None
 
         if self._handle_surface is None:
 
             self.file_log.write(nameMethod + " : About to create a surface for the sphere\n")
 
-            self._handle_surface = self._ax.plot_surface(
+            if True:
 
-                self._x,
-                self._y,
-                self._z,
-                color       = self._color_sphere_surface,
-                alpha       = 0.2,
-                shade       = True,
-                linewidth   = 0,
-                antialiased = True
-            )
+                self._handle_surface = self._ax.plot_surface(
 
-            self.file_log.write(nameMethod + " : self._handle_wireframe = " + str(self._handle_wireframe) + "\n")
+                    self._x,
+                    self._y,
+                    self._z,
+                    color=self._color_sphere_surface,
+                    alpha=0.2,
+                    shade=True,
+                    linewidth=0,
+                    antialiased=True
+                )
+
+                self.file_log.write(nameMethod + " : self._handle_surface = " + str(self._handle_surface) + "\n")
+
+                self._handle_surface.set_color(self._color_sphere_surface)
+
+
+    def _plot_sphere_lines_lat_long(self):
+
+        # The latitude and longitude lines are dependent upon the value of the sphere's radius. As a result, we should
+        # delete any of them which are currently associated with the plot.
+
+        if self._handles_lines_latitude:
+
+            for line in self._handles_lines_latitude:
+
+                line.remove()
+
+            self._handles_lines_latitude.clear()
+
+        if self._handles_lines_longitude:
+
+            for line in self._handles_lines_longitude:
+
+                line.remove()
+
+            self._handles_lines_longitude.clear()
+
+        self._plot_latitude_lines_on_sphere()
+        self._plot_longitude_lines_on_sphere()
+
+
+    def _plot_sphere_lines_wireframe(self):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        self.file_log.write(nameMethod + " : self._plot_handle_sphere_wire_frame = " + str(self._plot_handle_sphere_wire_frame) + "\n")
+
+        # The radius of the unit sphere might have changed, so remove the unit sphere wireframe from the plot.
+
+        self._clear_sphere_wire_frame()
+
+        if self._plot_handle_sphere_wire_frame is None:
+
+            if self._plot_lines_sphere_surface:
+
+                self.file_log.write(nameMethod + " : About to create a wireframe for the sphere\n")
+
+                self._plot_handle_sphere_wire_frame = self._ax.plot_wireframe(
+
+                    self._x,
+                    self._y,
+                    self._z,
+                    color='black',
+                    linewidth=0.4,
+                    rstride=4,
+                    cstride=4
+                )
+
+            self.file_log.write(nameMethod + " : self._plot_handle_sphere_wire_frame = " + str(self._plot_handle_sphere_wire_frame) + "\n")
+
+        self.file_log_radius.write(nameMethod + " : Exit\n")
+
+
+    def _plot_sphere_lines(self):
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        self._plot_lines_sphere_surface = True
+
+        # Use one or the other of the following; don't use both.
+        #
+        # I actually think the wireframe looks better.
+
+        if False:
+
+            # self._plot_sphere_lines_lat_long()
+
+            pass
 
         else:
 
-            self._handle_surface.set_color(self._color_sphere_surface)
+            self._plot_sphere_lines_wireframe()
 
 
-    def __plot_latitude_lines_on_sphere(self) :
+    def _plot_sphere_surface_and_lines(self) :
+
+        nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
+
+
+        self.file_log.write(nameMethod + " : Enter\n")
+        self.file_log_radius.write(nameMethod + " : Enter\n")
+
+        # self._plot_unit_sphere
+
+        self._plot_sphere_surface()
+        self._plot_sphere_lines()
+
+        self.file_log.write(nameMethod + " : Exit\n")
+
+
+    def _plot_latitude_lines_on_sphere(self) :
 
         longitude = np.linspace(0, 2 * np.pi, self._grid_resolution)
 
@@ -161,7 +256,7 @@ class UnitSphere :
                 np.sin(latitude)
             )
 
-            self._handles_lines_latitude.append(
+            self._handles_lines_latitude.extend(
 
                 self._ax.plot(
 
@@ -174,7 +269,7 @@ class UnitSphere :
             )
 
 
-    def __plot_longitude_lines_on_sphere(self) :
+    def _plot_longitude_lines_on_sphere(self) :
 
         latitude = np.linspace(
             -np.pi / 2,
@@ -189,13 +284,14 @@ class UnitSphere :
             endpoint=False
         )
 
-        for longitude_value in longitudes:
 
-            x_line = self._radius * np.cos(latitude) * np.cos(longitude_value)
-            y_line = self._radius * np.cos(latitude) * np.sin(longitude_value)
+        for longitude in longitudes:
+
+            x_line = self._radius * np.cos(latitude) * np.cos(longitude)
+            y_line = self._radius * np.cos(latitude) * np.sin(longitude)
             z_line = self._radius * np.sin(latitude)
 
-            self._handles_lines_longitude.append(
+            self._handles_lines_longitude.extend(
 
                 self._ax.plot(
 
@@ -208,7 +304,7 @@ class UnitSphere :
             )
 
 
-    def __setup_plot_environment(self) :
+    def _setup_plot_environment(self) :
 
         # -------------------------------------------------
         # 4. Set the coordinate system
@@ -233,14 +329,14 @@ class UnitSphere :
         #
         #   - lines of longitude
         #   - lines of latitude
-        #   - surface of spherve
+        #   - surface of sphere
 
         # Don't keep deleting the sphere's wireframe. ChatGPT advises against it.
 
-        # if self._handle_wireframe is not None :
+        # if self._plot_handle_sphere_wire_frame is not None :
 
-        #     self._handle_wireframe.remove()
-        #     self._handle_wireframe = None
+        #     self._plot_handle_sphere_wire_frame.remove()
+        #     self._plot_handle_sphere_wire_frame = None
 
         # for handles_list in self._handles_lines_longitude:
         #
@@ -264,6 +360,16 @@ class UnitSphere :
         #     self._handle_surface = None
 
 
+    def set_plot_lines_sphere_surface(self):
+
+        self._plot_lines_sphere_surface = True
+
+
+    def clear_plot_lines_sphere_surface(self):
+
+        self._plot_lines_sphere_surface = False
+
+
     # Invoked by : External clients
     #
     #   > This is a public method.
@@ -275,8 +381,7 @@ class UnitSphere :
     ) :
 
         """
-        Plot a shaded sphere with latitude and longitude grid lines
-        and save the result as a PNG file.
+        Generate a plot of a shaded sphere with latitude and longitude grid lines.
 
         Parameters
         ----------
@@ -308,11 +413,11 @@ class UnitSphere :
         self._radius               = radius
         self._color_sphere_surface = color_sphere_surface
 
-        logger.debug(nameMethod + "////////////////////////////////////////")
-        logger.debug(nameMethod + "////////////////////////////////////////")
-        logger.debug(nameMethod + " : radius = " + str(radius))
-        logger.debug(nameMethod + "////////////////////////////////////////")
-        logger.debug(nameMethod + "////////////////////////////////////////")
+        print(nameMethod + "////////////////////////////////////////")
+        print(nameMethod + "////////////////////////////////////////")
+        print(nameMethod + " : radius = " + str(radius))
+        print(nameMethod + "////////////////////////////////////////")
+        print(nameMethod + "////////////////////////////////////////")
 
         # Only proceed if all the necessary attributes are set.
 
@@ -332,9 +437,15 @@ class UnitSphere :
         # - Set the coordinate system
         # - Save the figure
 
-        self.__setup_values()
-        self.__plot_surface_and_grid_lines()
-        self.__setup_plot_environment()
+        # The value of the radius may have changed. As a result, we should play it safe and re-calculate the values for;
+        #
+        #   - self._x
+        #   - self._y
+        #   - self._z
+
+        self._setup_values()
+        self._plot_sphere_surface_and_lines()
+        self._setup_plot_environment()
 
 
     # Invoked by : _configure

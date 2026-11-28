@@ -63,6 +63,16 @@ class SubPlotAgent_UnitSphere :
         logger.debug(nameMethod + " : Exit")
 
 
+    def set_plot_lines_sphere_surface(self):
+
+        self._unit_sphere.set_plot_lines_sphere_surface()
+
+
+    def clear_plot_lines_sphere_surface(self):
+
+        self._unit_sphere.clear_plot_lines_sphere_surface()
+
+
     # Method : _setup_plot_basic
 
     def _setup_plot_basic(self) :

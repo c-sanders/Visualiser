@@ -19,6 +19,26 @@ from   PlottingAgent import PlottingAgent
 logger = logging.getLogger(__name__)
 
 
+# This class does not actually do much by way of real work. Instead, it is responsible for managing the following two
+# main tasks;
+#
+#   - getting an external agent to compute the quaternion rotation results,
+#   - getting an object of class PlottingAgent to generate a plot of these quaternion rotation results.
+#
+# At the heart of the class QuaternionManipulator, is a method named run.
+#
+#   QuaternionManipulator.run
+#     |- QuaternionManipulator._generate_plots
+#
+# At its core is another method named _generate_plots.
+#
+# The _generate_plots method runs a loop. For each iteration of this loop, it;
+#
+#   - generates the fully qualified name of the file which the plot will be saved into,
+#   - computes the quaternion rotation results,
+#   - updates the PlottingAgent object with the new data,
+#   - instructs the PlottingAgent object to generate a plot which incorporates the quaternion rotation results
+
 class QuaternionManipulator :
 
     def __init__(self) :
@@ -28,7 +48,7 @@ class QuaternionManipulator :
 
         level_logging = logger.getEffectiveLevel()
 
-        logger.debug(nameMethod + " : Current logging level = " + str(level_logging))
+        print(nameMethod + " : Current logging level = " + str(level_logging))
 
         self.title_plots  = "Rotating a vector (v) around a quaternion (q)."
 
@@ -88,10 +108,10 @@ class QuaternionManipulator :
         nameMethod  = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Current logging level = " + str(logger.getEffectiveLevel()))
-        logger.debug(nameMethod + " : @-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-")
+        print(nameMethod + " : Current logging level = " + str(logger.getEffectiveLevel()))
+        print(nameMethod + " : @-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-@-")
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         run_from_command_line = False
 
@@ -115,7 +135,7 @@ class QuaternionManipulator :
 
         self._generate_plots()
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     def set_logging_level(self, level):
@@ -123,13 +143,13 @@ class QuaternionManipulator :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         logger.setLevel(level)
 
-        logger.debug(nameMethod + " : Logging level = " + str(logger.getEffectiveLevel()))
+        print(nameMethod + " : Logging level = " + str(logger.getEffectiveLevel()))
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
     def _set_values_from_command_line_args(self) :
@@ -217,9 +237,9 @@ class QuaternionManipulator :
         self.quaternion_pre_multiply.y = float(string_quaternion[2])
         self.quaternion_pre_multiply.z = float(string_quaternion[3])
 
-        # logger.debug(result.stdout)
-        # logger.debug(result.stderr)
-        # logger.debug(result.returncode)
+        # print(result.stdout)
+        # print(result.stderr)
+        # print(result.returncode)
 
         return self.quaternion_pre_multiply
 
@@ -231,15 +251,15 @@ class QuaternionManipulator :
         operation_type = "rotation"
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
-        logger.debug(nameMethod + " : ========================================")
-        logger.debug(nameMethod + " : ========================================")
-        logger.debug(nameMethod + " : ========================================")
-        logger.debug(nameMethod + " : About to run the Haskell code.")
-        logger.debug(nameMethod + " : ========================================")
-        logger.debug(nameMethod + " : ========================================")
-        logger.debug(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : About to run the Haskell code.")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
 
         result = subprocess.run(
             [
@@ -258,13 +278,13 @@ class QuaternionManipulator :
             text=True
         )
 
-        logger.debug(nameMethod + " : ========================================")
-        logger.debug(nameMethod + " : ========================================")
-        logger.debug(nameMethod + " : ========================================")
-        logger.debug(nameMethod + " : Have run the Haskell code.")
-        logger.debug(nameMethod + " : ========================================")
-        logger.debug(nameMethod + " : ========================================")
-        logger.debug(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : Have run the Haskell code.")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
+        print(nameMethod + " : ========================================")
 
         # Convert the string into a list of strings, breaking the original string at "," symbols.
 
@@ -275,11 +295,11 @@ class QuaternionManipulator :
         self.quaternion_rotated.y = float(string_quaternion[2])
         self.quaternion_rotated.z = float(string_quaternion[3])
 
-        # logger.debug(result.stdout)
-        # logger.debug(result.stderr)
-        # logger.debug(result.returncode)
+        # print(result.stdout)
+        # print(result.stderr)
+        # print(result.returncode)
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
 
 
         return self.quaternion_rotated
@@ -300,8 +320,8 @@ class QuaternionManipulator :
 
         # Pass the necessary data to the plotting agent.
 
-        logger.debug(nameMethod + " : self.angle_rotation = " + str(self.angle_rotation))
-        logger.debug(nameMethod + " : About to invoke : plottigAgent.set_angle_rotation")
+        print(nameMethod + " : self.angle_rotation = " + str(self.angle_rotation))
+        print(nameMethod + " : About to invoke : plottigAgent.set_angle_rotation")
 
         self.plottingAgent.set_angle_rotation(self.angle_rotation)
 
@@ -343,10 +363,10 @@ class QuaternionManipulator :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        logger.debug(nameMethod + f" : self.counter_loop = {self.counter_loop:d}")
-        logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        logger.debug(f"Azimuth view = {self.azimuth_view:f}")
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print(nameMethod + f" : self.counter_loop = {self.counter_loop:d}")
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print(f"Azimuth view = {self.azimuth_view:f}")
 
 
     # Invoked by : run
@@ -356,18 +376,19 @@ class QuaternionManipulator :
         nameMethod = str(self.__class__.__name__) + "::" + str(sys._getframe().f_code.co_name)
 
 
-        logger.debug(nameMethod + " : Enter")
+        print(nameMethod + " : Enter")
 
         self.plottingAgent.set_view_initial(self.azimuth_view, self.elevation_view)
 
         print()
 
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        #with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        if True:
 
-            s.connect(("127.0.0.1", 5000))
+            # s.connect(("127.0.0.1", 5000))
 
-            # while self.azimuth_view <= 720 :
-            while self.azimuth_view <= (self.azimuth_view_start + 25):
+            while self.azimuth_view <= 720 :
+            # while self.azimuth_view <= (self.azimuth_view_start + 25):
 
                 self._generate_plots_display_diagnostics()
 
@@ -398,7 +419,7 @@ class QuaternionManipulator :
 
                 # Send a message to the GUI, informing it that the file has been generated.
 
-                s.sendall(filename.encode("utf-8"))
+                # s.sendall(filename.encode("utf-8"))
 
                 time.sleep(2)
 
@@ -406,6 +427,6 @@ class QuaternionManipulator :
 
             # Send a message to the GUI, informing it that this method has finished generating the plots.
 
-            s.sendall(b"complete")
+            # s.sendall(b"complete")
 
-        logger.debug(nameMethod + " : Exit")
+        print(nameMethod + " : Exit")
